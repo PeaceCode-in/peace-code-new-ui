@@ -1,0 +1,2378 @@
+// Next.js page component
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import {
+  Brain,
+  Leaf,
+  MessagesSquare,
+  ArrowUpRight,
+  ShieldCheck,
+  Users,
+  Plus,
+  Play,
+  Instagram,
+  Twitter,
+  Linkedin,
+  Menu,
+  X,
+  Wind,
+  Clock,
+  Heart,
+  ClipboardCheck,
+  Stethoscope,
+} from "lucide-react";
+import Testimonials from "../components/ui/testimonials";
+const babaCrane1 = "/assets/baba-crane-1.svg";
+const babaCrane2 = "/assets/baba-crane-2.svg";
+const craneFlockA = "/assets/crane-flock-a.svg";
+const craneFlockB = "/assets/crane-flock-b.svg";
+const smallCloud = "/assets/small-cloud.svg";
+const branchLarge = "/assets/branch-large.svg";
+const footerCampus = "/assets/footer-campus-dissolve-wide.png";
+const heroStudent = "/assets/hero-student.svg";
+const craneAccent1 = "/assets/crane-accent-1.png";
+const craneAccent2 = "/assets/crane-accent-2.png";
+
+/* ───────── AVIF Cloud / Blob illustrations from /public ───────── */
+const avifCloud1 = "/6hJMdyZmB1ZzlX6REYIXYMeVWf0 (2).avif";
+const avifCloud2 = "/Gm6CrXzxO7OGmfeRPBsg12Uo.avif";
+const avifCloud3 = "/IzRkb9QIOWOI4IYcR98WEF2QUUg.avif";
+
+/**
+ * Edge-bleed parallax illustration using the AVIF files.
+ * The image physically bleeds off the viewport edge by negative positioning.
+ * Wrapping parent MUST have overflow-x-hidden at the root level (main does).
+ */
+function AvifBleed({
+  src,
+  side,
+  top,
+  width = "50vw",
+  maxWidth = 520,
+  nudgeOut = "18%",
+  rotate = 0,
+  flipX = false,
+  flipY = false,
+  opacity = 0.82,
+  yRange = [0, -60] as [number, number],
+  zIndex = 0,
+}: {
+  src: string;
+  side: "left" | "right";
+  top: string;
+  width?: string;
+  maxWidth?: number;
+  nudgeOut?: string;
+  rotate?: number;
+  flipX?: boolean;
+  flipY?: boolean;
+  opacity?: number;
+  yRange?: [number, number];
+  zIndex?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [target, setTarget] = useState<HTMLDivElement | null>(null);
+  useEffect(() => {
+    setTarget(ref.current);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: target ? { current: target } : undefined,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], yRange);
+
+  const scaleX = flipX ? -1 : 1;
+  const scaleY = flipY ? -1 : 1;
+
+  const posStyle: React.CSSProperties =
+    side === "right" ? { right: `-${nudgeOut}` } : { left: `-${nudgeOut}` };
+
+  return (
+    <motion.div
+      ref={ref}
+      aria-hidden
+      className="pointer-events-none select-none absolute hidden md:block"
+      style={{
+        ...posStyle,
+        top,
+        width,
+        maxWidth,
+        y,
+        rotate: `${rotate}deg`,
+        scaleX,
+        scaleY,
+        opacity,
+        zIndex,
+      }}
+    >
+      <img src={src} alt="" className="w-full h-auto" loading="lazy" />
+    </motion.div>
+  );
+}
+
+/* ───────── CRANE FLOCK ───────── */
+/** Grouped cranes forming a loose V at a section transition.
+ *  side="left" or "right" anchors the flock; size controls overall scale. */
+function CraneFlock({
+  side = "right",
+  className = "",
+  birds,
+}: {
+  side?: "left" | "right";
+  className?: string;
+  birds: {
+    src: string;
+    top: string;
+    off: string;
+    w: string;
+    dur: number;
+    delay?: number;
+    blur?: boolean;
+    opacity?: number;
+  }[];
+}) {
+  const anchor = side === "left" ? "left-0" : "right-0";
+  return (
+    <div aria-hidden className={`decor-crane select-none ${anchor} ${className}`}>
+      <div className="relative w-[60vw] max-w-[640px] h-full">
+        {birds.map((b, i) => (
+          <motion.img
+            key={i}
+            src={b.src}
+            alt=""
+            animate={{ y: [-6, 6, -6], x: [0, side === "left" ? 8 : -8, 0] }}
+            transition={{
+              repeat: Infinity,
+              duration: b.dur,
+              ease: "easeInOut",
+              delay: b.delay ?? 0,
+            }}
+            style={{
+              top: b.top,
+              [side === "left" ? "left" : "right"]: b.off,
+              opacity: b.opacity ?? 0.95,
+            }}
+            className={`absolute ${b.w} ${b.blur ? "blur-[1px]" : ""} drop-shadow-[0_10px_18px_rgba(20,18,60,0.18)]`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ───────── MARGIN ACCENT CRANES ───────── */
+function MarginCrane({
+  src,
+  top,
+  side,
+  offset,
+  size = 40,
+  rotate = 0,
+  dur = 6,
+  delay = 0,
+}: {
+  src: string;
+  top: string | number;
+  side: "left" | "right";
+  offset: string | number;
+  size?: number;
+  rotate?: number;
+  dur?: number;
+  delay?: number;
+}) {
+  const isRight = side === "right";
+  const baseTransform = isRight ? "scaleX(-1)" : "";
+
+  return (
+    <motion.img
+      src={src}
+      alt=""
+      aria-hidden
+      className="absolute pointer-events-none select-none z-10 hidden xl:block"
+      style={{
+        top,
+        [side]: offset,
+        width: size,
+        height: "auto",
+        opacity: 0.7,
+      }}
+      animate={{
+        y: [-6, 6, -6],
+        rotate: [rotate - 3, rotate + 3, rotate - 3],
+        transform: [
+          `${baseTransform} rotate(${rotate - 3}deg)`,
+          `${baseTransform} rotate(${rotate + 3}deg)`,
+          `${baseTransform} rotate(${rotate - 3}deg)`,
+        ],
+      }}
+      transition={{
+        repeat: Infinity,
+        duration: dur,
+        ease: "easeInOut",
+        delay,
+      }}
+    />
+  );
+}
+
+/* ───────── DECORATIVE INLINE SVGs (flock + branch silhouettes) ───────── */
+
+function CranesSilhouette({ color, className = "" }: { color: string; className?: string }) {
+  return (
+    <svg aria-hidden viewBox="0 0 400 240" className={className} fill={color}>
+      <path
+        d="M30,140 Q90,90 170,110 L195,75 L205,70 L210,82 L195,115 Q280,118 360,90 Q340,140 250,160 Q160,180 80,170 Q50,165 30,140 Z"
+        opacity="0.95"
+      />
+      <path
+        d="M40,200 Q70,170 130,180 L150,158 L160,156 L162,166 L150,184 Q200,184 250,170 Q235,205 175,215 Q110,222 65,212 Q48,210 40,200 Z"
+        opacity="0.55"
+        transform="translate(-10,-20) scale(0.65)"
+      />
+      <path
+        d="M30,140 Q90,90 170,110 L195,75 L205,70 L210,82 L195,115 Q280,118 360,90 Q340,140 250,160 Q160,180 80,170 Q50,165 30,140 Z"
+        opacity="0.4"
+        transform="translate(60,-50) scale(0.42)"
+      />
+    </svg>
+  );
+}
+
+function BranchSilhouette({ color, className = "" }: { color: string; className?: string }) {
+  return (
+    <svg aria-hidden viewBox="0 0 320 480" className={className}>
+      <path
+        d="M160,480 Q145,360 162,240 Q178,140 152,40 Q148,15 160,0"
+        stroke={color}
+        strokeWidth="5"
+        fill="none"
+        strokeLinecap="round"
+      />
+      <g fill={color}>
+        <ellipse cx="118" cy="395" rx="44" ry="14" transform="rotate(-35 118 395)" />
+        <ellipse cx="210" cy="335" rx="44" ry="14" transform="rotate(35 210 335)" />
+        <ellipse cx="110" cy="260" rx="42" ry="13" transform="rotate(-42 110 260)" />
+        <ellipse cx="215" cy="185" rx="42" ry="13" transform="rotate(45 215 185)" />
+        <ellipse cx="125" cy="115" rx="38" ry="12" transform="rotate(-30 125 115)" />
+        <ellipse cx="200" cy="55" rx="36" ry="11" transform="rotate(40 200 55)" />
+      </g>
+    </svg>
+  );
+}
+
+/** Large decorative element clipped 50–60% off the viewport edge. */
+function SideDecor({
+  side,
+  type,
+  color,
+  rotate = 0,
+  top = "20%",
+}: {
+  side: "left" | "right";
+  type: "crane" | "branch";
+  color: string;
+  rotate?: number;
+  top?: string;
+  size?: number; // Kept for prop compatibility
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [target, setTarget] = useState<HTMLDivElement | null>(null);
+  useEffect(() => {
+    setTarget(ref.current);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: target ? { current: target } : undefined,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [0, -80]);
+
+  const positionClass =
+    side === "right"
+      ? "absolute -right-[10%] w-[40vw] max-w-lg z-0 pointer-events-none"
+      : "absolute -left-[10%] w-[40vw] max-w-lg z-0 pointer-events-none";
+
+  return (
+    <motion.div
+      ref={ref}
+      aria-hidden
+      className={`${positionClass} hidden md:block`}
+      style={{
+        top,
+        y,
+        rotate: `${rotate}deg`,
+      }}
+    >
+      {type === "crane" ? (
+        <CranesSilhouette color={color} className="w-full h-auto" />
+      ) : (
+        <BranchSilhouette color={color} className="w-full h-auto" />
+      )}
+    </motion.div>
+  );
+}
+
+/* ───────── tokens ───────── */
+
+const COLOR = {
+  lavender: "#98A6D4",
+  peach: "#EAEBFC", // Changed to a very soft lavender
+  sage: "#D4E2D7",
+};
+
+/* ───────── shared bits ───────── */
+
+const reveal = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-100px" },
+  transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
+};
+
+function Float({
+  children,
+  duration = 10,
+  y = 18,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  duration?: number;
+  y?: number;
+  delay?: number;
+}) {
+  return (
+    <motion.div
+      animate={{ y: [0, -y, 0] }}
+      transition={{ duration, repeat: Infinity, ease: "easeInOut", delay }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/**
+ * Liquid-glass surface.
+ * surface="color" → translucent glass for colored backgrounds (lavender, peach, sage)
+ * surface="white" → solid white card with soft shadow for white backgrounds
+ */
+function GlassCard({
+  children,
+  className = "",
+  surface = "color",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  surface?: "color" | "white";
+}) {
+  const base =
+    surface === "white"
+      ? "bg-white/70 backdrop-blur-2xl border border-white/80 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] ring-1 ring-white/60"
+      : "bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]";
+  return (
+    <div className={`relative rounded-3xl text-slate-900 ${base} ${className}`}>
+      {surface === "white" && (
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
+      )}
+      {children}
+    </div>
+  );
+}
+
+/** Magnetic primary button — scale + shadow on hover. */
+function MagneticButton({
+  children,
+  variant = "primary",
+  className = "",
+}: {
+  children: React.ReactNode;
+  variant?: "primary" | "ghost";
+  className?: string;
+}) {
+  return (
+    <motion.button
+      whileHover={{ scale: 1.04, y: -2 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className={`liquid-glass-button inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm font-medium tracking-wide transition-all text-slate-900 ${className}`}
+    >
+      {children}
+    </motion.button>
+  );
+}
+
+/** Image placeholder — user manages uploads manually; hidden until provided. */
+function ImageBox(_props: {
+  prompt: string;
+  ratio?: string;
+  className?: string;
+  surface?: "color" | "white";
+}) {
+  return null;
+}
+
+/* ───────── BRIDGES (flat-bottom cloud canopy between sections) ───────── */
+
+/** A wide soft cloud canopy that hides the seam between two sections.
+ *  fill = color of the section the canopy is emerging FROM.
+ *  Place at the top of the receiving section. */
+function CloudBridge({ fill, flip = false }: { fill: string; flip?: boolean }) {
+  return (
+    <div
+      aria-hidden
+      className={`pointer-events-none absolute left-0 right-0 w-full ${
+        flip ? "bottom-full" : "-top-px"
+      }`}
+      style={{ height: 80 }}
+    >
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-full block">
+        <path
+          d="M0,80 L0,40 C120,10 200,55 320,40 C440,25 520,5 640,18 C760,30 840,55 960,42 C1080,30 1180,8 1300,22 C1380,32 1420,50 1440,40 L1440,80 Z"
+          fill={fill}
+        />
+      </svg>
+    </div>
+  );
+}
+
+/* ───────── NAV ───────── */
+
+function Nav() {
+  const [open, setOpen] = useState(false);
+
+  const links = [
+    { href: "#about", label: "About us" },
+    { href: "#announcement", label: "Announcement" },
+    { href: "#services", label: "Services" },
+    { href: "#resources", label: "Resources" },
+  ];
+
+  return (
+    <motion.header
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className="absolute top-0 inset-x-0 z-50"
+    >
+      <div
+        className="mx-auto flex items-center justify-between px-8 md:px-12 lg:px-16 py-5"
+        style={{ maxWidth: 1400 }}
+      >
+        <a href="#" className="flex items-center group shrink-0">
+          <img src="/nav bar logo.svg" alt="PeaceCode" className="h-7 w-auto object-contain" />
+        </a>
+
+        <nav className="hidden md:flex items-center gap-8 lg:gap-12 text-[15px] font-medium tracking-wide text-white">
+          {links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="relative py-1 hover:text-white/80 transition-colors"
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <button className="hidden sm:inline-flex items-center rounded-full px-6 py-2.5 text-[14px] font-medium text-white border border-white/60 hover:bg-white/10 transition-all duration-300">
+            Sign In
+          </button>
+
+          <button
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Toggle menu"
+            className="md:hidden w-9 h-9 rounded-full flex items-center justify-center text-white"
+          >
+            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile dropdown */}
+      <motion.div
+        initial={false}
+        animate={open ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="md:hidden overflow-hidden bg-white/85 backdrop-blur-xl border-t border-white/40 mt-2 mx-3 rounded-2xl"
+      >
+        <div className="px-6 py-4 flex flex-col gap-3 text-slate-900">
+          {links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="py-2 text-base font-medium hover:text-slate-700 transition-colors"
+            >
+              {l.label}
+            </a>
+          ))}
+          <button className="sm:hidden rounded-full px-5 py-2.5 text-sm font-medium mt-2 self-start text-slate-900 border border-slate-200">
+            Sign In
+          </button>
+        </div>
+      </motion.div>
+    </motion.header>
+  );
+}
+
+/* ───────── HERO ───────── */
+
+function HeroAtmosphere() {
+  return (
+    <div className="absolute inset-x-0 top-0 bottom-0 pointer-events-none z-0">
+      {/* Subtle grain overlay only — background image is on the wrapper div */}
+      <div className="grain-overlay absolute inset-0 opacity-[0.08] mix-blend-overlay" />
+    </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section
+      className="relative w-full min-h-[100vh] flex flex-col justify-center items-center"
+    >
+      {/* ── Birds in diagonal formation (upper-right to lower-left, like baba) ── */}
+
+      {/* Bird 1 — top-right corner, small */}
+      <motion.div
+        animate={{ y: [-4, 5, -4], x: [0, -6, 0] }}
+        transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
+        className="absolute z-[5] pointer-events-none select-none"
+        style={{ top: "8%", right: "8%" }}
+      >
+        <img
+          src="/Untitled design (42).svg"
+          alt=""
+          style={{
+            width: "clamp(70px, 7vw, 110px)",
+            filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
+          }}
+        />
+      </motion.div>
+
+      {/* Bird 2 — upper-right, below and left of Bird 1 */}
+      <motion.div
+        animate={{ y: [-3, 5, -3], x: [0, -8, 0] }}
+        transition={{ repeat: Infinity, duration: 8.5, ease: "easeInOut", delay: 0.5 }}
+        className="absolute z-[5] pointer-events-none select-none"
+        style={{ top: "22%", right: "18%" }}
+      >
+        <img
+          src="/Untitled design (41).svg"
+          alt=""
+          style={{
+            width: "clamp(90px, 9vw, 140px)",
+            filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
+          }}
+        />
+      </motion.div>
+
+      {/* Bird 3 — center-right, continuing the diagonal */}
+      <motion.div
+        animate={{ y: [-5, 4, -5], x: [0, -6, 0] }}
+        transition={{ repeat: Infinity, duration: 9, ease: "easeInOut", delay: 1.0 }}
+        className="absolute z-[5] pointer-events-none select-none"
+        style={{ top: "40%", right: "28%" }}
+      >
+        <img
+          src="/Untitled design (42).svg"
+          alt=""
+          style={{
+            width: "clamp(100px, 10vw, 160px)",
+            filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
+          }}
+        />
+      </motion.div>
+
+      {/* Bird 4 — center, largest bird */}
+      <motion.div
+        animate={{ y: [-3, 6, -3], x: [0, 8, 0] }}
+        transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 1.5 }}
+        className="absolute z-[5] pointer-events-none select-none"
+        style={{ top: "55%", left: "35%" }}
+      >
+        <img
+          src="/Untitled design (41).svg"
+          alt=""
+          style={{
+            width: "clamp(110px, 12vw, 180px)",
+            filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
+          }}
+        />
+      </motion.div>
+
+      {/* Bird 5 — lower-left area */}
+      <motion.div
+        animate={{ y: [-4, 3, -4], x: [0, 6, 0] }}
+        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut", delay: 0.8 }}
+        className="absolute z-[5] pointer-events-none select-none"
+        style={{ top: "68%", left: "20%" }}
+      >
+        <img
+          src="/Untitled design (42).svg"
+          alt=""
+          style={{
+            width: "clamp(85px, 8.5vw, 136px)",
+            filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
+          }}
+        />
+      </motion.div>
+
+      {/* ── Text content — centered like baba.health ── */}
+      <div className="relative z-[6] w-full max-w-3xl mx-auto px-6 text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="tracking-[0.2em] text-xs font-semibold text-white/65 mb-6 uppercase"
+        >
+          For students, by students
+        </motion.p>
+        <motion.h1
+          initial="hidden"
+          animate="show"
+          variants={{
+            hidden: {},
+            show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+          }}
+          className="font-serif font-normal tracking-tight leading-[1.08] text-white text-[3.2rem] sm:text-[4rem] md:text-[4.5rem] lg:text-[5.5rem]"
+        >
+          {[
+            { w: "Being a", br: true },
+            { w: "student is", br: true },
+            { w: "hard.", br: false, italic: true },
+          ].map(({ w, br, italic }, i) => (
+            <span key={i} className="inline-block align-bottom">
+              <motion.span
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  show: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { type: "spring", stiffness: 120, damping: 18 },
+                  },
+                }}
+                className={`inline-block ${italic ? "font-display italic" : ""} mr-[0.22em]`}
+              >
+                {w}
+              </motion.span>
+              {br && <br />}
+            </span>
+          ))}
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-8 text-white/85 text-base md:text-lg leading-relaxed max-w-md mx-auto font-normal"
+        >
+          Imagine a quiet companion guiding you through it —{" "}
+          <em className="font-display text-white">free for students.</em>
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.3 }}
+          className="mt-10 flex justify-center"
+        >
+          <button className="group inline-flex items-center gap-3 rounded-full border border-slate-800 bg-white px-7 py-3.5 text-[15px] font-medium text-slate-800 hover:bg-slate-50 transition-all duration-300 hover:-translate-y-0.5">
+            Get started
+            <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-800 group-hover:bg-slate-700 transition-colors">
+              <ArrowUpRight className="w-3.5 h-3.5 text-white" />
+            </span>
+          </button>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────── COLLABORATION LOGOS ───────── */
+
+function Collaboration() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  return (
+    <section
+      ref={ref}
+      className="relative w-full overflow-hidden pt-56 pb-16 md:pt-72 md:pb-20 px-6 md:px-10 flex flex-col items-center justify-center"
+      style={{ zIndex: 5 }}
+    >
+      {/* Centered text */}
+      <h3 className="font-sans text-[13px] tracking-[0.25em] uppercase text-slate-500 font-medium mb-10 text-center relative z-10">
+        In collaboration with
+      </h3>
+
+      {/* Logos Row */}
+      <div className="flex flex-wrap items-center justify-center max-w-5xl w-full relative z-10">
+        <img
+          src="/assets/dtu.svg"
+          alt="DTU"
+          className="h-12 md:h-14 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
+        />
+      </div>
+    </section>
+  );
+}
+
+/* ───────── HOW IT WORKS (image cards) ───────── */
+
+const howStepImg1 = "/assets/how-step-01-safe-space.jpg";
+const howStepImg2 = "/assets/how-step-02-peer-support.jpg";
+const howStepImg3 = "/assets/how-step-03-progress.jpg";
+
+function HowItWorks() {
+  const steps = [
+    {
+      n: "01",
+      img: howStepImg1,
+      title: "Tell us how you feel",
+      desc: "A private check-in designed for students. No forms, no pressure, and no need to have the right words. Start wherever you are.",
+      micro: "Anonymous from the first moment.",
+      alt: "Student sitting peacefully under a tree, journaling in golden hour light",
+    },
+    {
+      n: "02",
+      img: howStepImg2,
+      title: "Find your people",
+      desc: "Discover spaces where students listen, share, and support one another. Sometimes the biggest relief is realizing you are not the only one feeling this way.",
+      micro: "Connection changes everything.",
+      alt: "Three students sitting together on campus grass, talking and supporting each other",
+    },
+    {
+      n: "03",
+      img: howStepImg3,
+      title: "Move forward gently",
+      desc: "Build small habits of reflection, celebrate quiet progress, and receive support at your own pace. Growth does not need to be rushed.",
+      micro: "Every small step counts.",
+      alt: "Student walking through a sunlit campus path with a notebook, looking hopeful",
+    },
+  ];
+
+  return (
+    <section className="relative pt-8 pb-28 md:pt-10 md:pb-32 px-6 md:px-10 overflow-visible">
+      <motion.div {...reveal} className="relative z-20 mx-auto max-w-6xl -mt-16 md:-mt-24">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <p className="text-[11px] tracking-[0.35em] uppercase text-white/60 mb-5">
+            How PeaceCode works
+          </p>
+          <h2 className="font-serif text-4xl md:text-5xl text-white font-light tracking-tight leading-[1.1]">
+            Three small steps, <span className="font-display italic">no pressure.</span>
+          </h2>
+          <p className="mt-5 font-display italic text-white/50 text-base">Just support.</p>
+        </div>
+
+        {/* Image Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {steps.map((s, i) => (
+            <motion.div
+              key={s.n}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{
+                duration: 0.9,
+                delay: i * 0.15,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <div className="how-card" style={{ aspectRatio: "4 / 5" }}>
+                <img src={s.img} alt={s.alt} loading="lazy" draggable={false} />
+
+                {/* Text overlay */}
+                <div className="how-card-content">
+                  {/* Top: Step number */}
+                  <div>
+                    <span className="how-card-step">Step {s.n}</span>
+                  </div>
+
+                  {/* Bottom: Headline + Description */}
+                  <div>
+                    <h3 className="how-card-headline">{s.title}</h3>
+                    <p className="how-card-desc">{s.desc}</p>
+                    <p className="how-card-micro">{s.micro}</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ───────── MOOD GATE ───────── */
+
+function MoodGate() {
+  const moods = [
+    {
+      icon: Brain,
+      title: "Reflect",
+      text: "Vent safely. Untangle thoughts before the next lecture.",
+    },
+    {
+      icon: Leaf,
+      title: "Practice",
+      text: "Tiny rituals for sleep, focus, and the breath between exams.",
+    },
+    {
+      icon: MessagesSquare,
+      title: "Connect",
+      text: "Anonymous peer rooms with students who actually get it.",
+    },
+  ];
+  const moodEmojis = ["😔", "😕", "😐", "🙂", "😊"];
+
+  return (
+    <section id="mood" className="relative py-28 md:py-32 px-6 md:px-10 overflow-visible">
+      {/* Decorative Right Branch */}
+      <AvifBleed
+        src={branchLarge}
+        side="right"
+        top="15%"
+        width="35vw"
+        maxWidth={400}
+        nudgeOut="12%"
+        opacity={0.8}
+        rotate={10}
+        flipX
+        yRange={[0, -60]}
+      />
+
+      <motion.div {...reveal} className="relative z-20 mx-auto max-w-6xl text-center">
+        <p className="text-[11px] tracking-[0.35em] uppercase text-slate-600 mb-5">The mood gate</p>
+        <h2 className="font-serif text-4xl md:text-6xl text-slate-900 font-light leading-[1.05] tracking-tight">
+          What feels heavy <span className="font-display italic">today?</span>
+        </h2>
+        <p className="mt-6 text-slate-700 max-w-xl mx-auto font-light leading-relaxed">
+          No diagnosis. No forms. Pick the door that feels right this minute — you can change your
+          mind whenever.
+        </p>
+
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {moods.map((m, i) => (
+            <motion.button
+              key={m.title}
+              {...reveal}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="text-left rounded-3xl"
+            >
+              <GlassCard
+                surface="white"
+                className="p-8 h-full hover:border-slate-200 transition-colors duration-300"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-6">
+                  <m.icon className="w-5 h-5 text-slate-800" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-serif text-2xl text-slate-900 font-semibold tracking-tight mb-2">
+                  {m.title}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed font-medium">{m.text}</p>
+                <div className="mt-6 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.25em] text-slate-600">
+                  Open door <ArrowUpRight className="w-3.5 h-3.5" />
+                </div>
+              </GlassCard>
+            </motion.button>
+          ))}
+        </div>
+
+        <motion.div
+          {...reveal}
+          className="mt-14 inline-flex items-center gap-6 bg-white border border-slate-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.06)] rounded-full px-8 py-4"
+        >
+          <span className="text-[11px] uppercase tracking-[0.3em] text-slate-700">
+            Quick check-in
+          </span>
+          <div className="flex items-center gap-3">
+            {moodEmojis.map((e, i) => (
+              <button
+                key={i}
+                className="liquid-glass-button flex h-11 w-11 items-center justify-center rounded-full text-xl grayscale opacity-80 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-300"
+              >
+                {e}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ───────── WHAT'S ON YOUR MIND ACCORDION ───────── */
+
+function MindAccordion() {
+  const items = [
+    {
+      t: "Academic Burnout & Exam Stress",
+      d: "Guided 5-minute reset rituals, pomodoro breathing, and late-night peer rooms specifically for students mid-finals. You don't have to power through alone.",
+    },
+    {
+      t: "Social Anxiety & Campus Isolation",
+      d: "Anonymous text-first rooms make the first hello easy. Match with peers who get the dining-hall dread and the empty-weekend ache.",
+    },
+    {
+      t: "Imposter Syndrome in Competitive Majors",
+      d: "Honest journaling prompts, founder/senior stories, and 1:1 chats with mentors who've sat in the same lecture halls and survived.",
+    },
+    {
+      t: "Navigating Difficult Conversations",
+      d: "Practice the talk with a professor, a parent, a roommate. Scripts, role-play, and gentle feedback — built for the conversations that keep you up.",
+    },
+  ];
+  const [open, setOpen] = useState<number | null>(0);
+
+  const refCloud = useRef<HTMLDivElement>(null);
+  const [targetCloud, setTargetCloud] = useState<HTMLDivElement | null>(null);
+  useEffect(() => {
+    setTargetCloud(refCloud.current);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: targetCloud ? { current: targetCloud } : undefined,
+    offset: ["start end", "end start"],
+  });
+  const xCloud = useTransform(scrollYProgress, [0, 1], ["0vw", "22vw"]);
+  const yCloud = useTransform(scrollYProgress, [0, 1], [-80, 40]);
+
+  return (
+    <section id="mind" className="relative py-28 md:py-32 px-6 md:px-10 overflow-visible">
+      {/* Decorative Left Branch */}
+      <AvifBleed
+        src={branchLarge}
+        side="left"
+        top="25%"
+        width="40vw"
+        maxWidth={450}
+        nudgeOut="18%"
+        opacity={0.7}
+        rotate={-15}
+        yRange={[0, -80]}
+      />
+
+      {/* Decorative Left Cloud — inserts into left edge, slides out on scroll, no back edge visible */}
+      <motion.div
+        ref={refCloud}
+        aria-hidden
+        className="pointer-events-none select-none absolute hidden md:block"
+        style={{
+          left: "-26vw",
+          top: "-120px",
+          width: "56vw",
+          maxWidth: 750,
+          x: xCloud,
+          y: yCloud,
+          opacity: 0.85,
+          zIndex: 10,
+        }}
+      >
+        <img
+          src="/Untitled design (36).svg"
+          alt=""
+          className="w-full h-auto object-contain"
+          loading="lazy"
+        />
+      </motion.div>
+
+      <motion.div {...reveal} className="relative z-20 mx-auto max-w-4xl">
+        <div className="text-center mb-16">
+          <p className="text-[11px] tracking-[0.35em] uppercase text-slate-600 mb-5">
+            What's on your mind?
+          </p>
+          <h2 className="font-serif text-4xl md:text-5xl text-slate-900 font-light tracking-tight leading-[1.1]">
+            The hard parts of college —{" "}
+            <span className="font-display italic">and how we help.</span>
+          </h2>
+        </div>
+
+        <div className="divide-y divide-slate-200 border-t border-b border-slate-200">
+          {items.map((it, i) => {
+            const isOpen = open === i;
+            return (
+              <motion.div
+                key={it.t}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: i * 0.06 }}
+              >
+                <button
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  className="w-full flex items-center justify-between py-7 text-left group gap-6"
+                >
+                  <span className="font-serif text-xl md:text-3xl text-slate-900 font-light tracking-tight">
+                    {it.t}
+                  </span>
+                  <motion.div
+                    animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="liquid-glass-icon w-10 h-10 rounded-full flex items-center justify-center transition shrink-0"
+                  >
+                    <Plus className="w-4 h-4 text-slate-900" />
+                  </motion.div>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <p className="pb-7 max-w-2xl text-slate-700 font-light leading-relaxed">
+                        {it.d}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ───────── FEATURE HIGHLIGHT (Editorial spread, 58/42 liquid glass card + side bleed illustrations) ───────── */
+
+function FeatureHighlight() {
+  const subtleReveal = {
+    initial: { opacity: 0, y: 15 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-60px" },
+    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
+  };
+
+  return (
+    <section
+      className="relative py-20 md:py-28 px-6 md:px-12 overflow-hidden flex items-center justify-center"
+      style={{ background: "linear-gradient(180deg, #93A8C1 0%, #F4F6F8 100%)" }}
+    >
+      {/* Left Bleed Illustration (SVG) */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-10 hidden xl:block w-[30vw] max-w-[420px] mix-blend-multiply opacity-90">
+        <img
+          src="/left.svg"
+          alt=""
+          className="w-full h-auto object-contain object-left scale-[1.35] origin-left"
+        />
+      </div>
+
+      {/* Right Bleed Illustration (AVIF) */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-10 hidden xl:block w-[30vw] max-w-[420px] opacity-90">
+        <img
+          src="/right.avif"
+          alt=""
+          className="w-full h-auto object-contain object-right scale-[1.25] origin-right"
+          style={{ transform: "rotate(-90deg)" }}
+        />
+      </div>
+
+      {/* Central Premium Liquid Glass Card */}
+      <motion.div
+        variants={subtleReveal}
+        initial="initial"
+        whileInView="whileInView"
+        viewport={subtleReveal.viewport}
+        className="relative z-20 mx-auto max-w-6xl w-full"
+      >
+        <div className="rounded-[32px] overflow-hidden grid grid-cols-1 lg:grid-cols-12 items-stretch bg-white/70 backdrop-blur-2xl border border-white/80 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] ring-1 ring-white/60">
+          {/* LEFT COLUMN: Image (58%) */}
+          <div className="lg:col-span-7 relative aspect-[16/9] lg:aspect-auto lg:h-full min-h-[250px] lg:min-h-[350px]">
+            <img
+              src="/assets/editorial-courtyard.jpg"
+              alt="Two college students sitting silently apart on a stone bench in a courtyard, reflecting in quiet thought"
+              className="absolute inset-0 w-full h-full object-cover block object-center"
+              loading="lazy"
+            />
+          </div>
+
+          {/* RIGHT COLUMN: Content (42%) */}
+          <div className="lg:col-span-5 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center text-left">
+            <span className="text-[10px] md:text-[11px] font-sans tracking-[0.3em] uppercase text-slate-500 font-bold mb-4 block">
+              DESIGNED FOR THE QUIET STUFF
+            </span>
+
+            <h2 className="font-serif text-3xl md:text-[34px] lg:text-[36px] text-slate-900 font-light leading-[1.2] tracking-tight mb-6">
+              Some of the most
+              <br />
+              important conversations
+              <span className="font-display italic block mt-2 text-[34px] md:text-[38px] lg:text-[40px] font-normal text-[#93A8C1]">
+                before a word is spoken.
+              </span>
+            </h2>
+
+            <div className="space-y-3 text-slate-600 text-[14px] md:text-[15px] font-normal leading-relaxed max-w-sm">
+              <p>
+                Nobody really teaches you how to share uncertainty. Or the feeling that everyone
+                else somehow has it figured out.
+              </p>
+              <p className="font-medium text-slate-800">PeaceCode exists for those moments.</p>
+            </div>
+
+            <div className="mt-8">
+              <a
+                href="#mood"
+                className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-xs font-semibold uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 hover:scale-[1.03] transition-all shadow-md"
+              >
+                Find your place
+                <span className="ml-1">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ───────── ECOSYSTEM ───────── */
+
+function Ecosystem() {
+  const items = [
+    {
+      img: "/Untitled design (32).svg",
+      title: "Anonymous peer support",
+      text: "Step into rooms with students who understand 3 a.m. labs, group-project dread, and the silence after a bad grade.",
+    },
+    {
+      img: "/Untitled design (31).svg",
+      title: "Communication coaching",
+      text: "Practice the hard conversations — with a professor, a roommate, a parent — through gentle, evidence-based prompts.",
+    },
+    {
+      img: "/Untitled design (33).svg",
+      title: "Licensed therapists",
+      text: "When you want more than a chat, our vetted therapists and clinical guides are one tap away. No paperwork.",
+    },
+  ];
+
+  return (
+    <section id="ecosystem" className="relative pt-[140px] pb-[140px] px-6 md:px-[80px]">
+      <div className="relative z-20 mx-auto w-full">
+        <motion.div {...reveal} className="text-center max-w-2xl mx-auto mb-[80px]">
+          <p className="text-[11px] tracking-[0.35em] uppercase text-slate-700 mb-5">
+            The ecosystem
+          </p>
+          <h2 className="font-serif text-4xl md:text-6xl text-slate-900 font-light leading-[1.05] tracking-tight">
+            Real people, supported by <span className="font-display italic">real tools.</span>
+          </h2>
+          <p className="mt-6 text-slate-700 font-light leading-relaxed">
+            Built around how students actually live, study, and unravel. Quiet at 2 a.m. Loud when
+            it needs to be.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 max-w-[1400px] mx-auto gap-[60px] lg:gap-[100px]">
+          {items.map((c, i) => (
+            <motion.div
+              key={c.title}
+              {...reveal}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col items-center text-center"
+            >
+              <img 
+                src={c.img} 
+                alt="" 
+                className="h-[180px] w-auto object-contain mb-[40px] bg-transparent shadow-none" 
+              />
+              <h3 className="font-serif text-[36px] font-medium text-slate-900 leading-[1.15] max-w-[420px] mx-auto mb-[24px]">
+                {c.title}
+              </h3>
+              <p className="text-slate-700 leading-[1.6] max-w-[380px] mx-auto mb-[40px]">
+                {c.text}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WhatStudentsCarry() {
+  const items = [
+    {
+      title: "Academic Burnout",
+      d: "Feeling exhausted even after sleeping? Constant deadlines. No motivation. No energy.",
+      support: ["Anonymous peer rooms", "Guided reflection", "Therapist support"],
+    },
+    {
+      title: "Social Anxiety",
+      d: "Dreading the walk to the dining hall. Fearing you'll say the wrong thing. Feeling watched.",
+      support: ["Text-only quiet rooms", "Social courage prompts", "1:1 peer check-ins"],
+    },
+    {
+      title: "Feeling Left Behind",
+      d: "Watching everyone else secure internships and build friend groups, while you feel stuck in place.",
+      support: ["Comparison reset prompts", "Student success stories", "Goal breakdown guides"],
+    },
+    {
+      title: "Loneliness",
+      d: "Being surrounded by thousands of people on campus, yet feeling completely alone in your room.",
+      support: ["Late-night listening circles", "Shared interest hubs", "Guided walking habits"],
+    },
+    {
+      title: "Relationship Stress",
+      d: "Friend group drama, roommate conflicts, or long-distance strain making it hard to focus on lectures.",
+      support: ["Conflict navigation scripts", "Anonymous text advice", "Relationship counselors"],
+    },
+    {
+      title: "Family Pressure",
+      d: "Carrying the weight of parental expectations, academic funding worries, or family responsibilities.",
+      support: ["Boundary-setting exercises", "Stress relief meditation", "Financial anxiety chats"],
+    },
+    {
+      title: "Career Uncertainty",
+      d: "Not knowing if you're in the right major, or fearing the post-graduation job market.",
+      support: ["Career alignment prompts", "Senior student panels", "Mentorship matching"],
+    },
+    {
+      title: "Imposter Syndrome",
+      d: "Feeling like a mistake was made when you were admitted. Fearing everyone will discover you don't belong.",
+      support: ["Imposter syndrome journals", "Anonymous peer validation", "Mentor 1:1 sessions"],
+    },
+  ];
+
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  return (
+    <section
+      id="struggles"
+      className="relative w-full py-32 md:py-44 px-6 md:px-[80px] overflow-visible"
+      style={{
+        background: "linear-gradient(to bottom, #FFFFFF 0%, #F5F6FC 30%, #F5F6FC 70%, #FFFFFF 100%)",
+      }}
+    >
+      <div className="relative z-20 mx-auto max-w-6xl">
+        <div className="text-center max-w-4xl mx-auto mb-20">
+          <p className="text-[11px] tracking-[0.4em] uppercase text-slate-500 font-bold mb-5 select-none">
+            For every student's journey
+          </p>
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-[56px] text-slate-900 font-light tracking-tight leading-[1.08] mb-6">
+            At Peace Code, we believe healing
+            <br />
+            begins with feeling heard.
+          </h2>
+          <p className="mt-8 text-slate-600 text-[16px] md:text-[18px] lg:text-[19px] font-normal leading-relaxed max-w-2xl mx-auto">
+            Explore the conversations, emotions, and situations students bring into PeaceCode every day.
+          </p>
+        </div>
+
+        {/* Baba-style grid container with absolute vertical line extensions */}
+        <div className="max-w-5xl mx-auto relative py-2">
+          {/* Vertical Partition Lines (extend 30px above and below, exactly like Baba) */}
+          <div className="absolute left-0 top-[-30px] bottom-[-30px] w-[1px] bg-[#8B98C6]/15 hidden md:block pointer-events-none z-10" />
+          <div className="absolute left-[33.33%] top-[-30px] bottom-[-30px] w-[1px] bg-[#8B98C6]/15 hidden md:block pointer-events-none z-10" />
+          <div className="absolute left-[66.66%] top-[-30px] bottom-[-30px] w-[1px] bg-[#8B98C6]/15 hidden md:block pointer-events-none z-10" />
+          <div className="absolute right-0 top-[-30px] bottom-[-30px] w-[1px] bg-[#8B98C6]/15 hidden md:block pointer-events-none z-10" />
+
+          {/* Grid layout (remains static to prevent sudden layout shifts) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 bg-transparent">
+            {items.map((item, index) => {
+              const isExpanded = expandedIndex === index;
+
+              return (
+                <motion.div
+                  key={item.title}
+                  layoutId={`cell-${index}`}
+                  onClick={() => setExpandedIndex(index)}
+                  className={`
+                    relative p-5 md:p-6 min-h-[80px] md:min-h-[105px] flex items-center justify-between overflow-hidden cursor-pointer transition-all duration-300 group bg-transparent hover:bg-[#FAF9FC]/60
+                    border-b border-[#8B98C6]/15
+                    ${index === 7 ? 'border-b border-[#8B98C6]/15' : ''}
+                    ${index >= 6 ? 'md:border-b-0' : ''}
+                    ${isExpanded ? 'opacity-0 pointer-events-none' : ''}
+                  `}
+                >
+                  <div className="flex items-center justify-between gap-6 w-full text-left">
+                    <h3 className="font-serif text-xl md:text-[23px] font-light text-slate-800 group-hover:text-slate-950 select-none transition-colors duration-300">
+                      {item.title}
+                    </h3>
+                    <ArrowUpRight className="w-[18px] h-[18px] text-slate-400 group-hover:text-[#8B98C6] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 shrink-0" />
+                  </div>
+                </motion.div>
+              );
+            })}
+
+            {/* 9th Cell: "& more" + "Join Waitlist" button */}
+            <div className="p-5 md:p-6 min-h-[80px] md:min-h-[105px] flex items-center justify-between bg-transparent border-b-0">
+              <span className="font-serif text-xl md:text-2xl text-slate-400 font-light select-none italic">
+                & more
+              </span>
+              <motion.button
+                whileHover={{ scale: 1.03, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                className="bg-[#12131A] text-white hover:bg-black rounded-full px-5 py-2.5 text-xs font-semibold tracking-wider flex items-center gap-1.5 transition-all duration-300 hover:shadow-md select-none cursor-pointer"
+              >
+                Join Waitlist
+                <ArrowUpRight className="w-3.5 h-3.5 text-[#8B98C6]" />
+              </motion.button>
+            </div>
+          </div>
+
+          {/* Morphing Glass Overlay card */}
+          <AnimatePresence>
+            {expandedIndex !== null && (
+              <>
+                {/* Blur Backdrop */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setExpandedIndex(null)}
+                  className="absolute inset-[-30px] bg-slate-900/5 backdrop-blur-sm z-40 rounded-3xl"
+                  onMouseEnter={() => setExpandedIndex(null)}
+                />
+
+                {/* Floating Enclosed Glass Card */}
+                <motion.div
+                  layoutId={`cell-${expandedIndex}`}
+                  onMouseLeave={() => setExpandedIndex(null)}
+                  className="absolute z-50 bg-white/90 backdrop-blur-2xl border border-white/80 shadow-[0_20px_50px_rgba(152,166,212,0.15)] rounded-3xl p-8 md:p-10 flex flex-col justify-between"
+                  style={{
+                    left: "5%",
+                    right: "5%",
+                    top: "5%",
+                    bottom: "5%",
+                  }}
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                >
+                  <div className="flex flex-col h-full justify-between w-full text-left">
+                    <div className="space-y-4">
+                      <div className="flex items-start justify-between">
+                        <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl font-light text-slate-900 select-none">
+                          {items[expandedIndex].title}
+                        </h3>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedIndex(null);
+                          }}
+                          className="text-slate-400 hover:text-slate-600 transition p-1 cursor-pointer select-none"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </div>
+                      <p className="text-slate-600 text-sm md:text-base font-light leading-relaxed select-none">
+                        {items[expandedIndex].d}
+                      </p>
+                    </div>
+
+                    <div className="mt-6 pt-4 border-t border-slate-100">
+                      <h4 className="text-[10px] tracking-wider uppercase text-slate-400 font-semibold mb-3 select-none">
+                        Suggested Support
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {items[expandedIndex].support.map((s, idx) => (
+                          <span
+                            key={idx}
+                            className="bg-[#EAEBFC]/60 text-[#5F668A] text-[11px] font-medium px-3 py-1.5 rounded-full border border-white select-none"
+                          >
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────── BLOG GRID ───────── */
+
+function Blog() {
+  const posts = [
+    {
+      tag: "Anxiety",
+      title: "5 ways to ground yourself before a presentation",
+      mins: "4 min read",
+      img: "/ChatGPT Image Jun 3, 2026, 03_03_06 PM.png",
+    },
+    {
+      tag: "Burnout",
+      title: "The quiet reality of engineering burnout",
+      mins: "6 min read",
+      img: "/ChatGPT Image Jun 3, 2026, 03_08_14 PM.png",
+    },
+    {
+      tag: "Connection",
+      title: "How to make a real friend in your first semester",
+      mins: "5 min read",
+      img: "/ChatGPT Image Jun 3, 2026, 03_35_21 PM.png",
+    },
+  ];
+
+  return (
+    <section id="blog" className="relative py-28 md:py-32 px-6 md:px-10 overflow-visible">
+      {/* Decorative Edge Branches */}
+      <AvifBleed
+        src={branchLarge}
+        side="right"
+        top="-5%"
+        width="32vw"
+        maxWidth={360}
+        nudgeOut="10%"
+        opacity={0.75}
+        rotate={-10}
+        flipX
+        yRange={[0, -50]}
+      />
+      <AvifBleed
+        src={branchLarge}
+        side="left"
+        top="40%"
+        width="38vw"
+        maxWidth={420}
+        nudgeOut="15%"
+        opacity={0.6}
+        rotate={12}
+        yRange={[0, -40]}
+      />
+
+      <motion.div {...reveal} className="relative z-20 mx-auto max-w-6xl">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+          <div>
+            <p className="text-[11px] tracking-[0.35em] uppercase text-slate-600 mb-5">Library</p>
+            <h2 className="font-serif text-4xl md:text-5xl text-slate-900 font-light tracking-tight leading-[1.1]">
+              What's new on the <span className="font-display italic">campus blog.</span>
+            </h2>
+          </div>
+          <button
+            className="self-start md:self-end px-5 py-2.5 text-xs font-semibold tracking-wider uppercase text-slate-700 rounded-full flex items-center gap-1.5 transition-all duration-300 hover:scale-[1.02] cursor-pointer select-none"
+            style={{
+              background: "rgba(255, 255, 255, 0.55)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+              border: "1px solid rgba(255, 255, 255, 0.7)",
+              boxShadow: "0 8px 24px rgba(15, 23, 42, 0.06)",
+            }}
+          >
+            All articles
+            <ArrowUpRight className="w-4 h-4 text-slate-500" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {posts.map((p, i) => (
+            <motion.div
+              key={p.title}
+              {...reveal}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="h-full"
+            >
+              <div className="bg-white border border-[rgba(15,23,42,0.04)] shadow-[0_10px_30px_rgba(15,23,42,0.04)] rounded-[24px] overflow-hidden flex flex-col h-full group transition-all duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:translate-y-[-6px] hover:shadow-[0_20px_40px_rgba(15,23,42,0.08)]">
+                {/* Image Wrapper */}
+                <div className="relative overflow-hidden aspect-[4/3] w-full rounded-t-[23px] shrink-0">
+                  <img
+                    src={p.img}
+                    alt={p.title}
+                    className="w-full h-full object-cover transition-transform duration-[600ms] ease-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+                {/* Content */}
+                <div className="p-7 flex-1 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] tracking-wider uppercase font-semibold text-[#7A889B] block mb-2 select-none">
+                      {p.tag}
+                    </span>
+                    <h3 className="font-serif text-xl md:text-2xl font-light text-slate-900 tracking-tight leading-snug">
+                      {p.title}
+                    </h3>
+                  </div>
+                  <div className="mt-6 text-[10px] tracking-wider uppercase text-slate-400 font-medium select-none">
+                    {p.mins}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ───────── CLOSING CTA ───────── */
+
+function ClosingCTA() {
+  return (
+    <section
+      className="relative pt-24 pb-44 px-6 md:px-10"
+      style={{
+        background:
+          "linear-gradient(to bottom, #FAFAF8 0%, #FAFAF8 35%, #F6F4FA 55%, #F6F5FA 80%, #F3F1F8 100%)",
+        overflow: "visible",
+      }}
+    >
+      <AvifBleed
+        src={branchLarge}
+        side="left"
+        top="6%"
+        width="32vw"
+        maxWidth={360}
+        opacity={0.55}
+        rotate={-30}
+        yRange={[0, -40]}
+      />
+      <AvifBleed
+        src={branchLarge}
+        side="right"
+        top="6%"
+        width="32vw"
+        maxWidth={360}
+        opacity={0.55}
+        rotate={28}
+        flipX
+        yRange={[0, -40]}
+      />
+      {/* small flock flying off toward the green footer */}
+      <CraneFlock
+        side="left"
+        className="top-8 h-20 z-[6]"
+        birds={[
+          { src: babaCrane2, top: "0px", off: "8%", w: "w-10", dur: 8, blur: true, opacity: 0.55 },
+          {
+            src: craneFlockB,
+            top: "22px",
+            off: "16%",
+            w: "w-14",
+            dur: 7,
+            delay: 0.3,
+            opacity: 0.8,
+          },
+          { src: babaCrane1, top: "52px", off: "26%", w: "w-20", dur: 9, delay: 0.7 },
+        ]}
+      />
+      <motion.div {...reveal} className="relative z-30 mx-auto max-w-3xl text-center">
+        <p className="text-[11px] tracking-[0.35em] uppercase text-slate-700 mb-8">
+          We are here, when you need us.
+        </p>
+        <p className="font-serif text-3xl md:text-4xl text-slate-900 font-light max-w-2xl mx-auto leading-snug tracking-tight">
+          Whether it's 3 a.m. before a viva or a Sunday afternoon that feels too quiet — your room
+          is open.
+        </p>
+        <div className="mt-10 relative z-30">
+          <MagneticButton>
+            Reserve a quiet seat
+            <ArrowUpRight className="w-4 h-4" />
+          </MagneticButton>
+        </div>
+      </motion.div>
+      {/* Melt into footer's lavender-white atmosphere */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-0 right-0 z-[1]"
+        style={{
+          bottom: -1,
+          height: 280,
+          background:
+            "linear-gradient(to bottom, transparent 0%, rgba(243,241,248,0.15) 30%, rgba(243,241,248,0.40) 55%, rgba(243,241,248,0.70) 75%, rgba(243,241,248,0.92) 100%)",
+        }}
+      />
+    </section>
+  );
+}
+
+/* ───────── BENTO FEATURES ───────── */
+
+function BentoFeatures() {
+  const features = [
+    {
+      icon: MessagesSquare,
+      tag: "AI Chatbot",
+      title: "A companion that listens at 3 a.m.",
+      text: "Trained on student stress patterns. Never judges, never logs.",
+      span: "md:col-span-2 md:row-span-2",
+    },
+    {
+      icon: Leaf,
+      tag: "Journal",
+      title: "Guided journaling",
+      text: "Soft prompts when the page feels too blank.",
+      span: "md:col-span-2",
+    },
+    {
+      icon: Wind,
+      tag: "Breathing",
+      title: "60-second resets",
+      text: "Box-breathing, 4-7-8, and physiological sighs.",
+      span: "md:col-span-1",
+    },
+    {
+      icon: Clock,
+      tag: "Focus Timer",
+      title: "Pomodoro, but kind",
+      text: "Tiny breaks with breath cues built in.",
+      span: "md:col-span-1",
+    },
+    {
+      icon: Users,
+      tag: "Community",
+      title: "Anonymous peer rooms",
+      text: "Text-first spaces, moderated 24/7.",
+      span: "md:col-span-2",
+    },
+    {
+      icon: Heart,
+      tag: "Gratitude Wall",
+      title: "A quiet wall of small wins",
+      text: "Anonymous, shared, kept light.",
+      span: "md:col-span-2",
+    },
+    {
+      icon: ClipboardCheck,
+      tag: "Screening",
+      title: "Validated assessments",
+      text: "PHQ-9, GAD-7 — kept private, on your device.",
+      span: "md:col-span-2",
+    },
+    {
+      icon: Stethoscope,
+      tag: "Therapists",
+      title: "Licensed humans, one tap away",
+      text: "Vetted clinical guides — no paperwork.",
+      span: "md:col-span-2",
+    },
+  ];
+
+  return (
+    <section id="features" className="relative py-32 md:py-36 px-6 md:px-10">
+      <motion.div {...reveal} className="relative z-20 mx-auto max-w-6xl">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <p className="text-[11px] tracking-[0.35em] uppercase text-slate-700 mb-5">
+            Everything inside Peace Code
+          </p>
+          <h2 className="font-serif text-4xl md:text-5xl text-slate-900 font-light tracking-tight leading-[1.1]">
+            One quiet app. <span className="font-display italic">Many gentle tools.</span>
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 auto-rows-[220px] gap-8">
+          {features.map((f, i) => {
+            const Icon = f.icon;
+            return (
+              <motion.div
+                key={f.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.7, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                className={`relative overflow-hidden p-7 ${f.span} liquid-glass-card transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(152,166,212,0.4)]`}
+              >
+                <div className="pointer-events-none absolute -top-16 -right-16 w-56 h-56 rounded-full bg-white/50 blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-16 -left-10 w-48 h-48 rounded-full bg-white/30 blur-3xl" />
+                <div className="relative flex flex-col h-full">
+                  <Icon className="w-6 h-6 text-[#8B98C6] mb-4" strokeWidth={1.75} />
+                  <span className="text-[10px] tracking-[0.3em] uppercase text-slate-700">
+                    {f.tag}
+                  </span>
+                  <h3 className="mt-3 font-serif text-2xl text-slate-900 font-semibold tracking-tight leading-snug">
+                    {f.title}
+                  </h3>
+                  <p className="mt-3 text-sm text-slate-700 leading-relaxed font-medium flex-1">
+                    {f.text}
+                  </p>
+                  <div className="mt-4 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.25em] text-slate-800">
+                    Explore <ArrowUpRight className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ───────── FOOTER (sage, with campus illustration anchor) ───────── */
+
+function Footer() {
+  const columns: { h: string; links: string[] }[] = [
+    {
+      h: "About Us",
+      links: ["About Peace Code", "Careers", "Media", "Team", "Contact Us", "Help/FAQs"],
+    },
+    {
+      h: "Services",
+      links: [
+        "Counseling",
+        "AI Chatbot",
+        "Community",
+        "Focus Timer",
+        "Breathing",
+        "Gratitude Wall",
+        "Journal",
+        "Screening",
+        "Resources",
+      ],
+    },
+    { h: "Library", links: ["All Resources", "Articles", "Videos", "Assessments"] },
+  ];
+
+  const socials = [
+    { Icon: Instagram, label: "Instagram" },
+    { Icon: Twitter, label: "Twitter" },
+    { Icon: MessagesSquare, label: "Discord" },
+    { Icon: Linkedin, label: "LinkedIn" },
+  ];
+
+  const navLink =
+    "text-[14px] font-light transition-colors duration-200 hover:underline underline-offset-[3px]";
+  const glassPill =
+    "inline-flex items-center gap-2 rounded-full text-[13px] font-normal px-5 py-2.5 transition-all duration-200";
+  const glassPillStyle: React.CSSProperties = {
+    background: "rgba(255,255,255,0.08)",
+    border: "1px solid rgba(255,255,255,0.20)",
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
+    color: "#FFF5EC",
+  };
+  const socialStyle: React.CSSProperties = {
+    background: "rgba(255,255,255,0.08)",
+    border: "1px solid rgba(255,255,255,0.15)",
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
+    color: "#FFF5EC",
+  };
+  const badgeStyle: React.CSSProperties = {
+    background: "rgba(255,255,255,0.08)",
+    border: "1px solid rgba(255,255,255,0.15)",
+    color: "rgba(255,235,210,0.75)",
+    backdropFilter: "blur(8px)",
+    WebkitBackdropFilter: "blur(8px)",
+  };
+
+  return (
+    <footer
+      className="relative z-0 w-full overflow-hidden"
+      style={{
+        backgroundImage: `url(${footerCampus})`,
+        backgroundSize: "cover",
+        backgroundPosition: "bottom center",
+        backgroundRepeat: "no-repeat",
+        minHeight: 280,
+        backgroundColor: "#F3F1F8",
+        marginTop: "-2px",
+      }}
+    >
+      {/* Top atmospheric dissolve — blends seamlessly with lavender page background */}
+      <div
+        aria-hidden
+        className="absolute top-0 left-0 right-0 z-[1] pointer-events-none"
+        style={{
+          height: 240,
+          background:
+            "linear-gradient(to bottom, #F3F1F8 0%, rgba(243,241,248,0.97) 10%, rgba(243,241,248,0.85) 25%, rgba(243,241,248,0.55) 45%, rgba(243,241,248,0.25) 65%, rgba(243,241,248,0.08) 80%, transparent 100%)",
+        }}
+      />
+
+      {/* Atmospheric depth overlay — text legibility without hiding the campus */}
+      <div
+        aria-hidden
+        className="absolute inset-0 z-[2] pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent 0%, rgba(18,10,45,0.08) 12%, rgba(18,10,45,0.35) 22%, rgba(18,10,45,0.62) 35%, rgba(18,10,45,0.78) 50%, rgba(18,10,45,0.78) 65%, rgba(18,10,45,0.60) 80%, rgba(18,10,45,0.40) 100%)",
+        }}
+      />
+
+      {/* Foreground content */}
+      <div
+        className="relative z-10 max-w-6xl mx-auto"
+        style={{
+          paddingTop: 64,
+          paddingBottom: 40,
+          paddingLeft: "5%",
+          paddingRight: "5%",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          {/* LEFT: hook + CTAs */}
+          <div className="lg:col-span-5">
+            <h2
+              className="mb-4 max-w-sm"
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontWeight: 300,
+                fontSize: "clamp(38px, 5.5vw, 68px)",
+                lineHeight: 1.12,
+                letterSpacing: "-0.01em",
+                color: "#FFF5EC",
+              }}
+            >
+              Find your
+              <br />
+              <em style={{ fontStyle: "italic" }}>peace</em> of mind.
+            </h2>
+            <p
+              style={{
+                color: "rgba(255,235,210,0.70)",
+                fontSize: 15,
+                fontWeight: 300,
+              }}
+              className="mb-8"
+            >
+              We'll handle the rest.
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+              <a href="#" className={glassPill} style={glassPillStyle}>
+                Get it on Google Play
+              </a>
+              <a href="#" className={glassPill} style={glassPillStyle}>
+                Download on the App Store
+              </a>
+            </div>
+
+            <button
+              className="mt-6 rounded-full text-[13px] font-normal px-5 py-2.5 transition-all duration-200"
+              style={glassPillStyle}
+            >
+              Login
+            </button>
+          </div>
+
+          {/* CENTER: link grid */}
+          <div className="lg:col-span-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+              {columns.map((c) => (
+                <div key={c.h}>
+                  <h4
+                    className="mb-4"
+                    style={{
+                      color: "#FFF5EC",
+                      fontWeight: 500,
+                      fontSize: 13,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {c.h}
+                  </h4>
+                  {c.links.map((l) => (
+                    <a
+                      key={l}
+                      href="#"
+                      className={`${navLink} mb-2 block`}
+                      style={{ color: "rgba(255,235,210,0.65)" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,235,210,1)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,235,210,0.65)")}
+                    >
+                      {l}
+                    </a>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT: socials + badges */}
+          <div className="lg:col-span-2">
+            <p
+              className="mb-5"
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 300,
+                fontSize: 18,
+                lineHeight: 1.5,
+                color: "#FFF5EC",
+              }}
+            >
+              Build a good life for yourself with Peace Code
+            </p>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {socials.map(({ Icon, label }) => (
+                <a
+                  key={label}
+                  href="#"
+                  aria-label={label}
+                  className="flex items-center justify-center rounded-xl transition-all duration-200"
+                  style={{ ...socialStyle, width: 44, height: 44 }}
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2">
+              <span
+                className="inline-flex items-center justify-center rounded-full w-fit"
+                style={{
+                  ...badgeStyle,
+                  fontSize: 11,
+                  letterSpacing: "0.06em",
+                  padding: "6px 14px",
+                }}
+              >
+                ISO 27001
+              </span>
+              <span
+                className="inline-flex items-center justify-center rounded-full w-fit"
+                style={{
+                  ...badgeStyle,
+                  fontSize: 11,
+                  letterSpacing: "0.06em",
+                  padding: "6px 14px",
+                }}
+              >
+                HIPAA ALIGNED
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom legal bar */}
+        <div className="mt-20 pt-6">
+          <div
+            className="flex flex-col md:flex-row justify-between items-center gap-3"
+            style={{ color: "rgba(255,235,210,0.40)", fontSize: 12 }}
+          >
+            <div>© 2026 Peace Code</div>
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+              <a href="#" className="hover:text-[#FFF5EC] transition">
+                Privacy Policy
+              </a>
+              <a href="#" className="hover:text-[#FFF5EC] transition">
+                Terms & Conditions
+              </a>
+              <a href="#" className="hover:text-[#FFF5EC] transition">
+                Cancellation Policy
+              </a>
+              <a href="#" className="hover:text-[#FFF5EC] transition">
+                Sitemap
+              </a>
+              <a href="#" className="hover:text-[#FFF5EC] transition">
+                Hall of Fame
+              </a>
+            </div>
+          </div>
+          <p
+            className="max-w-4xl text-center mt-4 mx-auto leading-relaxed"
+            style={{ fontSize: 10, color: "rgba(255,235,210,0.45)" }}
+          >
+            Disclaimer: Peace Code provides digital self-help resources and access to licensed
+            professionals. We are not equipped for severe psychiatric crises. If you or someone you
+            know is experiencing suicidal thoughts or life-threatening situations, please contact
+            your local emergency services or a trusted helpline immediately.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ───────── COLOR BLOCK WRAPPER ───────── */
+
+function Block({
+  bg,
+  bridgeFrom,
+  bridgeTo,
+  children,
+  topBranch = false,
+}: {
+  bg: string;
+  bridgeFrom?: string; // canopy emerging from previous section (sits at top, flat color = previous bg)
+  bridgeTo?: string; // canopy emerging from THIS section into the next (sits at bottom, flat color = this bg)
+  children: React.ReactNode;
+  topBranch?: boolean;
+}) {
+  return (
+    <section className="relative w-full overflow-visible" style={{ backgroundColor: bg }}>
+      {bridgeFrom && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-px left-0 right-0 w-full"
+          style={{ height: 80 }}
+        >
+          <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-full block">
+            <path
+              d="M0,0 L0,40 C120,70 200,25 320,40 C440,55 520,75 640,62 C760,50 840,25 960,38 C1080,50 1180,72 1300,58 C1380,48 1420,30 1440,40 L1440,0 Z"
+              fill={bridgeFrom}
+            />
+          </svg>
+        </div>
+      )}
+      {topBranch && (
+        <>
+          <div
+            aria-hidden
+            className="decor-branch -top-16 -left-10 w-[34vw] max-w-[420px] z-[1]"
+            style={{ ["--base-rotate" as never]: "-8deg" }}
+          >
+            <img src={branchLarge} alt="" className="w-full h-auto opacity-85" />
+          </div>
+          <div
+            aria-hidden
+            className="decor-branch -top-20 -right-12 w-[36vw] max-w-[440px] z-[1]"
+            style={{ ["--base-rotate" as never]: "6deg" }}
+          >
+            <img
+              src={branchLarge}
+              alt=""
+              className="w-full h-auto opacity-85"
+              style={{ transform: "scaleX(-1)" }}
+            />
+          </div>
+        </>
+      )}
+      <div className="relative z-[2]">{children}</div>
+      {bridgeTo && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-px left-0 right-0 w-full"
+          style={{ height: 80 }}
+        >
+          <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-full block">
+            <path
+              d="M0,80 L0,40 C120,10 200,55 320,40 C440,25 520,5 640,18 C760,30 840,55 960,42 C1080,30 1180,8 1300,22 C1380,32 1420,50 1440,40 L1440,80 Z"
+              fill={bridgeTo}
+            />
+          </svg>
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ───────── PAGE ───────── */
+
+function useDecorScroll() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const reduce =
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const els = Array.from(document.querySelectorAll<HTMLElement>(".decor-crane, .decor-branch"));
+    if (els.length === 0) return;
+
+    if (reduce) {
+      els.forEach((el) => {
+        el.style.setProperty("--scroll-scale", "1");
+        el.style.setProperty("--scroll-y", "0px");
+        el.style.opacity = "0.7";
+      });
+      return;
+    }
+
+    let ticking = false;
+    const update = () => {
+      const wh = window.innerHeight;
+      for (const el of els) {
+        const section = el.closest("section");
+        if (!section) continue;
+        const rect = section.getBoundingClientRect();
+        const progress = (wh - rect.top) / (wh + rect.height);
+
+        let scale = 1;
+        let y = 30;
+        let opacity = 0;
+
+        if (progress < 0 || progress > 1.8) {
+          // off — leave defaults (0 opacity, base scale)
+        } else if (progress <= 0.4) {
+          const t = progress / 0.4;
+          scale = 1 + 0.35 * t;
+          opacity = t * 0.85;
+          y = 30 * (1 - t);
+        } else if (progress <= 0.8) {
+          scale = 1.35;
+          opacity = 0.85;
+          y = 0;
+        } else {
+          const t = Math.min((progress - 0.8) / 0.6, 1);
+          scale = Math.max(1.35 - 0.7 * t, 0.65);
+          opacity = Math.max(0.85 * (1 - t), 0);
+          y = -40 * t;
+        }
+
+        el.style.setProperty("--scroll-scale", scale.toFixed(3));
+        el.style.setProperty("--scroll-y", `${y.toFixed(1)}px`);
+        el.style.opacity = opacity.toFixed(3);
+      }
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+}
+
+export default function Index() {
+  useDecorScroll();
+
+  const refCloudRight = useRef<HTMLDivElement>(null);
+  const [targetCloudRight, setTargetCloudRight] = useState<HTMLDivElement | null>(null);
+  useEffect(() => {
+    setTargetCloudRight(refCloudRight.current);
+  }, []);
+
+  const { scrollYProgress: scrollCloudRight } = useScroll({
+    target: targetCloudRight ? { current: targetCloudRight } : undefined,
+    offset: ["start end", "end start"],
+  });
+  const xCloudRight = useTransform(scrollCloudRight, [0, 1], ["0vw", "-22vw"]);
+  const yCloudRight = useTransform(scrollCloudRight, [0, 1], [-80, 40]);
+
+  return (
+    <main className="relative min-h-screen w-full overflow-x-hidden text-slate-900 bg-white">
+      <Nav />
+
+      {/* Scattered Margin Accent Cranes across the pages (visible in the side gutters on desktop) */}
+      <MarginCrane
+        src={craneAccent1}
+        top="4%"
+        side="left"
+        offset="3%"
+        size={42}
+        rotate={-10}
+        dur={6.5}
+        delay={0.2}
+      />
+      <MarginCrane
+        src={craneAccent2}
+        top="9%"
+        side="right"
+        offset="2.5%"
+        size={34}
+        rotate={15}
+        dur={5.5}
+        delay={0.8}
+      />
+      <MarginCrane
+        src={craneAccent1}
+        top="15%"
+        side="left"
+        offset="8%"
+        size={30}
+        rotate={-5}
+        dur={7}
+        delay={1.4}
+      />
+
+      {/* Static branch on right edge (big size, static scroll-parallax only, no bobbing animation) */}
+      <div
+        aria-hidden
+        className="decor-branch -right-12 w-[38vw] max-w-[480px] z-[1] hidden md:block"
+        style={{
+          top: "28%",
+          ["--base-rotate" as never]: "6deg",
+        }}
+      >
+        <img
+          src="/Untitled design (21).svg"
+          alt=""
+          className="w-full h-auto opacity-85"
+          style={{ transform: "scaleX(-1)" }}
+        />
+      </div>
+
+      <div
+        className="w-full relative overflow-x-hidden"
+        style={{
+          backgroundColor: "#fff",
+          backgroundImage: "url('/hero-bg.png')",
+          backgroundSize: "100% auto",
+          backgroundPosition: "top center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <HeroAtmosphere />
+
+        {/* ── Cloud SVG layer — at 70% of hero viewport height, spans into collaboration ── */}
+        <div
+          aria-hidden
+          className="absolute left-1/2 -translate-x-1/2 pointer-events-none z-[2]"
+          style={{ width: "260vw", top: "70vh" }}
+        >
+          <img
+            src="/Untitled design (39).svg"
+            alt=""
+            className="w-full h-auto"
+            style={{
+              filter: "brightness(1.08) contrast(1.0)",
+              opacity: 0.92,
+              transform: "scaleY(0.7)",
+              transformOrigin: "top center",
+            }}
+          />
+        </div>
+
+        {/* BLOCK 1 — Hero */}
+        <Hero />
+
+        {/* NEW SECTION — Collaboration Logos */}
+        <Collaboration />
+
+        {/* Spacer between collaboration and cards */}
+        <div className="h-16 md:h-24" />
+
+        {/* HOW IT WORKS — cards over the gradient */}
+        <HowItWorks />
+      </div>
+
+      {/* BLOCK 2 — Mood / Accordion (seamless white continuation) */}
+      <Block bg="#FFFFFF">
+        <MoodGate />
+        <MindAccordion />
+      </Block>
+
+      {/* BLOCK 3 — Features (peach/lavender). Bridge: matching the previous block's background */}
+      <Block bg={COLOR.peach} bridgeFrom="#FFFFFF">
+        {/* Large decorative illustration at the wave line intersection */}
+        <div
+          aria-hidden
+          className="pointer-events-none select-none absolute hidden xl:block"
+          style={{
+            right: "-16%",
+            top: "-260px",
+            width: "48vw",
+            maxWidth: 680,
+            zIndex: 1,
+            overflow: "hidden",
+          }}
+        >
+          {/* Clip wrapper hides the bottom branch endings */}
+          <div style={{ overflow: "hidden", paddingBottom: 0 }}>
+            <img
+              src="/Untitled design (34).svg"
+              alt=""
+              className="w-full h-auto object-contain object-top"
+              style={{
+                maxHeight: "90vh",
+                objectFit: "contain",
+                objectPosition: "top center",
+                mixBlendMode: "multiply",
+                opacity: 0.85,
+              }}
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <CraneFlock
+          side="left"
+          className="top-6 h-24 z-[3]"
+          birds={[
+            {
+              src: babaCrane2,
+              top: "0px",
+              off: "6%",
+              w: "w-10",
+              dur: 8,
+              blur: true,
+              opacity: 0.55,
+            },
+            {
+              src: craneFlockA,
+              top: "20px",
+              off: "14%",
+              w: "w-16",
+              dur: 7,
+              delay: 0.4,
+              opacity: 0.85,
+            },
+            { src: babaCrane1, top: "52px", off: "24%", w: "w-20", dur: 9, delay: 0.9 },
+          ]}
+        />
+        <BentoFeatures />
+        <FeatureHighlight />
+        <Ecosystem />
+      </Block>
+
+      {/* BLOCK 4 — Stories / Proof / Blog / CTA (white). Bridge: peach canopy spilling down. */}
+      <Block bg="#FFFFFF" topBranch>
+        {/* Decorative Right Cloud — inserts into right edge, slides out on scroll, no back edge visible */}
+        <motion.div
+          ref={refCloudRight}
+          aria-hidden
+          className="pointer-events-none select-none absolute hidden md:block"
+          style={{
+            right: "-26vw",
+            top: "-150px",
+            width: "56vw",
+            maxWidth: 750,
+            x: xCloudRight,
+            y: yCloudRight,
+            opacity: 0.85,
+            zIndex: 10,
+          }}
+        >
+          <img
+            src="/Untitled design (35).svg"
+            alt=""
+            className="w-full h-auto object-contain"
+            loading="lazy"
+          />
+        </motion.div>
+        <CraneFlock
+          side="right"
+          className="top-8 h-28 z-[3]"
+          birds={[
+            {
+              src: babaCrane2,
+              top: "0px",
+              off: "4%",
+              w: "w-12",
+              dur: 7.5,
+              blur: true,
+              opacity: 0.6,
+            },
+            {
+              src: craneFlockB,
+              top: "26px",
+              off: "12%",
+              w: "w-16",
+              dur: 8,
+              delay: 0.3,
+              opacity: 0.8,
+            },
+            { src: babaCrane1, top: "58px", off: "22%", w: "w-24", dur: 9, delay: 0.7 },
+            {
+              src: craneFlockA,
+              top: "92px",
+              off: "32%",
+              w: "w-12",
+              dur: 8.5,
+              delay: 1.1,
+              opacity: 0.75,
+            },
+          ]}
+        />
+        <Testimonials />
+        <WhatStudentsCarry />
+        <Blog />
+        <ClosingCTA />
+      </Block>
+
+      {/* BLOCK 5 — Footer (sage). */}
+      <Footer />
+    </main>
+  );
+}
