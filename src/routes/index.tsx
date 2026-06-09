@@ -1,11 +1,13 @@
 // Next.js page component
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import {
   Brain,
   Leaf,
   MessagesSquare,
   ArrowUpRight,
+  ArrowRight,
   ShieldCheck,
   Users,
   Plus,
@@ -20,6 +22,11 @@ import {
   Heart,
   ClipboardCheck,
   Stethoscope,
+  CloudLightning,
+  BatteryLow,
+  CloudOff,
+  Cloud,
+  Sun,
 } from "lucide-react";
 import Testimonials from "../components/ui/testimonials";
 const babaCrane1 = "/assets/baba-crane-1.svg";
@@ -437,67 +444,216 @@ function CloudBridge({ fill, flip = false }: { fill: string; flip?: boolean }) {
 
 /* ───────── NAV ───────── */
 
-function Nav() {
-  const [open, setOpen] = useState(false);
+type DropdownCol = {
+  header?: string;
+  items: { label: string; href: string }[];
+};
 
-  const links = [
-    { href: "#about", label: "About us" },
-    { href: "#announcement", label: "Announcement" },
-    { href: "#services", label: "Services" },
-    { href: "#resources", label: "Resources" },
-  ];
+type NavDropdownData = {
+  label: string;
+  href: string;
+  dropdown?: {
+    columns: DropdownCol[];
+  };
+};
+
+const navItemsData: NavDropdownData[] = [
+  {
+    label: "Announcements",
+    href: "/announcements",
+    dropdown: {
+      columns: [
+        {
+          items: [
+            { label: "Blog", href: "/blog" },
+            { label: "Announcements", href: "/announcements" },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    label: "About Us",
+    href: "#about",
+    dropdown: {
+      columns: [
+        {
+          header: "ABOUT PEACE CODE",
+          items: [
+            { label: "About Peace Code", href: "#about" },
+            { label: "Our Team", href: "#team" },
+            { label: "Careers", href: "/careers" },
+            { label: "Media", href: "#media" },
+            { label: "Contact", href: "/contact" },
+            { label: "FAQs", href: "/faq" },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    label: "Services",
+    href: "#services",
+    dropdown: {
+      columns: [
+        {
+          header: "CORE CARE",
+          items: [
+            { label: "Counseling", href: "#" },
+            { label: "Experts", href: "#" },
+            { label: "Screening", href: "#" },
+            { label: "AI Support", href: "#" },
+          ],
+        },
+        {
+          header: "WELLNESS TOOLS",
+          items: [
+            { label: "Breathe", href: "/breathe" },
+            { label: "Focus", href: "/focus" },
+            { label: "Gratitude", href: "/gratitude" },
+            { label: "Journal", href: "#" },
+            { label: "Community", href: "#" },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    label: "Resources",
+    href: "/resources",
+  },
+];
+
+function NavItem({ item, scrolled }: { item: NavDropdownData; scrolled: boolean }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <a
+        href={item.href}
+        className={`relative px-5 py-2.5 rounded-full transition-all duration-500 font-medium inline-block tracking-wide ${
+          hovered 
+            ? "bg-[#E2D9FF] text-slate-900 drop-shadow-none" 
+            : scrolled 
+              ? "text-slate-900 hover:text-slate-600 drop-shadow-none" 
+              : "text-white hover:text-white/80"
+        }`}
+      >
+        {item.label}
+      </a>
+      
+      <AnimatePresence>
+        {hovered && item.dropdown && (
+          <motion.div
+            initial={{ opacity: 0, y: 15, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 15, scale: 0.96 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] bg-white/95 backdrop-blur-2xl border border-white/60 shadow-[0_12px_40px_rgba(0,0,0,0.08)] rounded-[1.5rem] p-7 flex gap-10 before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-transparent"
+          >
+            {item.dropdown.columns.map((col, i) => (
+              <div key={i} className="flex flex-col min-w-[140px]">
+                {col.header && (
+                  <span className="text-[11px] uppercase tracking-[0.2em] font-bold mb-4 drop-shadow-none text-slate-500 transition-colors duration-500">
+                    {col.header}
+                  </span>
+                )}
+                <div className="flex flex-col gap-3.5">
+                  {col.items.map((sub) => (
+                    <a
+                      key={sub.label}
+                      href={sub.href}
+                      className="text-[15px] font-medium transition-colors duration-500 whitespace-nowrap drop-shadow-none text-slate-800 hover:text-[#1E3A8A]"
+                    >
+                      {sub.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export function Nav() {
+  const [open, setOpen] = useState(false);
+  const [scrollPos, setScrollPos] = useState(false);
+  const pathname = usePathname();
+  
+  const isMainPage = pathname === "/";
+  const scrolled = isMainPage ? scrollPos : true;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPos(window.scrollY > 40);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <motion.header
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="absolute top-0 inset-x-0 z-50"
+      className={`fixed inset-x-0 z-50 transition-all duration-500 flex flex-col items-stretch ${
+        scrolled ? "top-4 px-4 md:px-8" : "top-0 px-0"
+      }`}
     >
-      <div
-        className="mx-auto flex items-center justify-between px-8 md:px-12 lg:px-16 py-5"
-        style={{ maxWidth: 1400 }}
+      <motion.div
+        layout
+        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        className={`mx-auto flex items-center justify-between transition-all duration-500 ${
+          scrolled
+            ? "w-full max-w-[1600px] bg-white/30 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_rgba(255,255,255,0.15)] py-4 px-8 md:px-12 rounded-[2rem]"
+            : "w-full max-w-[1400px] bg-transparent py-5 px-8 md:px-12 lg:px-16 rounded-none border-transparent"
+        }`}
       >
-        <a href="#" className="flex items-center group shrink-0">
-          <img src="/nav bar logo.svg" alt="PeaceCode" className="h-7 w-auto object-contain" />
-        </a>
+        <motion.a layout href="/" className="flex items-center group shrink-0">
+          <img src="/nav bar logo.svg" alt="PeaceCode" className={`h-7 w-auto object-contain transition-all duration-500 ${scrolled ? "brightness-0" : "drop-shadow-sm"}`} />
+        </motion.a>
 
-        <nav className="hidden md:flex items-center gap-8 lg:gap-12 text-[15px] font-medium tracking-wide text-white">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="relative py-1 hover:text-white/80 transition-colors"
-            >
-              {l.label}
-            </a>
+        <motion.nav layout className="hidden md:flex items-center gap-2 lg:gap-4 text-[15px] transition-colors duration-500">
+          {navItemsData.map((item) => (
+            <NavItem key={item.href} item={item} scrolled={scrolled} />
           ))}
-        </nav>
+        </motion.nav>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <button className="hidden sm:inline-flex items-center rounded-full px-6 py-2.5 text-[14px] font-medium text-white border border-white/60 hover:bg-white/10 transition-all duration-300">
-            Sign In
+        <motion.div layout className="flex items-center shrink-0">
+          <button className={`hidden sm:inline-flex items-center rounded-full px-6 py-2.5 text-[14px] font-medium transition-all duration-500 ${scrolled ? "bg-slate-900 text-white shadow-sm hover:bg-slate-800" : "bg-white text-slate-900 hover:bg-white/90 shadow-sm"}`}>
+            Log In
+          </button>
+
+          <button className={`sm:hidden inline-flex items-center rounded-full px-5 py-2 text-[14px] font-medium transition-all duration-500 mr-2 ${scrolled ? "bg-slate-900 text-white shadow-sm hover:bg-slate-800" : "bg-white text-slate-900 shadow-sm"}`}>
+            Log In
           </button>
 
           <button
             onClick={() => setOpen((o) => !o)}
             aria-label="Toggle menu"
-            className="md:hidden w-9 h-9 rounded-full flex items-center justify-center text-white"
+            className={`md:hidden w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-500 ${scrolled ? "text-slate-900" : "text-white"}`}
           >
             {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Mobile dropdown */}
       <motion.div
         initial={false}
         animate={open ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="md:hidden overflow-hidden bg-white/85 backdrop-blur-xl border-t border-white/40 mt-2 mx-3 rounded-2xl"
+        className="md:hidden overflow-hidden bg-white/85 backdrop-blur-xl border border-white/40 mt-2 mx-auto w-full max-w-[1400px] rounded-2xl shadow-lg"
       >
         <div className="px-6 py-4 flex flex-col gap-3 text-slate-900">
-          {links.map((l) => (
+          {navItemsData.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -507,8 +663,8 @@ function Nav() {
               {l.label}
             </a>
           ))}
-          <button className="sm:hidden rounded-full px-5 py-2.5 text-sm font-medium mt-2 self-start text-slate-900 border border-slate-200">
-            Sign In
+          <button className="sm:hidden rounded-full px-5 py-2.5 text-sm font-medium mt-2 self-start bg-slate-900 text-white">
+            Log In
           </button>
         </div>
       </motion.div>
@@ -534,86 +690,71 @@ function Hero() {
     >
       {/* ── Birds in diagonal formation (upper-right to lower-left, like baba) ── */}
 
-      {/* Bird 1 — top-right corner, small */}
-      <motion.div
-        animate={{ y: [-4, 5, -4], x: [0, -6, 0] }}
-        transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
-        className="absolute z-[5] pointer-events-none select-none"
-        style={{ top: "8%", right: "8%" }}
-      >
-        <img
-          src="/Untitled design (42).svg"
-          alt=""
-          style={{
-            width: "clamp(70px, 7vw, 110px)",
-            filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
-          }}
-        />
-      </motion.div>
+      {/* Bird 1 deleted as per user request to avoid nav bar collision */}
 
-      {/* Bird 2 — upper-right, below and left of Bird 1 */}
+      {/* Bird 2 — top right edge */}
       <motion.div
         animate={{ y: [-3, 5, -3], x: [0, -8, 0] }}
         transition={{ repeat: Infinity, duration: 8.5, ease: "easeInOut", delay: 0.5 }}
         className="absolute z-[5] pointer-events-none select-none"
-        style={{ top: "22%", right: "18%" }}
+        style={{ top: "15%", right: "5%" }}
       >
         <img
-          src="/Untitled design (41).svg"
+          src="/Untitled design (42).svg"
           alt=""
           style={{
-            width: "clamp(90px, 9vw, 140px)",
+            width: "clamp(80px, 8vw, 110px)",
             filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
           }}
         />
       </motion.div>
 
-      {/* Bird 3 — center-right, continuing the diagonal */}
+      {/* Bird 3 — mid right */}
       <motion.div
         animate={{ y: [-5, 4, -5], x: [0, -6, 0] }}
         transition={{ repeat: Infinity, duration: 9, ease: "easeInOut", delay: 1.0 }}
         className="absolute z-[5] pointer-events-none select-none"
-        style={{ top: "40%", right: "28%" }}
+        style={{ top: "45%", right: "10%" }}
       >
         <img
           src="/Untitled design (42).svg"
           alt=""
           style={{
-            width: "clamp(100px, 10vw, 160px)",
+            width: "clamp(90px, 9vw, 120px)",
             filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
           }}
         />
       </motion.div>
 
-      {/* Bird 4 — center, largest bird */}
+      {/* Bird 4 — bottom right-center (below button) */}
       <motion.div
         animate={{ y: [-3, 6, -3], x: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 1.5 }}
         className="absolute z-[5] pointer-events-none select-none"
-        style={{ top: "55%", left: "35%" }}
+        style={{ top: "82%", right: "30%" }}
       >
         <img
           src="/Untitled design (41).svg"
           alt=""
           style={{
-            width: "clamp(110px, 12vw, 180px)",
+            width: "clamp(120px, 13vw, 190px)",
             filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
           }}
         />
       </motion.div>
 
-      {/* Bird 5 — lower-left area */}
+      {/* Bird 5 — bottom left */}
       <motion.div
         animate={{ y: [-4, 3, -4], x: [0, 6, 0] }}
         transition={{ repeat: Infinity, duration: 8, ease: "easeInOut", delay: 0.8 }}
         className="absolute z-[5] pointer-events-none select-none"
-        style={{ top: "68%", left: "20%" }}
+        style={{ top: "85%", left: "15%" }}
       >
         <img
           src="/Untitled design (42).svg"
           alt=""
           style={{
-            width: "clamp(85px, 8.5vw, 136px)",
+            width: "clamp(100px, 10vw, 140px)",
             filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
           }}
         />
@@ -636,12 +777,12 @@ function Hero() {
             hidden: {},
             show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
           }}
-          className="font-serif font-normal tracking-tight leading-[1.08] text-white text-[3.2rem] sm:text-[4rem] md:text-[4.5rem] lg:text-[5.5rem]"
+          className="font-serif font-normal tracking-tight leading-[1.08] text-white text-4xl sm:text-[3.5rem] md:text-[4rem] lg:text-[4.8rem]"
         >
           {[
-            { w: "Being a", br: true },
-            { w: "student is", br: true },
-            { w: "hard.", br: false, italic: true },
+            { w: "Find your peace", br: true },
+            { w: "with ", br: false },
+            { w: "PeaceCode.", br: false, italic: true },
           ].map(({ w, br, italic }, i) => (
             <span key={i} className="inline-block align-bottom">
               <motion.span
@@ -666,10 +807,10 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-8 text-white/85 text-base md:text-lg leading-relaxed max-w-md mx-auto font-normal"
+          className="mt-6 text-white/90 text-[16px] sm:text-[17px] leading-[1.5] max-w-md mx-auto font-normal drop-shadow-sm"
         >
-          Imagine a quiet companion guiding you through it —{" "}
-          <em className="font-display text-white">free for students.</em>
+          Imagine a quiet companion guiding you through it —<br/>
+          <em className="font-display italic text-white/90 text-[17px] sm:text-[18px]">free for students.</em>
         </motion.p>
 
         <motion.div
@@ -678,10 +819,12 @@ function Hero() {
           transition={{ duration: 0.9, delay: 0.3 }}
           className="mt-10 flex justify-center"
         >
-          <button className="group inline-flex items-center gap-3 rounded-full border border-slate-800 bg-white px-7 py-3.5 text-[15px] font-medium text-slate-800 hover:bg-slate-50 transition-all duration-300 hover:-translate-y-0.5">
-            Get started
-            <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-800 group-hover:bg-slate-700 transition-colors">
-              <ArrowUpRight className="w-3.5 h-3.5 text-white" />
+          <button className="group inline-flex items-center gap-3 rounded-[18px] border border-transparent bg-white px-8 py-4 sm:px-10 sm:py-4 transition-all duration-300 hover:shadow-lg shadow-sm hover:-translate-y-0.5">
+            <span className="text-[17px] sm:text-[18px] font-medium text-slate-900 tracking-tight">
+              Match with an expert
+            </span>
+            <span className="inline-flex items-center justify-center bg-transparent transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">
+              <img src="/nav bar logo.svg" alt="PeaceCode" className="w-[18px] h-[18px] object-contain brightness-0" />
             </span>
           </button>
         </motion.div>
@@ -695,14 +838,40 @@ function Hero() {
 function Collaboration() {
   const ref = useRef<HTMLDivElement>(null);
 
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  // Translates left by 160px as user scrolls down, revealing ~70% of the 704px image
+  const slideInX = useTransform(scrollYProgress, [0, 1], ["0px", "-160px"]);
+
   return (
     <section
       ref={ref}
-      className="relative w-full overflow-hidden pt-56 pb-16 md:pt-72 md:pb-20 px-6 md:px-10 flex flex-col items-center justify-center"
+      className="relative w-full pt-[180px] pb-16 md:pt-[350px] lg:pt-[450px] md:pb-20 px-6 md:px-10 flex flex-col items-center justify-center overflow-visible"
       style={{ zIndex: 5 }}
     >
+      {/* Scroll-animated right-edge image as per Builder layout */}
+      <motion.div
+        aria-hidden
+        className="absolute pointer-events-none select-none z-0 hidden md:block"
+        style={{
+          width: "704px",
+          bottom: "-18px",
+          right: "-376px",
+          x: slideInX,
+        }}
+      >
+        <img
+          src="/6hJMdyZmB1ZzlX6REYIXYMeVWf0 (2).avif"
+          alt=""
+          className="w-full h-auto object-cover"
+        />
+      </motion.div>
+
       {/* Centered text */}
-      <h3 className="font-sans text-[13px] tracking-[0.25em] uppercase text-slate-500 font-medium mb-10 text-center relative z-10">
+      <h3 className="font-sans text-[18px] md:text-[20px] text-[#333333] font-normal mb-8 text-center relative z-10">
         In collaboration with
       </h3>
 
@@ -753,17 +922,24 @@ function HowItWorks() {
   ];
 
   return (
-    <section className="relative pt-8 pb-28 md:pt-10 md:pb-32 px-6 md:px-10 overflow-visible">
+    <section 
+      className="relative pt-8 pb-28 md:pt-10 md:pb-32 px-6 md:px-10 overflow-visible"
+      style={{
+        backgroundImage: "url('/section3-bg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <motion.div {...reveal} className="relative z-20 mx-auto max-w-6xl -mt-16 md:-mt-24">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <p className="text-[11px] tracking-[0.35em] uppercase text-white/60 mb-5">
-            How PeaceCode works
-          </p>
-          <h2 className="font-serif text-4xl md:text-5xl text-white font-light tracking-tight leading-[1.1]">
-            Three small steps, <span className="font-display italic">no pressure.</span>
+          <h2 className="font-serif text-4xl md:text-[44px] text-[#333333] font-normal tracking-tight leading-[1.2]">
+            How PeaceCode <span className="font-display italic text-[#3c5e8b]">works</span>
           </h2>
-          <p className="mt-5 font-display italic text-white/50 text-base">Just support.</p>
+          <p className="mt-4 font-sans text-[#333333] text-[16px] md:text-[18px]">
+            Your advocate will do whatever it takes to get you the care you deserve.
+          </p>
         </div>
 
         {/* Image Cards */}
@@ -806,30 +982,94 @@ function HowItWorks() {
   );
 }
 
-/* ───────── MOOD GATE ───────── */
+const moodData = [
+  {
+    icon: CloudLightning,
+    label: "Overwhelmed",
+    question: "Too much noise?",
+    color: "rgba(255, 150, 150, 0.15)", // Very soft, transparent red
+    heading: "It's okay to feel overwhelmed.",
+    subheading: "Everything feels like too much right now. Let's just take the next tiny step.",
+    cards: [
+      { icon: Wind, title: "60-Second Grounding", text: "Box-breathing to slow your heart rate." },
+      { icon: MessagesSquare, title: "Emergency Vent", text: "Talk to Peace Bot. No judgment, just listening." },
+      { icon: Users, title: "Peer Support", text: "Read stories from students feeling the exact same way." }
+    ]
+  },
+  {
+    icon: BatteryLow,
+    label: "Exhausted",
+    question: "Running on empty?",
+    color: "rgba(150, 200, 255, 0.15)", // Soft blue
+    heading: "Running on empty.",
+    subheading: "You've been pushing too hard. It's time to let yourself rest.",
+    cards: [
+      { icon: Heart, title: "Low-Energy Reset", text: "A 3-minute guided rest. You don't have to do anything." },
+      { icon: Leaf, title: "Gentle Journaling", text: "Drop one sentence about today. No pressure." },
+      { icon: Clock, title: "Schedule a Break", text: "Lock your apps for 30 minutes and just breathe." }
+    ]
+  },
+  {
+    icon: CloudOff,
+    label: "Numb",
+    question: "Feeling disconnected?",
+    color: "rgba(220, 180, 255, 0.15)", // Soft purple
+    heading: "Just... existing.",
+    subheading: "Feeling disconnected or unmotivated. Let's find a tiny spark.",
+    cards: [
+      { icon: ClipboardCheck, title: "Tiny Check-in", text: "A 2-minute assessment to see where you're at." },
+      { icon: Brain, title: "Brain Dump", text: "Write out whatever is floating in your head." },
+      { icon: Heart, title: "Gratitude Wall", text: "Read small wins from other students to feel connected." }
+    ]
+  },
+  {
+    icon: Cloud,
+    label: "Okay",
+    question: "Just floating by?",
+    color: "rgba(180, 230, 180, 0.15)", // Soft green
+    heading: "Doing alright.",
+    subheading: "You're managing. Let's keep the balance.",
+    cards: [
+      { icon: Clock, title: "Focus Timer", text: "Get into deep work with gentle Pomodoro intervals." },
+      { icon: Leaf, title: "Daily Reflection", text: "Log what's working well for you today." },
+      { icon: Brain, title: "Mindful Prep", text: "Prepare for your next lecture with a clear head." }
+    ]
+  },
+  {
+    icon: Sun,
+    label: "Good",
+    question: "Catching rays?",
+    color: "rgba(255, 215, 140, 0.15)", // Soft gold
+    heading: "Riding the wave.",
+    subheading: "You've got this. Let's capture this energy.",
+    cards: [
+      { icon: Heart, title: "Record a Win", text: "Post on the Gratitude Wall to lift others up." },
+      { icon: Users, title: "Support a Peer", text: "Hop into a community room and spread some light." },
+      { icon: Clock, title: "Flow State", text: "Use the focus timer to crush your hardest task." }
+    ]
+  }
+];
 
 function MoodGate() {
-  const moods = [
-    {
-      icon: Brain,
-      title: "Reflect",
-      text: "Vent safely. Untangle thoughts before the next lecture.",
-    },
-    {
-      icon: Leaf,
-      title: "Practice",
-      text: "Tiny rituals for sleep, focus, and the breath between exams.",
-    },
-    {
-      icon: MessagesSquare,
-      title: "Connect",
-      text: "Anonymous peer rooms with students who actually get it.",
-    },
-  ];
-  const moodEmojis = ["😔", "😕", "😐", "🙂", "😊"];
+  const [activeMood, setActiveMood] = useState<number | null>(null);
+  const [hoveredMood, setHoveredMood] = useState<number | null>(null);
+  const current = activeMood !== null ? moodData[activeMood] : null;
 
   return (
-    <section id="mood" className="relative py-28 md:py-32 px-6 md:px-10 overflow-visible">
+    <section id="mood" className="relative py-28 md:py-36 px-6 md:px-10 overflow-hidden transition-colors duration-1000">
+      {/* 
+        Dynamic Background Glow
+        Instead of a full inset radial gradient which clashes with borders, 
+        we use a massively blurred div placed centrally so its edges naturally feather to transparent. 
+      */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] blur-[140px] rounded-full pointer-events-none z-0"
+        animate={{
+          backgroundColor: current ? current.color : "rgba(243,244,246,0.4)"
+        }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+      />
+      
       {/* Decorative Right Branch */}
       <AvifBleed
         src={branchLarge}
@@ -844,63 +1084,134 @@ function MoodGate() {
         yRange={[0, -60]}
       />
 
-      <motion.div {...reveal} className="relative z-20 mx-auto max-w-6xl text-center">
-        <p className="text-[11px] tracking-[0.35em] uppercase text-slate-600 mb-5">The mood gate</p>
-        <h2 className="font-serif text-4xl md:text-6xl text-slate-900 font-light leading-[1.05] tracking-tight">
-          What feels heavy <span className="font-display italic">today?</span>
-        </h2>
-        <p className="mt-6 text-slate-700 max-w-xl mx-auto font-light leading-relaxed">
-          No diagnosis. No forms. Pick the door that feels right this minute — you can change your
-          mind whenever.
-        </p>
+      <div className="relative z-20 mx-auto max-w-6xl text-center">
+        <p className="text-[11px] tracking-[0.35em] uppercase text-slate-500 font-semibold mb-12">The mood gate</p>
+        
+        {/* Interactive Minimalist Bar */}
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-20">
+          {moodData.map((m, i) => {
+            const isActive = activeMood === i;
+            const isHovered = hoveredMood === i;
+            const Icon = m.icon;
 
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {moods.map((m, i) => (
-            <motion.button
-              key={m.title}
-              {...reveal}
-              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className="text-left rounded-3xl"
-            >
-              <GlassCard
-                surface="white"
-                className="p-8 h-full hover:border-slate-200 transition-colors duration-300"
+            return (
+              <div 
+                key={m.label} 
+                className="relative"
+                onMouseEnter={() => setHoveredMood(i)}
+                onMouseLeave={() => setHoveredMood(null)}
               >
-                <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-6">
-                  <m.icon className="w-5 h-5 text-slate-800" strokeWidth={1.5} />
-                </div>
-                <h3 className="font-serif text-2xl text-slate-900 font-semibold tracking-tight mb-2">
-                  {m.title}
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed font-medium">{m.text}</p>
-                <div className="mt-6 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.25em] text-slate-600">
-                  Open door <ArrowUpRight className="w-3.5 h-3.5" />
-                </div>
-              </GlassCard>
-            </motion.button>
-          ))}
+                {/* Cloud Tooltip */}
+                <AnimatePresence>
+                  {isHovered && !isActive && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 12, scale: 0.9 }}
+                      animate={{ opacity: 1, y: -6, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/90 backdrop-blur-xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.08)] px-4 py-2 z-30 pointer-events-none"
+                      style={{ borderRadius: "1.25rem" }}
+                    >
+                      <span className="text-[13px] font-medium font-serif text-slate-700 italic tracking-wide">{m.question}</span>
+                      <div className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white/90 border-b border-r border-slate-100 rotate-45 backdrop-blur-xl" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <motion.button
+                  onClick={() => setActiveMood(i)}
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.96 }}
+                  animate={{ 
+                    scale: isActive ? 1.05 : 1,
+                    y: isActive ? -4 : 0,
+                    backgroundColor: isActive ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.4)"
+                  }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  className={`flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-md shadow-sm border ${isActive ? 'border-[#8B98C6] shadow-md shadow-[#8B98C6]/10' : 'border-slate-200/60'} transition-all duration-300`}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#6B7CBB]' : 'text-slate-400'} transition-colors duration-300`} strokeWidth={isActive ? 2 : 1.5} />
+                  <span className={`text-[15px] font-serif tracking-wide ${isActive ? 'text-slate-900 font-medium' : 'text-slate-500 font-light'} transition-colors duration-300`}>
+                    {m.label}
+                  </span>
+                </motion.button>
+              </div>
+            );
+          })}
         </div>
 
-        <motion.div
-          {...reveal}
-          className="mt-14 inline-flex items-center gap-6 bg-white border border-slate-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.06)] rounded-full px-8 py-4"
-        >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-slate-700">
-            Quick check-in
-          </span>
-          <div className="flex items-center gap-3">
-            {moodEmojis.map((e, i) => (
-              <button
-                key={i}
-                className="liquid-glass-button flex h-11 w-11 items-center justify-center rounded-full text-xl grayscale opacity-80 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-300"
+        <div className="min-h-[460px]">
+          <AnimatePresence mode="wait">
+            {!current ? (
+              <motion.div
+                key="default"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
               >
-                {e}
-              </button>
-            ))}
-          </div>
-        </motion.div>
-      </motion.div>
+                <h2 className="font-serif text-4xl md:text-5xl text-slate-900 font-light leading-[1.05] tracking-tight mt-4">
+                  What feels heavy <span className="font-display italic text-slate-500">today?</span>
+                </h2>
+                <p className="mt-6 text-slate-600 max-w-xl mx-auto font-light leading-relaxed text-[17px]">
+                  No diagnosis. No forms. Pick the feeling that matches this minute — you can change your mind whenever.
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key={current.label}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="w-full"
+              >
+                <h2 className="font-serif text-4xl md:text-5xl text-slate-900 font-light leading-[1.05] tracking-tight mt-4">
+                  {current.heading.split(' ').slice(0, -1).join(' ')}{' '}
+                  <span className="font-display italic text-slate-500">{current.heading.split(' ').pop()}</span>
+                </h2>
+                <p className="mt-6 text-slate-600 max-w-xl mx-auto font-light leading-relaxed text-[17px]">
+                  {current.subheading}
+                </p>
+                
+                <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {current.cards.map((c, i) => (
+                    <motion.button
+                      key={c.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.1 + i * 0.1, type: "spring", damping: 25 }}
+                      whileHover={{ y: -6, scale: 1.02 }}
+                      className="text-left rounded-3xl w-full group"
+                    >
+                      <GlassCard
+                        surface="white"
+                        className="p-8 h-full border border-slate-100 hover:border-slate-200 transition-colors duration-500 shadow-sm flex flex-col relative overflow-hidden"
+                      >
+                        {/* Soft hover glow behind icon inside card */}
+                        <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#8B98C6]/5 blur-3xl rounded-full group-hover:bg-[#8B98C6]/10 transition-colors duration-700 pointer-events-none" />
+
+                        <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100/60 shadow-sm flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
+                          <c.icon className="w-5 h-5 text-slate-600 group-hover:text-[#6B7CBB] transition-colors duration-300" strokeWidth={1.5} />
+                        </div>
+                        <h3 className="font-serif text-xl text-slate-900 font-medium tracking-tight mb-3">
+                          {c.title}
+                        </h3>
+                        <p className="text-[14px] text-slate-500 leading-relaxed font-light flex-1">
+                          {c.text}
+                        </p>
+                        <div className="mt-8 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] font-semibold text-slate-400 group-hover:text-[#6B7CBB] transition-colors duration-300">
+                          Try this <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                        </div>
+                      </GlassCard>
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
     </section>
   );
 }
@@ -1105,16 +1416,15 @@ function FeatureHighlight() {
               <br />
               important conversations
               <span className="font-display italic block mt-2 text-[34px] md:text-[38px] lg:text-[40px] font-normal text-[#93A8C1]">
-                before a word is spoken.
+                happen before a word is spoken.
               </span>
             </h2>
 
             <div className="space-y-3 text-slate-600 text-[14px] md:text-[15px] font-normal leading-relaxed max-w-sm">
               <p>
-                Nobody really teaches you how to share uncertainty. Or the feeling that everyone
-                else somehow has it figured out.
+                Nobody really teaches you how to share uncertainty, or how to navigate the feeling that everyone else somehow has it figured out.
               </p>
-              <p className="font-medium text-slate-800">PeaceCode exists for those moments.</p>
+              <p className="font-medium text-slate-800">PeaceCode exists for those exact moments.</p>
             </div>
 
             <div className="mt-8">
@@ -1155,7 +1465,7 @@ function Ecosystem() {
   ];
 
   return (
-    <section id="ecosystem" className="relative pt-[140px] pb-[140px] px-6 md:px-[80px]">
+    <section id="ecosystem" className="relative py-20 md:pt-[140px] md:pb-[140px] px-6 md:px-[80px]">
       <div className="relative z-20 mx-auto w-full">
         <motion.div {...reveal} className="text-center max-w-2xl mx-auto mb-[80px]">
           <p className="text-[11px] tracking-[0.35em] uppercase text-slate-700 mb-5">
@@ -1183,7 +1493,7 @@ function Ecosystem() {
                 alt="" 
                 className="h-[180px] w-auto object-contain mb-[40px] bg-transparent shadow-none" 
               />
-              <h3 className="font-serif text-[36px] font-medium text-slate-900 leading-[1.15] max-w-[420px] mx-auto mb-[24px]">
+              <h3 className="font-serif text-3xl md:text-[36px] font-medium text-slate-900 leading-[1.15] max-w-[420px] mx-auto mb-[24px]">
                 {c.title}
               </h3>
               <p className="text-slate-700 leading-[1.6] max-w-[380px] mx-auto mb-[40px]">
@@ -1246,11 +1556,30 @@ function WhatStudentsCarry() {
   return (
     <section
       id="struggles"
-      className="relative w-full py-32 md:py-44 px-6 md:px-[80px] overflow-visible"
+      className="relative w-full py-24 md:py-44 px-6 md:px-[80px] overflow-visible"
       style={{
         background: "linear-gradient(to bottom, #FFFFFF 0%, #F5F6FC 30%, #F5F6FC 70%, #FFFFFF 100%)",
       }}
     >
+      {/* Decorative illustration from Builder */}
+      <motion.div
+        aria-hidden
+        className="absolute pointer-events-none select-none z-10 hidden md:block"
+        style={{
+          width: "295px",
+          left: "-65px",
+          top: "80px", // Pushed down to sit nicely next to the "For every student's journey" text
+        }}
+        animate={{ y: [-5, 5, -5] }}
+        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+      >
+        <img
+          src="/Untitled design (37).svg"
+          alt=""
+          className="w-full h-auto"
+        />
+      </motion.div>
+
       <div className="relative z-20 mx-auto max-w-6xl">
         <div className="text-center max-w-4xl mx-auto mb-20">
           <p className="text-[11px] tracking-[0.4em] uppercase text-slate-500 font-bold mb-5 select-none">
@@ -1514,20 +1843,19 @@ function ClosingCTA() {
     <section
       className="relative pt-24 pb-44 px-6 md:px-10"
       style={{
-        background:
-          "linear-gradient(to bottom, #FAFAF8 0%, #FAFAF8 35%, #F6F4FA 55%, #F6F5FA 80%, #F3F1F8 100%)",
+        background: "transparent",
         overflow: "visible",
       }}
     >
       <AvifBleed
-        src={branchLarge}
+        src="/SbSqGCYAPE8Sz36boHNMBd7o2kY.avif"
         side="left"
-        top="6%"
-        width="32vw"
-        maxWidth={360}
-        opacity={0.55}
-        rotate={-30}
-        yRange={[0, -40]}
+        top="-10%"
+        width="36vw"
+        maxWidth={400}
+        opacity={0.85}
+        rotate={0}
+        yRange={[0, -60]}
       />
       <AvifBleed
         src={branchLarge}
@@ -1573,17 +1901,6 @@ function ClosingCTA() {
           </MagneticButton>
         </div>
       </motion.div>
-      {/* Melt into footer's lavender-white atmosphere */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-0 right-0 z-[1]"
-        style={{
-          bottom: -1,
-          height: 280,
-          background:
-            "linear-gradient(to bottom, transparent 0%, rgba(243,241,248,0.15) 30%, rgba(243,241,248,0.40) 55%, rgba(243,241,248,0.70) 75%, rgba(243,241,248,0.92) 100%)",
-        }}
-      />
     </section>
   );
 }
@@ -1595,58 +1912,60 @@ function BentoFeatures() {
     {
       icon: MessagesSquare,
       tag: "AI Chatbot",
-      title: "A companion that listens at 3 a.m.",
-      text: "Trained on student stress patterns. Never judges, never logs.",
-      span: "md:col-span-2 md:row-span-2",
+      title: "Meet Peace Bot: A companion that listens at 3 a.m.",
+      text: "Trained on student stress patterns to help you navigate anxiety, burnout, and academic pressure. Peace Bot never judges, never logs, and is always awake.",
+      bullets: ["Cognitive Behavioral framing", "Crisis escalation protocols", "100% private & anonymous"],
+      span: "md:col-span-7",
+      isBig: true,
+    },
+    {
+      icon: Users,
+      tag: "Community",
+      title: "Anonymous peer rooms",
+      text: "Text-first spaces, moderated 24/7. Connect with students who actually understand the pressure.",
+      span: "md:col-span-5",
+    },
+    {
+      icon: Stethoscope,
+      tag: "Therapists",
+      title: "Licensed humans, one tap away",
+      text: "Vetted clinical guides ready when you need to talk to a real professional. No waitlists.",
+      span: "md:col-span-5",
     },
     {
       icon: Leaf,
       tag: "Journal",
       title: "Guided journaling",
-      text: "Soft prompts when the page feels too blank.",
-      span: "md:col-span-2",
+      text: "Soft prompts when the page feels too blank. Document your journey without the pressure of a blank canvas.",
+      span: "md:col-span-7",
     },
     {
       icon: Wind,
       tag: "Breathing",
       title: "60-second resets",
       text: "Box-breathing, 4-7-8, and physiological sighs.",
-      span: "md:col-span-1",
+      span: "md:col-span-4",
     },
     {
       icon: Clock,
       tag: "Focus Timer",
       title: "Pomodoro, but kind",
       text: "Tiny breaks with breath cues built in.",
-      span: "md:col-span-1",
-    },
-    {
-      icon: Users,
-      tag: "Community",
-      title: "Anonymous peer rooms",
-      text: "Text-first spaces, moderated 24/7.",
-      span: "md:col-span-2",
+      span: "md:col-span-4",
     },
     {
       icon: Heart,
       tag: "Gratitude Wall",
       title: "A quiet wall of small wins",
-      text: "Anonymous, shared, kept light.",
-      span: "md:col-span-2",
+      text: "Anonymous, shared, kept light. Because waking up on time is a victory.",
+      span: "md:col-span-4",
     },
     {
       icon: ClipboardCheck,
       tag: "Screening",
-      title: "Validated assessments",
-      text: "PHQ-9, GAD-7 — kept private, on your device.",
-      span: "md:col-span-2",
-    },
-    {
-      icon: Stethoscope,
-      tag: "Therapists",
-      title: "Licensed humans, one tap away",
-      text: "Vetted clinical guides — no paperwork.",
-      span: "md:col-span-2",
+      title: "Validated clinical assessments",
+      text: "PHQ-9, GAD-7 — kept completely private and processed entirely on your local device.",
+      span: "md:col-span-12",
     },
   ];
 
@@ -1662,33 +1981,65 @@ function BentoFeatures() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 auto-rows-[220px] gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {features.map((f, i) => {
             const Icon = f.icon;
             return (
               <motion.div
                 key={f.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.7, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                className={`relative overflow-hidden p-7 ${f.span} liquid-glass-card transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(152,166,212,0.4)]`}
+                transition={{ duration: 0.8, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className={`group relative overflow-hidden p-7 md:p-9 ${f.span} transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between`}
+                style={{
+                  background: "rgba(255, 255, 255, 0.3)",
+                  backdropFilter: "blur(32px)",
+                  WebkitBackdropFilter: "blur(32px)",
+                  border: "1px solid rgba(255, 255, 255, 0.6)",
+                  boxShadow: "0 12px 40px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+                  borderRadius: "1.75rem",
+                }}
               >
-                <div className="pointer-events-none absolute -top-16 -right-16 w-56 h-56 rounded-full bg-white/50 blur-3xl" />
-                <div className="pointer-events-none absolute -bottom-16 -left-10 w-48 h-48 rounded-full bg-white/30 blur-3xl" />
-                <div className="relative flex flex-col h-full">
-                  <Icon className="w-6 h-6 text-[#8B98C6] mb-4" strokeWidth={1.75} />
-                  <span className="text-[10px] tracking-[0.3em] uppercase text-slate-700">
+                {/* Animated soft glow behind content */}
+                <div className="pointer-events-none absolute -top-24 -right-24 w-64 h-64 rounded-full bg-white/70 blur-[50px] group-hover:scale-125 transition-transform duration-1000" />
+                <div className="pointer-events-none absolute -bottom-24 -left-16 w-56 h-56 rounded-full bg-[#E2D9FF]/30 blur-[50px] group-hover:scale-125 transition-transform duration-1000" />
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  <motion.div 
+                    animate={{ y: [0, -8, 0] }} 
+                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: i * 0.2 }}
+                    className="mb-8 origin-left group-hover:scale-110 transition-transform duration-500"
+                  >
+                    <Icon className={`${f.isBig ? 'w-10 h-10' : 'w-8 h-8'} text-[#6B7CBB] drop-shadow-sm`} strokeWidth={1.5} />
+                  </motion.div>
+
+                  <span className="text-[10px] tracking-[0.3em] uppercase text-slate-500 font-semibold mb-4 block">
                     {f.tag}
                   </span>
-                  <h3 className="mt-3 font-serif text-2xl text-slate-900 font-semibold tracking-tight leading-snug">
+                  
+                  <h3 className={`font-serif text-slate-900 font-light tracking-tight leading-snug mb-4 ${f.isBig ? 'text-3xl md:text-4xl' : 'text-2xl md:text-[26px]'}`}>
                     {f.title}
                   </h3>
-                  <p className="mt-3 text-sm text-slate-700 leading-relaxed font-medium flex-1">
+                  
+                  <p className={`text-slate-600 leading-relaxed font-medium ${f.isBig ? 'text-[15px] mb-8' : 'text-sm mb-6'}`}>
                     {f.text}
                   </p>
-                  <div className="mt-4 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.25em] text-slate-800">
-                    Explore <ArrowUpRight className="w-3.5 h-3.5" />
+
+                  {f.bullets && (
+                    <ul className="mt-2 mb-10 flex flex-col gap-3">
+                      {f.bullets.map((b) => (
+                        <li key={b} className="flex items-center gap-2 text-[15px] text-slate-700 font-medium">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#8B98C6]" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <div className="mt-auto pt-2 flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] text-slate-800 font-semibold group-hover:text-[#6B7CBB] transition-colors">
+                    Explore 
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
                 </div>
               </motion.div>
@@ -1702,7 +2053,7 @@ function BentoFeatures() {
 
 /* ───────── FOOTER (sage, with campus illustration anchor) ───────── */
 
-function Footer() {
+export function Footer() {
   const columns: { h: string; links: string[] }[] = [
     {
       h: "About Us",
@@ -1737,79 +2088,49 @@ function Footer() {
   const glassPill =
     "inline-flex items-center gap-2 rounded-full text-[13px] font-normal px-5 py-2.5 transition-all duration-200";
   const glassPillStyle: React.CSSProperties = {
-    background: "rgba(255,255,255,0.08)",
-    border: "1px solid rgba(255,255,255,0.20)",
+    background: "rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(255, 255, 255, 0.25)",
     backdropFilter: "blur(12px)",
     WebkitBackdropFilter: "blur(12px)",
     color: "#FFF5EC",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
   };
   const socialStyle: React.CSSProperties = {
-    background: "rgba(255,255,255,0.08)",
-    border: "1px solid rgba(255,255,255,0.15)",
+    background: "rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(255, 255, 255, 0.25)",
     backdropFilter: "blur(12px)",
     WebkitBackdropFilter: "blur(12px)",
     color: "#FFF5EC",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
   };
   const badgeStyle: React.CSSProperties = {
-    background: "rgba(255,255,255,0.08)",
-    border: "1px solid rgba(255,255,255,0.15)",
-    color: "rgba(255,235,210,0.75)",
+    background: "rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(255, 255, 255, 0.25)",
+    color: "rgba(255, 235, 210, 0.9)",
     backdropFilter: "blur(8px)",
     WebkitBackdropFilter: "blur(8px)",
+    fontWeight: 500,
   };
 
   return (
-    <footer
-      className="relative z-0 w-full overflow-hidden"
-      style={{
-        backgroundImage: `url(${footerCampus})`,
-        backgroundSize: "cover",
-        backgroundPosition: "bottom center",
-        backgroundRepeat: "no-repeat",
-        minHeight: 280,
-        backgroundColor: "#F3F1F8",
-        marginTop: "-2px",
-      }}
-    >
-      {/* Top atmospheric dissolve — blends seamlessly with lavender page background */}
-      <div
-        aria-hidden
-        className="absolute top-0 left-0 right-0 z-[1] pointer-events-none"
-        style={{
-          height: 240,
-          background:
-            "linear-gradient(to bottom, #F3F1F8 0%, rgba(243,241,248,0.97) 10%, rgba(243,241,248,0.85) 25%, rgba(243,241,248,0.55) 45%, rgba(243,241,248,0.25) 65%, rgba(243,241,248,0.08) 80%, transparent 100%)",
-        }}
-      />
-
-      {/* Atmospheric depth overlay — text legibility without hiding the campus */}
-      <div
-        aria-hidden
-        className="absolute inset-0 z-[2] pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to bottom, transparent 0%, rgba(18,10,45,0.08) 12%, rgba(18,10,45,0.35) 22%, rgba(18,10,45,0.62) 35%, rgba(18,10,45,0.78) 50%, rgba(18,10,45,0.78) 65%, rgba(18,10,45,0.60) 80%, rgba(18,10,45,0.40) 100%)",
-        }}
-      />
-
+    <footer className="relative z-0 w-full min-h-[280px]">
       {/* Foreground content */}
       <div
         className="relative z-10 max-w-6xl mx-auto"
         style={{
-          paddingTop: 64,
+          paddingTop: 80,
           paddingBottom: 40,
           paddingLeft: "5%",
           paddingRight: "5%",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.15)",
         }}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* LEFT: hook + CTAs */}
           <div className="lg:col-span-5">
             <h2
-              className="mb-4 max-w-sm"
+              className="mb-4 max-w-sm font-serif"
               style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
                 fontWeight: 300,
                 fontSize: "clamp(38px, 5.5vw, 68px)",
                 lineHeight: 1.12,
@@ -1819,13 +2140,13 @@ function Footer() {
             >
               Find your
               <br />
-              <em style={{ fontStyle: "italic" }}>peace</em> of mind.
+              <em className="font-display text-[#E2D9FF]">peace</em> of mind.
             </h2>
             <p
               style={{
-                color: "rgba(255,235,210,0.70)",
-                fontSize: 15,
-                fontWeight: 300,
+                color: "rgba(255, 255, 255, 0.8)",
+                fontSize: 16,
+                fontWeight: 400,
               }}
               className="mb-8"
             >
@@ -1833,16 +2154,16 @@ function Footer() {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              <a href="#" className={glassPill} style={glassPillStyle}>
+              <a href="#" className={`${glassPill} hover:bg-white/20 transition-colors`} style={glassPillStyle}>
                 Get it on Google Play
               </a>
-              <a href="#" className={glassPill} style={glassPillStyle}>
+              <a href="#" className={`${glassPill} hover:bg-white/20 transition-colors`} style={glassPillStyle}>
                 Download on the App Store
               </a>
             </div>
 
             <button
-              className="mt-6 rounded-full text-[13px] font-normal px-5 py-2.5 transition-all duration-200"
+              className="mt-6 rounded-full text-[13px] font-normal px-6 py-2.5 hover:bg-white/20 transition-colors duration-300"
               style={glassPillStyle}
             >
               Login
@@ -1860,7 +2181,7 @@ function Footer() {
                       color: "#FFF5EC",
                       fontWeight: 500,
                       fontSize: 13,
-                      letterSpacing: "0.08em",
+                      letterSpacing: "0.1em",
                       textTransform: "uppercase",
                     }}
                   >
@@ -1869,11 +2190,11 @@ function Footer() {
                   {c.links.map((l) => (
                     <a
                       key={l}
-                      href="#"
-                      className={`${navLink} mb-2 block`}
-                      style={{ color: "rgba(255,235,210,0.65)" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,235,210,1)")}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,235,210,0.65)")}
+                      href={l === "Careers" ? "/careers" : l === "Contact Us" ? "/contact" : "#"}
+                      className={`${navLink} mb-2 block font-light`}
+                      style={{ color: "rgba(255, 255, 255, 0.7)" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = "#FFF5EC")}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255, 255, 255, 0.7)")}
                     >
                       {l}
                     </a>
@@ -1886,9 +2207,8 @@ function Footer() {
           {/* RIGHT: socials + badges */}
           <div className="lg:col-span-2">
             <p
-              className="mb-5"
+              className="mb-5 font-serif"
               style={{
-                fontFamily: "'Playfair Display', serif",
                 fontWeight: 300,
                 fontSize: 18,
                 lineHeight: 1.5,
@@ -1903,7 +2223,7 @@ function Footer() {
                   key={label}
                   href="#"
                   aria-label={label}
-                  className="flex items-center justify-center rounded-xl transition-all duration-200"
+                  className="flex items-center justify-center rounded-xl hover:bg-white/20 hover:-translate-y-1 transition-all duration-300"
                   style={{ ...socialStyle, width: 44, height: 44 }}
                 >
                   <Icon className="w-4 h-4" />
@@ -1912,22 +2232,22 @@ function Footer() {
             </div>
             <div className="flex flex-col gap-2">
               <span
-                className="inline-flex items-center justify-center rounded-full w-fit"
+                className="inline-flex items-center justify-center rounded-full w-fit shadow-sm"
                 style={{
                   ...badgeStyle,
                   fontSize: 11,
-                  letterSpacing: "0.06em",
+                  letterSpacing: "0.08em",
                   padding: "6px 14px",
                 }}
               >
                 ISO 27001
               </span>
               <span
-                className="inline-flex items-center justify-center rounded-full w-fit"
+                className="inline-flex items-center justify-center rounded-full w-fit shadow-sm"
                 style={{
                   ...badgeStyle,
                   fontSize: 11,
-                  letterSpacing: "0.06em",
+                  letterSpacing: "0.08em",
                   padding: "6px 14px",
                 }}
               >
@@ -1941,30 +2261,30 @@ function Footer() {
         <div className="mt-20 pt-6">
           <div
             className="flex flex-col md:flex-row justify-between items-center gap-3"
-            style={{ color: "rgba(255,235,210,0.40)", fontSize: 12 }}
+            style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: 12, fontWeight: 400 }}
           >
             <div>© 2026 Peace Code</div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
-              <a href="#" className="hover:text-[#FFF5EC] transition">
+              <a href="#" className="hover:text-[#FFF5EC] transition-colors">
                 Privacy Policy
               </a>
-              <a href="#" className="hover:text-[#FFF5EC] transition">
+              <a href="#" className="hover:text-[#FFF5EC] transition-colors">
                 Terms & Conditions
               </a>
-              <a href="#" className="hover:text-[#FFF5EC] transition">
+              <a href="#" className="hover:text-[#FFF5EC] transition-colors">
                 Cancellation Policy
               </a>
-              <a href="#" className="hover:text-[#FFF5EC] transition">
+              <a href="#" className="hover:text-[#FFF5EC] transition-colors">
                 Sitemap
               </a>
-              <a href="#" className="hover:text-[#FFF5EC] transition">
+              <a href="#" className="hover:text-[#FFF5EC] transition-colors">
                 Hall of Fame
               </a>
             </div>
           </div>
           <p
-            className="max-w-4xl text-center mt-4 mx-auto leading-relaxed"
-            style={{ fontSize: 10, color: "rgba(255,235,210,0.45)" }}
+            className="max-w-4xl text-center mt-6 mx-auto leading-relaxed"
+            style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.4)", fontWeight: 400 }}
           >
             Disclaimer: Peace Code provides digital self-help resources and access to licensed
             professionals. We are not equipped for severe psychiatric crises. If you or someone you
@@ -2141,6 +2461,9 @@ export default function Index() {
   const xCloudRight = useTransform(scrollCloudRight, [0, 1], ["0vw", "-22vw"]);
   const yCloudRight = useTransform(scrollCloudRight, [0, 1], [-80, 40]);
 
+  const { scrollY } = useScroll();
+  const heroCloudX = useTransform(scrollY, [0, 1000], ["0%", "-10%"]);
+
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden text-slate-900 bg-white">
       <Nav />
@@ -2197,42 +2520,52 @@ export default function Index() {
       <div
         className="w-full relative overflow-x-hidden"
         style={{
-          backgroundColor: "#fff",
-          backgroundImage: "url('/hero-bg.png')",
-          backgroundSize: "100% auto",
-          backgroundPosition: "top center",
+          backgroundImage: "url('/section2-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
           backgroundRepeat: "no-repeat",
         }}
       >
         <HeroAtmosphere />
 
-        {/* ── Cloud SVG layer — at 70% of hero viewport height, spans into collaboration ── */}
-        <div
-          aria-hidden
-          className="absolute left-1/2 -translate-x-1/2 pointer-events-none z-[2]"
-          style={{ width: "260vw", top: "70vh" }}
+        {/* ── Hero & Cloud Wrapper ── */}
+        <div 
+          className="relative w-full"
+          style={{
+            backgroundImage: "url('/hero-background.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center top",
+            backgroundRepeat: "no-repeat",
+          }}
         >
-          <img
-            src="/Untitled design (39).svg"
-            alt=""
-            className="w-full h-auto"
-            style={{
-              filter: "brightness(1.08) contrast(1.0)",
-              opacity: 0.92,
-              transform: "scaleY(0.7)",
-              transformOrigin: "top center",
+          {/* ── Cloud Layer from Builder.io reference ── */}
+          <motion.div
+            aria-hidden
+            className="absolute pointer-events-none w-[120%] left-1/2 -translate-x-1/2 bottom-0 md:w-[161%] md:left-auto md:translate-x-0 md:right-[-121px] md:bottom-[-290px]"
+            style={{ 
+              zIndex: 0,
+              x: heroCloudX
             }}
-          />
-        </div>
+          >
+            <img
+              src="/Untitled design (39).svg"
+              alt=""
+              className="w-full h-auto"
+              style={{
+                opacity: 1,
+              }}
+            />
+          </motion.div>
 
-        {/* BLOCK 1 — Hero */}
-        <Hero />
+          {/* BLOCK 1 — Hero */}
+          <Hero />
+        </div>
 
         {/* NEW SECTION — Collaboration Logos */}
         <Collaboration />
 
-        {/* Spacer between collaboration and cards */}
-        <div className="h-16 md:h-24" />
+        {/* Moderate spacer to add breathing room before the heading */}
+        <div className="h-8 md:h-16 w-full" />
 
         {/* HOW IT WORKS — cards over the gradient */}
         <HowItWorks />
@@ -2368,11 +2701,36 @@ export default function Index() {
         <Testimonials />
         <WhatStudentsCarry />
         <Blog />
-        <ClosingCTA />
       </Block>
 
-      {/* BLOCK 5 — Footer (sage). */}
-      <Footer />
+      {/* BLOCK 5 — ClosingCTA + Footer combined background */}
+      <div className="relative w-full overflow-x-clip overflow-y-visible" style={{ backgroundColor: "#FFFFFF" }}>
+        {/* Background Image Layer covering BOTH, fading softly from white at the top */}
+        <div 
+          className="absolute inset-0 z-0 pointer-events-none"
+          style={{
+            // Fade the image out perfectly at the top so it seamlessly blends with the white background
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 250px)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 250px)"
+          }}
+        >
+          <div 
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/section3-bg.png')",
+              backgroundSize: "100% 100%", // Stretches to fit
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              transform: "rotate(180deg)",
+            }}
+          />
+        </div>
+        
+        <div className="relative z-10">
+          <ClosingCTA />
+          <Footer />
+        </div>
+      </div>
     </main>
   );
 }
