@@ -57,7 +57,7 @@ const formats = [
 
 // --- Massive Content Generation ---
 const generateResources = () => {
-  const allResources = [];
+  let allResources: any[] = [];
   topics.forEach(topic => {
     for(let i=0; i<15; i++) {
       allResources.push({
@@ -119,7 +119,7 @@ export default function ResourcesRoute() {
             alt=""
             initial={{ x: "100%", opacity: 0 }}
             animate={{ x: "10%", opacity: 1 }}
-            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] as any }}
             className="absolute right-[-2vw] top-[5%] w-[40vw] max-w-[500px] object-contain"
           />
 
@@ -232,7 +232,7 @@ export default function ResourcesRoute() {
                   initial={{ opacity: 0, height: 0, marginTop: 0 }}
                   animate={{ opacity: 1, height: "auto", marginTop: 40 }}
                   exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as any }}
                   className="overflow-hidden"
                 >
                   <div className="bg-white/50 backdrop-blur-3xl rounded-[2.5rem] p-10 md:p-14 shadow-[0_20px_60px_rgba(30,48,72,0.08)] border border-white/80 relative">

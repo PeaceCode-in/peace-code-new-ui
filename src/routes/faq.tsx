@@ -96,7 +96,7 @@ function FaqItem({ item, isOpen, onClick }: { item: any, isOpen: boolean, onClic
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as any }}
           >
             <div className="px-6 pb-6 pt-1 text-[#4F6072] text-[16px] leading-relaxed">
               {item.a}

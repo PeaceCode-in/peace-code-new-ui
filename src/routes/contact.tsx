@@ -9,7 +9,7 @@ export default function ContactRoute() {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-100px" },
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as any },
   };
 
   const { scrollY } = useScroll();
@@ -40,7 +40,7 @@ export default function ContactRoute() {
         alt="" 
         initial={{ x: "-100%", opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as any }}
         className="absolute left-[-2%] top-[4%] w-[45vw] max-w-[600px] pointer-events-none z-10"
         style={{ y: cloudLeftY }}
       />

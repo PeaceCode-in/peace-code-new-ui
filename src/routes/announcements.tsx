@@ -79,7 +79,7 @@ export default function AnnouncementsRoute() {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-100px" },
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as any },
   };
 
   return (
@@ -98,7 +98,7 @@ export default function AnnouncementsRoute() {
         alt="" 
         initial={{ x: "100%", opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as any }}
         className="absolute right-[-2%] top-[8%] w-[28vw] max-w-[360px] pointer-events-none z-10"
         style={{ y: cloudRightY }}
       />
@@ -164,7 +164,7 @@ export default function AnnouncementsRoute() {
                 <motion.div
                   key={p.title + i}
                   {...reveal}
-                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] as any }}
                   className="group cursor-pointer flex flex-col h-full bg-white p-5 rounded-2xl shadow-sm border border-[rgba(0,0,0,0.03)]"
                 >
                   <div className="w-full aspect-[1.6] rounded-[10px] overflow-hidden mb-4 bg-slate-100 relative flex items-center justify-center">
@@ -196,7 +196,7 @@ export default function AnnouncementsRoute() {
               alt="" 
               initial={{ x: "-60%", opacity: 0 }}
               whileInView={{ x: "-20%", opacity: 1 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as any }}
               viewport={{ once: true }}
               className="absolute -left-[10vw] md:-left-[240px] top-[15%] w-[35vw] max-w-[320px] pointer-events-none z-0 drop-shadow-[0_8px_20px_rgba(0,0,0,0.06)] opacity-85"
               style={{ y: branchLeftY }}
@@ -208,7 +208,7 @@ export default function AnnouncementsRoute() {
                 <motion.div
                   key={w.title + i}
                   {...reveal}
-                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] as any }}
                   className={`group cursor-pointer flex flex-col bg-white/50 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/60 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300 ${w.bentoClass}`}
                 >
                   <div className={`w-full rounded-[16px] overflow-hidden mb-5 bg-slate-100 flex items-center justify-center relative ${w.imgAspect}`}>

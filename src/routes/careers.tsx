@@ -41,7 +41,7 @@ export default function CareersRoute() {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-100px" },
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as any },
   };
 
   return (
@@ -65,7 +65,7 @@ export default function CareersRoute() {
           alt="" 
           initial={{ x: "-100%", opacity: 0 }}
           animate={{ x: "-40%", opacity: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as any }}
           className="absolute left-0 bottom-[-10%] w-[35vw] max-w-[450px] pointer-events-none z-10 drop-shadow-[0_10px_25px_rgba(0,0,0,0.05)] object-contain mix-blend-multiply"
           style={{ y: leftImgY }}
         />
@@ -76,7 +76,7 @@ export default function CareersRoute() {
           alt="" 
           initial={{ x: "100%", opacity: 0 }}
           animate={{ x: "40%", opacity: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as any }}
           className="absolute right-0 bottom-[-10%] w-[32vw] max-w-[420px] pointer-events-none z-10 drop-shadow-[0_10px_25px_rgba(0,0,0,0.05)] object-contain mix-blend-multiply"
           style={{ y: rightImgY }}
         />
@@ -123,7 +123,7 @@ export default function CareersRoute() {
                 <motion.div
                   key={i}
                   {...reveal}
-                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] as any }}
                   className={`group flex flex-col p-8 rounded-[2rem] border border-white/60 bg-white/40 backdrop-blur-xl hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500`}
                 >
                   <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center mb-6 shadow-sm group-hover:scale-105 transition-transform">

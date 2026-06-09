@@ -13,12 +13,12 @@ export default function FocusRoute() {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-100px" },
-    transition: { duration: 1, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 1, ease: [0.22, 1, 0.36, 1] as any },
   };
 
   const fadeDelay = (delay: number) => ({
     ...fadeUp,
-    transition: { duration: 1, delay, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 1, delay, ease: [0.22, 1, 0.36, 1] as any },
   });
 
   return (

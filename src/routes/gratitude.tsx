@@ -17,14 +17,14 @@ export default function GratitudeRoute() {
     initial: { opacity: 0, y: 40 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-100px" },
-    transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] as any },
   };
 
   const fadeDelay = (delay = 0) => ({
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-50px" },
-    transition: { duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] as any },
   });
 
   return (
@@ -40,7 +40,7 @@ export default function GratitudeRoute() {
           alt="" 
           initial={{ x: "-100%", opacity: 0 }}
           animate={{ x: "-40%", opacity: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as any }}
           className="absolute left-0 bottom-[-10%] w-[35vw] max-w-[450px] pointer-events-none z-10 drop-shadow-[0_10px_25px_rgba(0,0,0,0.05)] object-contain mix-blend-multiply"
           style={{ y: leftImgY }}
         />
@@ -51,7 +51,7 @@ export default function GratitudeRoute() {
           alt="" 
           initial={{ x: "100%", opacity: 0 }}
           animate={{ x: "40%", opacity: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as any }}
           className="absolute right-0 bottom-[-10%] w-[32vw] max-w-[420px] pointer-events-none z-10 drop-shadow-[0_10px_25px_rgba(0,0,0,0.05)] object-contain mix-blend-multiply"
           style={{ y: rightImgY }}
         />
@@ -89,7 +89,7 @@ export default function GratitudeRoute() {
             initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] as any }}
             className="md:w-7/12 relative flex justify-end items-center"
           >
             <img 

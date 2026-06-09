@@ -334,7 +334,7 @@ const reveal = {
   initial: { opacity: 0, y: 40 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-100px" },
-  transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
+  transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as any },
 };
 
 function Float({
@@ -552,7 +552,7 @@ function NavItem({ item, scrolled }: { item: NavDropdownData; scrolled: boolean 
             initial={{ opacity: 0, y: 15, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.96 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as any }}
             className="absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] bg-white/95 backdrop-blur-2xl border border-white/60 shadow-[0_12px_40px_rgba(0,0,0,0.08)] rounded-[1.5rem] p-7 flex gap-10 before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-transparent"
           >
             {item.dropdown.columns.map((col, i) => (
@@ -602,7 +602,7 @@ export function Nav() {
     <motion.header
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] as any }}
       className={`fixed inset-x-0 z-50 transition-all duration-500 flex flex-col items-stretch ${
         scrolled ? "top-4 px-4 md:px-8" : "top-0 px-0"
       }`}
@@ -649,7 +649,7 @@ export function Nav() {
       <motion.div
         initial={false}
         animate={open ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] as any }}
         className="md:hidden overflow-hidden bg-white/85 backdrop-blur-xl border border-white/40 mt-2 mx-auto w-full max-w-[1400px] rounded-2xl shadow-lg"
       >
         <div className="px-6 py-4 flex flex-col gap-3 text-slate-900">
@@ -806,7 +806,7 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] as any }}
           className="mt-6 text-white/90 text-[16px] sm:text-[17px] leading-[1.5] max-w-md mx-auto font-normal drop-shadow-sm"
         >
           Imagine a quiet companion guiding you through it —<br/>
@@ -953,7 +953,7 @@ function HowItWorks() {
               transition={{
                 duration: 0.9,
                 delay: i * 0.15,
-                ease: [0.22, 1, 0.36, 1],
+                ease: [0.22, 1, 0.36, 1] as any,
               }}
             >
               <div className="how-card" style={{ aspectRatio: "4 / 5" }}>
@@ -1334,7 +1334,7 @@ function MindAccordion() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as any }}
                       className="overflow-hidden"
                     >
                       <p className="pb-7 max-w-2xl text-slate-700 font-light leading-relaxed">
@@ -1359,7 +1359,7 @@ function FeatureHighlight() {
     initial: { opacity: 0, y: 15 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-60px" },
-    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as any },
   };
 
   return (
@@ -1485,7 +1485,7 @@ function Ecosystem() {
             <motion.div
               key={c.title}
               {...reveal}
-              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] as any }}
               className="flex flex-col items-center text-center"
             >
               <img 
@@ -1800,7 +1800,7 @@ function Blog() {
             <motion.div
               key={p.title}
               {...reveal}
-              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] as any }}
               className="h-full"
             >
               <div className="bg-white border border-[rgba(15,23,42,0.04)] shadow-[0_10px_30px_rgba(15,23,42,0.04)] rounded-[24px] overflow-hidden flex flex-col h-full group transition-all duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:translate-y-[-6px] hover:shadow-[0_20px_40px_rgba(15,23,42,0.08)]">
@@ -1990,7 +1990,7 @@ function BentoFeatures() {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.8, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.8, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] as any }}
                 className={`group relative overflow-hidden p-7 md:p-9 ${f.span} transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between`}
                 style={{
                   background: "rgba(255, 255, 255, 0.3)",
