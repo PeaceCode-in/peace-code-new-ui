@@ -14,9 +14,11 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
+
 .font-serif {
   font-family: var(--font-serif);
 }
+
 .font-display {
   font-family: var(--font-display);
   font-style: italic;
@@ -184,12 +186,10 @@ body {
     overflow: hidden;
     color: var(--liquid-glass-ink);
     background:
-      linear-gradient(
-        135deg,
+      linear-gradient(135deg,
         var(--liquid-glass-strong),
         var(--liquid-glass) 48%,
-        oklch(0.93 0.045 305 / 18%)
-      ),
+        oklch(0.93 0.045 305 / 18%)),
       radial-gradient(circle at 18% 12%, oklch(1 0 0 / 70%), transparent 34%);
     border-top: 1px solid var(--liquid-glass-edge);
     border-left: 1px solid var(--liquid-glass-edge);
@@ -218,12 +218,10 @@ body {
 
   .liquid-glass-button:hover {
     background:
-      linear-gradient(
-        135deg,
+      linear-gradient(135deg,
         oklch(1 0 0 / 50%),
         oklch(1 0 0 / 30%) 48%,
-        oklch(0.93 0.045 305 / 24%)
-      ),
+        oklch(0.93 0.045 305 / 24%)),
       radial-gradient(circle at 18% 12%, oklch(1 0 0 / 78%), transparent 34%);
   }
 
@@ -284,13 +282,11 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.82) 0%,
-      rgba(0, 0, 0, 0.55) 30%,
-      rgba(0, 0, 0, 0.15) 55%,
-      transparent 75%
-    );
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.55) 30%,
+        rgba(0, 0, 0, 0.15) 55%,
+        transparent 75%);
     pointer-events: none;
     z-index: 1;
   }
@@ -347,6 +343,7 @@ body {
     .how-card-headline {
       font-size: 1.85rem;
     }
+
     .how-card-content {
       padding: 2.25rem;
     }
@@ -356,6 +353,7 @@ body {
     .how-card-headline {
       font-size: 2rem;
     }
+
     .how-card-content {
       padding: 2.5rem;
     }
@@ -380,14 +378,16 @@ body {
     .decor-crane {
       animation: decor-float 6s ease-in-out infinite;
     }
+
     @keyframes decor-float {
+
       0%,
       100% {
         transform: scale(var(--scroll-scale)) translateY(var(--scroll-y)) rotate(var(--base-rotate));
       }
+
       50% {
-        transform: scale(var(--scroll-scale)) translateY(calc(var(--scroll-y) - 12px))
-          rotate(var(--base-rotate));
+        transform: scale(var(--scroll-scale)) translateY(calc(var(--scroll-y) - 12px)) rotate(var(--base-rotate));
       }
     }
   }
