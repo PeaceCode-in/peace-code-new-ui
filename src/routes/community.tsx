@@ -27,6 +27,14 @@ export default function CommunityRoute() {
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-[#faf9f1] text-[#1C1917] font-sans selection:bg-[#E7E5E4] selection:text-[#1C1917]">
+      {/* Background Gradient */}
+      <div 
+        className="absolute top-0 inset-x-0 h-[800px] pointer-events-none z-0"
+        style={{
+          background: "linear-gradient(to bottom, #D9E4EF 0%, #F2E4EA 35%, #faf9f1 80%)"
+        }}
+      />
+
       <Nav />
 
       {/* 1. HERO SECTION */}
@@ -106,7 +114,7 @@ export default function CommunityRoute() {
           >
             {/* Placeholder for editorial illustration of students, connection, shared notes */}
             <img 
-              src="/Untitled design (36).svg" 
+              src="/Untitled design (43).svg" 
               alt="Community Connection" 
               className="w-full h-auto max-w-[400px] z-10 drop-shadow-sm"
             />
@@ -177,9 +185,9 @@ export default function CommunityRoute() {
             className="w-full md:w-5/12 flex justify-center items-center"
           >
             <img 
-              src="/karma tree.svg" 
+              src="/Untitled design (44).svg" 
               alt="Community Growth" 
-              className="w-full h-auto max-w-[400px] pointer-events-none mix-blend-multiply opacity-80"
+              className="w-full h-auto max-w-[450px] pointer-events-none opacity-90 mix-blend-multiply"
             />
           </motion.div>
 
@@ -201,48 +209,25 @@ export default function CommunityRoute() {
           </motion.div>
         </section>
 
-        {/* 6. FEATURED CONVERSATIONS - DYNAMIC FADING IMMERSION */}
-        <section className="relative w-full py-10 mt-12 mb-32 flex justify-center">
-          <div className="relative w-full max-w-5xl h-[400px] md:h-[500px] rounded-3xl bg-gradient-to-br from-[#f5f3ff]/60 to-[#faf5ff]/40 border border-[#ede9fe]/50 overflow-hidden shadow-sm">
-            
-            {/* Soft decorative background orbs */}
-            <div className="absolute top-[20%] left-[10%] w-[300px] h-[300px] bg-[#e9d5ff]/30 rounded-full blur-[60px] z-0 pointer-events-none" />
-            <div className="absolute bottom-[20%] right-[10%] w-[300px] h-[300px] bg-[#fbcfe8]/20 rounded-full blur-[80px] z-0 pointer-events-none" />
-
-            <div className="relative z-10 w-full h-full">
-              {[
-                { text: `"How do I stay focused during semester exams?"`, top: "25%", left: "30%", delay: 0 },
-                { text: `"Placement season is making me anxious — what helped you?"`, top: "45%", left: "70%", delay: 2 },
-                { text: `"Best way to deal with hostel loneliness?"`, top: "65%", left: "35%", delay: 5 },
-                { text: `"What study habit actually worked for you?"`, top: "30%", left: "75%", delay: 7 },
-                { text: `"How do you restart after a bad week?"`, top: "80%", left: "60%", delay: 1 },
-                { text: `"Feeling behind everyone else in my batch."`, top: "35%", left: "20%", delay: 4 },
-                { text: `"Looking for study buddies for the weekend."`, top: "75%", left: "35%", delay: 8 },
-                { text: `"Any tips for managing time between clubs and academics?"`, top: "55%", left: "80%", delay: 3 },
-                { text: `"Just bombed a mid-term. Need some encouragement."`, top: "50%", left: "15%", delay: 9 },
-                { text: `"What's your go-to comfort meal in the mess?"`, top: "15%", left: "60%", delay: 6 },
-              ].map((item, idx) => (
-                <motion.div
-                  key={idx}
-                  animate={{ 
-                    opacity: [0, 1, 1, 0, 0],
-                    y: [15, 0, 0, -15, -15]
-                  }}
-                  transition={{ 
-                    duration: 12, 
-                    repeat: Infinity, 
-                    delay: item.delay,
-                    times: [0, 0.15, 0.5, 0.65, 1],
-                    ease: "easeInOut"
-                  }}
-                  className="absolute italic font-serif text-[16px] md:text-[18px] text-[#4c4263] w-max max-w-[320px] text-center tracking-wide"
-                  style={{ top: item.top, left: item.left, x: "-50%", y: "-50%" }}
-                >
-                  {item.text}
-                </motion.div>
-              ))}
-            </div>
-          </div>
+        {/* 6. FEATURED CONVERSATIONS */}
+        <section className="relative w-full py-10 mt-4 mb-32 flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="relative w-full max-w-6xl flex justify-center items-center"
+          >
+            <img 
+              src="/Untitled design (13).png" 
+              alt="Featured Conversations" 
+              className="w-full h-auto max-h-[700px] object-cover opacity-90 mix-blend-multiply"
+              style={{
+                maskImage: 'radial-gradient(ellipse closest-side, black 40%, transparent 90%)',
+                WebkitMaskImage: 'radial-gradient(ellipse closest-side, black 40%, transparent 90%)'
+              }}
+            />
+          </motion.div>
         </section>
 
         {/* 7. SOCIAL VALUE & BELONGING */}
@@ -279,28 +264,32 @@ export default function CommunityRoute() {
              </p>
           </motion.div>
 
-          <div className="flex flex-col gap-32 max-w-4xl text-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-20 lg:gap-y-32 w-full max-w-7xl mx-auto items-start text-left">
             {[
               { quote: "Finally a place where people talk about placement anxiety without turning it into a competition.", author: "Engineering Student" },
               { quote: "It helps to read about others going through the exact same syllabus struggles.", author: "Medical Student" },
               { quote: "I love that there are no 'likes' or popularity contests here. It just feels like a genuine conversation.", author: "BBA Student" },
               { quote: "When I was confused about my final-year project, the advice I got here was actually grounded and realistic.", author: "Final-Year Student" },
               { quote: "It’s my safe space to vent about hostel life and realize I'm not alone.", author: "Postgraduate Student" },
+              { quote: "Seeing seniors share their failures and how they bounced back gives me so much hope.", author: "First-Year Student" },
             ].map((testimonial, i) => (
               <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 1.2, delay: i * 0.1, ease: "easeOut" }}
-                className="relative"
+                transition={{ duration: 1.2, delay: (i % 3) * 0.15, ease: "easeOut" }}
+                className="relative flex flex-col"
               >
-                <p className="font-serif text-2xl md:text-4xl text-[#1C1917] leading-relaxed mb-6 font-light">
+                <p className="font-serif text-[22px] md:text-[26px] text-[#57534E] leading-[1.5] mb-8 font-light italic">
                   "{testimonial.quote}"
                 </p>
-                <p className="text-[12px] tracking-[0.15em] uppercase text-[#78716C]">
-                  — {testimonial.author}
-                </p>
+                <div className="flex items-center gap-4 mt-auto">
+                  <div className="w-6 h-[1px] bg-[#78716C]/40"></div>
+                  <p className="text-[11px] tracking-[0.2em] uppercase text-[#78716C] font-medium">
+                    {testimonial.author}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>

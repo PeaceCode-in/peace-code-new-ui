@@ -500,8 +500,8 @@ const navItemsData: NavDropdownData[] = [
           header: "CORE CARE",
           items: [
             { label: "Counseling", href: "#" },
-            { label: "Experts", href: "#" },
-            { label: "Screening", href: "#" },
+            { label: "Peace Buddies", href: "/peace-buddies" },
+            { label: "Screening", href: "/screening" },
             { label: "AI Support", href: "#" },
           ],
         },
@@ -582,6 +582,67 @@ function NavItem({ item, scrolled }: { item: NavDropdownData; scrolled: boolean 
   );
 }
 
+function MobileNavItem({ item, setOpen }: { item: NavDropdownData, setOpen: (v: boolean) => void }) {
+  const [expanded, setExpanded] = useState(false);
+  const hasDropdown = !!item.dropdown;
+
+  if (!hasDropdown) {
+    return (
+      <a
+        href={item.href}
+        onClick={() => setOpen(false)}
+        className="py-2 text-base font-medium hover:text-slate-700 transition-colors"
+      >
+        {item.label}
+      </a>
+    );
+  }
+
+  return (
+    <div className="flex flex-col">
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="py-2 text-base font-medium flex justify-between items-center hover:text-slate-700 transition-colors"
+      >
+        {item.label}
+        <motion.div animate={{ rotate: expanded ? 180 : 0 }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </motion.div>
+      </button>
+      
+      <motion.div
+        initial={false}
+        animate={expanded ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+        className="overflow-hidden flex flex-col"
+      >
+        <div className="py-2 flex flex-col gap-4 border-l-2 border-slate-200 pl-4 mt-1 mb-2 ml-1">
+          {item.dropdown?.columns.map((col, i) => (
+            <div key={i} className="flex flex-col gap-2.5">
+              {col.header && (
+                <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-slate-400">
+                  {col.header}
+                </span>
+              )}
+              {col.items.map((sub) => (
+                <a
+                  key={sub.label}
+                  href={sub.href}
+                  onClick={() => setOpen(false)}
+                  className="text-[14px] text-slate-600 hover:text-slate-900 py-0.5 font-medium transition-colors"
+                >
+                  {sub.label}
+                </a>
+              ))}
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrollPos, setScrollPos] = useState(false);
@@ -652,18 +713,11 @@ export function Nav() {
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] as any }}
         className="md:hidden overflow-hidden bg-white/85 backdrop-blur-xl border border-white/40 mt-2 mx-auto w-full max-w-[1400px] rounded-2xl shadow-lg"
       >
-        <div className="px-6 py-4 flex flex-col gap-3 text-slate-900">
-          {navItemsData.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="py-2 text-base font-medium hover:text-slate-700 transition-colors"
-            >
-              {l.label}
-            </a>
+        <div className="px-6 py-5 flex flex-col gap-3 text-slate-900">
+          {navItemsData.map((item) => (
+            <MobileNavItem key={item.href} item={item} setOpen={setOpen} />
           ))}
-          <button className="sm:hidden rounded-full px-5 py-2.5 text-sm font-medium mt-2 self-start bg-slate-900 text-white">
+          <button className="sm:hidden rounded-full px-5 py-2.5 text-sm font-medium mt-3 self-start bg-slate-900 text-white shadow-sm">
             Log In
           </button>
         </div>
@@ -2541,7 +2595,7 @@ export default function Index() {
           {/* ── Cloud Layer from Builder.io reference ── */}
           <motion.div
             aria-hidden
-            className="absolute pointer-events-none w-[120%] left-1/2 -translate-x-1/2 bottom-0 md:w-[161%] md:left-auto md:translate-x-0 md:right-[-121px] md:bottom-[-290px]"
+            className="absolute pointer-events-none w-[120%] left-1/2 -translate-x-1/2 bottom-[-100px] sm:bottom-[-140px] md:w-[161%] md:left-auto md:translate-x-0 md:right-[-121px] md:bottom-[-290px]"
             style={{ 
               zIndex: 0,
               x: heroCloudX
