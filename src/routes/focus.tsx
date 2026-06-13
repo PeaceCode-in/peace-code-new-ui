@@ -22,7 +22,15 @@ export default function FocusRoute() {
   });
 
   return (
-    <main className="min-h-screen bg-[#FAF9F1] overflow-hidden relative">
+    <main className="min-h-screen bg-[#faf9f1] overflow-hidden relative selection:bg-[#E7E5E4] selection:text-[#1C1917]">
+      {/* Background Gradient — matching PeaceBot page */}
+      <div
+        className="absolute top-0 inset-x-0 h-[900px] pointer-events-none z-0"
+        style={{
+          background: "linear-gradient(to bottom, #E8E0F0 0%, #EDE8F4 25%, #F2E8EA 50%, #faf9f1 85%)"
+        }}
+      />
+
       <Nav />
 
       {/* Flock of Birds in Hero */}
@@ -53,7 +61,7 @@ export default function FocusRoute() {
       <div className="relative z-10 w-full max-w-screen-xl mx-auto px-6 md:px-12 lg:px-20">
         
         {/* 1. HERO SECTION */}
-        <section className="relative min-h-[90vh] flex flex-col justify-center items-center text-center pt-32 pb-20">
+        <section className="relative min-h-[90vh] flex flex-col justify-center items-center text-center pt-40 pb-20">
           
           {/* Hero Background Image */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-full pointer-events-none z-[-1] overflow-hidden">
@@ -61,9 +69,10 @@ export default function FocusRoute() {
           </div>
 
           <motion.div {...fadeUp} className="max-w-4xl flex flex-col items-center relative z-10 mt-16">
-            <h1 className="main-page-title mb-8">
-              Find your focus, <br className="hidden md:block" />
-              gently.
+            <h1 className="main-page-title mb-8 font-serif text-5xl md:text-7xl font-light tracking-tight text-[#0A2540] leading-[1.1]">
+              Find your focus,
+              <br />
+              <span className="italic text-[#57534E]">gently.</span>
             </h1>
             <p className="font-sans font-light text-[#57534E] text-xl md:text-2xl max-w-2xl leading-relaxed mb-16 mx-auto">
               A minimal focus timer for Indian students and anyone who wants calm, distraction-free study sessions.

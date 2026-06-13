@@ -2,6 +2,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import {
   Brain,
   Leaf,
@@ -499,10 +500,10 @@ const navItemsData: NavDropdownData[] = [
         {
           header: "CORE CARE",
           items: [
-            { label: "Counseling", href: "#" },
+            { label: "PeaceBot", href: "/peacebot" },
             { label: "Peace Buddies", href: "/peace-buddies" },
+            { label: "Counseling", href: "/psychologist" },
             { label: "Screening", href: "/screening" },
-            { label: "AI Support", href: "#" },
           ],
         },
         {
@@ -510,8 +511,8 @@ const navItemsData: NavDropdownData[] = [
           items: [
             { label: "Breathe", href: "/breathe" },
             { label: "Focus", href: "/focus" },
-            { label: "Gratitude", href: "/gratitude" },
             { label: "Journal", href: "/journal" },
+            { label: "Gratitude", href: "/gratitude" },
             { label: "Community", href: "/community" },
           ],
         },
@@ -533,7 +534,7 @@ function NavItem({ item, scrolled }: { item: NavDropdownData; scrolled: boolean 
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <a
+      <Link
         href={item.href}
         className={`relative px-5 py-2.5 rounded-full transition-all duration-500 font-medium inline-block tracking-wide ${
           hovered 
@@ -544,7 +545,7 @@ function NavItem({ item, scrolled }: { item: NavDropdownData; scrolled: boolean 
         }`}
       >
         {item.label}
-      </a>
+      </Link>
       
       <AnimatePresence>
         {hovered && item.dropdown && (
@@ -564,13 +565,13 @@ function NavItem({ item, scrolled }: { item: NavDropdownData; scrolled: boolean 
                 )}
                 <div className="flex flex-col gap-3.5">
                   {col.items.map((sub) => (
-                    <a
+                    <Link
                       key={sub.label}
                       href={sub.href}
                       className="text-[15px] font-medium transition-colors duration-500 whitespace-nowrap drop-shadow-none text-slate-800 hover:text-[#1E3A8A]"
                     >
                       {sub.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -588,13 +589,13 @@ function MobileNavItem({ item, setOpen }: { item: NavDropdownData, setOpen: (v: 
 
   if (!hasDropdown) {
     return (
-      <a
+      <Link
         href={item.href}
         onClick={() => setOpen(false)}
         className="py-2 text-base font-medium hover:text-slate-700 transition-colors"
       >
         {item.label}
-      </a>
+      </Link>
     );
   }
 
@@ -626,14 +627,14 @@ function MobileNavItem({ item, setOpen }: { item: NavDropdownData, setOpen: (v: 
                 </span>
               )}
               {col.items.map((sub) => (
-                <a
+                <Link
                   key={sub.label}
                   href={sub.href}
                   onClick={() => setOpen(false)}
                   className="text-[14px] text-slate-600 hover:text-slate-900 py-0.5 font-medium transition-colors"
                 >
                   {sub.label}
-                </a>
+                </Link>
               ))}
             </div>
           ))}
@@ -677,9 +678,11 @@ export function Nav() {
             : "w-full max-w-[1400px] bg-transparent py-5 px-8 md:px-12 lg:px-16 rounded-none border-transparent"
         }`}
       >
-        <motion.a layout href="/" className="flex items-center group shrink-0">
-          <img src="/nav bar logo.svg" alt="PeaceCode" className={`h-7 w-auto object-contain transition-all duration-500 ${scrolled ? "brightness-0" : "drop-shadow-sm"}`} />
-        </motion.a>
+        <motion.div layout>
+          <Link href="/" className="flex items-center group shrink-0">
+            <img src="/nav bar logo.svg" alt="PeaceCode" className={`h-7 w-auto object-contain transition-all duration-500 ${scrolled ? "brightness-0" : "drop-shadow-sm"}`} />
+          </Link>
+        </motion.div>
 
         <motion.nav layout className="hidden md:flex items-center gap-2 lg:gap-4 text-[15px] transition-colors duration-500">
           {navItemsData.map((item) => (
@@ -873,14 +876,14 @@ function Hero() {
           transition={{ duration: 0.9, delay: 0.3 }}
           className="mt-10 flex justify-center"
         >
-          <button className="group inline-flex items-center gap-3 rounded-[18px] border border-transparent bg-white px-8 py-4 sm:px-10 sm:py-4 transition-all duration-300 hover:shadow-lg shadow-sm hover:-translate-y-0.5">
+          <Link href="/psychologist" className="group inline-flex items-center gap-3 rounded-[18px] border border-transparent bg-white px-8 py-4 sm:px-10 sm:py-4 transition-all duration-300 hover:shadow-lg shadow-sm hover:-translate-y-0.5">
             <span className="text-[17px] sm:text-[18px] font-medium text-slate-900 tracking-tight">
               Match with an expert
             </span>
             <span className="inline-flex items-center justify-center bg-transparent transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">
               <img src="/nav bar logo.svg" alt="PeaceCode" className="w-[18px] h-[18px] object-contain brightness-0" />
             </span>
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>
@@ -1045,9 +1048,9 @@ const moodData = [
     heading: "It's okay to feel overwhelmed.",
     subheading: "Everything feels like too much right now. Let's just take the next tiny step.",
     cards: [
-      { icon: Wind, title: "60-Second Grounding", text: "Box-breathing to slow your heart rate." },
-      { icon: MessagesSquare, title: "Emergency Vent", text: "Talk to Peace Bot. No judgment, just listening." },
-      { icon: Users, title: "Peer Support", text: "Read stories from students feeling the exact same way." }
+      { icon: Wind, title: "60-Second Grounding", text: "Box-breathing to slow your heart rate.", href: "/breathe" },
+      { icon: MessagesSquare, title: "Emergency Vent", text: "Talk to Peace Bot. No judgment, just listening.", href: "/peacebot" },
+      { icon: Users, title: "Peer Support", text: "Read stories from students feeling the exact same way.", href: "/community" }
     ]
   },
   {
@@ -1058,9 +1061,9 @@ const moodData = [
     heading: "Running on empty.",
     subheading: "You've been pushing too hard. It's time to let yourself rest.",
     cards: [
-      { icon: Heart, title: "Low-Energy Reset", text: "A 3-minute guided rest. You don't have to do anything." },
-      { icon: Leaf, title: "Gentle Journaling", text: "Drop one sentence about today. No pressure." },
-      { icon: Clock, title: "Schedule a Break", text: "Lock your apps for 30 minutes and just breathe." }
+      { icon: Heart, title: "Low-Energy Reset", text: "A 3-minute guided rest. You don't have to do anything.", href: "/breathe" },
+      { icon: Leaf, title: "Gentle Journaling", text: "Drop one sentence about today. No pressure.", href: "/journal" },
+      { icon: Clock, title: "Schedule a Break", text: "Lock your apps for 30 minutes and just breathe.", href: "/focus" }
     ]
   },
   {
@@ -1071,9 +1074,9 @@ const moodData = [
     heading: "Just... existing.",
     subheading: "Feeling disconnected or unmotivated. Let's find a tiny spark.",
     cards: [
-      { icon: ClipboardCheck, title: "Tiny Check-in", text: "A 2-minute assessment to see where you're at." },
-      { icon: Brain, title: "Brain Dump", text: "Write out whatever is floating in your head." },
-      { icon: Heart, title: "Gratitude Wall", text: "Read small wins from other students to feel connected." }
+      { icon: ClipboardCheck, title: "Tiny Check-in", text: "A 2-minute assessment to see where you're at.", href: "/screening" },
+      { icon: Brain, title: "Brain Dump", text: "Write out whatever is floating in your head.", href: "/journal" },
+      { icon: Heart, title: "Gratitude Wall", text: "Read small wins from other students to feel connected.", href: "/gratitude" }
     ]
   },
   {
@@ -1084,9 +1087,9 @@ const moodData = [
     heading: "Doing alright.",
     subheading: "You're managing. Let's keep the balance.",
     cards: [
-      { icon: Clock, title: "Focus Timer", text: "Get into deep work with gentle Pomodoro intervals." },
-      { icon: Leaf, title: "Daily Reflection", text: "Log what's working well for you today." },
-      { icon: Brain, title: "Mindful Prep", text: "Prepare for your next lecture with a clear head." }
+      { icon: Clock, title: "Focus Timer", text: "Get into deep work with gentle Pomodoro intervals.", href: "/focus" },
+      { icon: Leaf, title: "Daily Reflection", text: "Log what's working well for you today.", href: "/journal" },
+      { icon: Brain, title: "Mindful Prep", text: "Prepare for your next lecture with a clear head.", href: "/psychologist" }
     ]
   },
   {
@@ -1097,9 +1100,9 @@ const moodData = [
     heading: "Riding the wave.",
     subheading: "You've got this. Let's capture this energy.",
     cards: [
-      { icon: Heart, title: "Record a Win", text: "Post on the Gratitude Wall to lift others up." },
-      { icon: Users, title: "Support a Peer", text: "Hop into a community room and spread some light." },
-      { icon: Clock, title: "Flow State", text: "Use the focus timer to crush your hardest task." }
+      { icon: Heart, title: "Record a Win", text: "Post on the Gratitude Wall to lift others up.", href: "/gratitude" },
+      { icon: Users, title: "Support a Peer", text: "Hop into a community room and spread some light.", href: "/community" },
+      { icon: Clock, title: "Flow State", text: "Use the focus timer to crush your hardest task.", href: "/focus" }
     ]
   }
 ];
@@ -1230,35 +1233,37 @@ function MoodGate() {
                 
                 <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
                   {current.cards.map((c, i) => (
-                    <motion.button
+                    <motion.div
                       key={c.title}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.1 + i * 0.1, type: "spring", damping: 25 }}
                       whileHover={{ y: -6, scale: 1.02 }}
-                      className="text-left rounded-3xl w-full group"
+                      className="w-full h-full"
                     >
-                      <GlassCard
-                        surface="white"
-                        className="p-8 h-full border border-slate-100 hover:border-slate-200 transition-colors duration-500 shadow-sm flex flex-col relative overflow-hidden"
-                      >
-                        {/* Soft hover glow behind icon inside card */}
-                        <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#8B98C6]/5 blur-3xl rounded-full group-hover:bg-[#8B98C6]/10 transition-colors duration-700 pointer-events-none" />
+                      <Link href={c.href} className="text-left rounded-3xl w-full h-full group block">
+                        <GlassCard
+                          surface="white"
+                          className="p-8 h-full border border-slate-100 hover:border-slate-200 transition-colors duration-500 shadow-sm flex flex-col relative overflow-hidden"
+                        >
+                          {/* Soft hover glow behind icon inside card */}
+                          <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#8B98C6]/5 blur-3xl rounded-full group-hover:bg-[#8B98C6]/10 transition-colors duration-700 pointer-events-none" />
 
-                        <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100/60 shadow-sm flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
-                          <c.icon className="w-5 h-5 text-slate-600 group-hover:text-[#6B7CBB] transition-colors duration-300" strokeWidth={1.5} />
-                        </div>
-                        <h3 className="font-serif text-xl text-slate-900 font-medium tracking-tight mb-3">
-                          {c.title}
-                        </h3>
-                        <p className="text-[14px] text-slate-500 leading-relaxed font-light flex-1">
-                          {c.text}
-                        </p>
-                        <div className="mt-8 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] font-semibold text-slate-400 group-hover:text-[#6B7CBB] transition-colors duration-300">
-                          Try this <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                        </div>
-                      </GlassCard>
-                    </motion.button>
+                          <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100/60 shadow-sm flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
+                            <c.icon className="w-5 h-5 text-slate-600 group-hover:text-[#6B7CBB] transition-colors duration-300" strokeWidth={1.5} />
+                          </div>
+                          <h3 className="font-serif text-xl text-slate-900 font-medium tracking-tight mb-3">
+                            {c.title}
+                          </h3>
+                          <p className="text-[14px] text-slate-500 leading-relaxed font-light flex-1">
+                            {c.text}
+                          </p>
+                          <div className="mt-8 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] font-semibold text-slate-400 group-hover:text-[#6B7CBB] transition-colors duration-300">
+                            Try this <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                          </div>
+                        </GlassCard>
+                      </Link>
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
@@ -1505,16 +1510,19 @@ function Ecosystem() {
       img: "/Untitled design (32).svg",
       title: "Anonymous peer support",
       text: "Step into rooms with students who understand 3 a.m. labs, group-project dread, and the silence after a bad grade.",
+      href: "/peace-buddies"
     },
     {
       img: "/Untitled design (31).svg",
       title: "Communication coaching",
       text: "Practice the hard conversations — with a professor, a roommate, a parent — through gentle, evidence-based prompts.",
+      href: "/peacebot"
     },
     {
       img: "/Untitled design (33).svg",
       title: "Licensed therapists",
       text: "When you want more than a chat, our vetted therapists and clinical guides are one tap away. No paperwork.",
+      href: "/psychologist"
     },
   ];
 
@@ -1540,19 +1548,21 @@ function Ecosystem() {
               key={c.title}
               {...reveal}
               transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] as any }}
-              className="flex flex-col items-center text-center"
+              className="flex flex-col items-center text-center group"
             >
-              <img 
-                src={c.img} 
-                alt="" 
-                className="h-[180px] w-auto object-contain mb-[40px] bg-transparent shadow-none" 
-              />
-              <h3 className="font-serif text-3xl md:text-[36px] font-medium text-slate-900 leading-[1.15] max-w-[420px] mx-auto mb-[24px]">
-                {c.title}
-              </h3>
-              <p className="text-slate-700 leading-[1.6] max-w-[380px] mx-auto mb-[40px]">
-                {c.text}
-              </p>
+              <Link href={c.href} className="flex flex-col items-center text-center">
+                <img 
+                  src={c.img} 
+                  alt="" 
+                  className="h-[180px] w-auto object-contain mb-[40px] bg-transparent shadow-none group-hover:scale-105 transition-transform duration-300" 
+                />
+                <h3 className="font-serif text-3xl md:text-[36px] font-medium text-slate-900 leading-[1.15] max-w-[420px] mx-auto mb-[24px] group-hover:text-[#6B7CBB] transition-colors duration-300">
+                  {c.title}
+                </h3>
+                <p className="text-slate-700 leading-[1.6] max-w-[380px] mx-auto mb-[40px]">
+                  {c.text}
+                </p>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -1834,7 +1844,8 @@ function Blog() {
               What's new on the <span className="font-display italic">campus blog.</span>
             </h2>
           </div>
-          <button
+          <Link
+            href="/blog"
             className="self-start md:self-end px-5 py-2.5 text-xs font-semibold tracking-wider uppercase text-slate-700 rounded-full flex items-center gap-1.5 transition-all duration-300 hover:scale-[1.02] cursor-pointer select-none"
             style={{
               background: "rgba(255, 255, 255, 0.55)",
@@ -1846,7 +1857,7 @@ function Blog() {
           >
             All articles
             <ArrowUpRight className="w-4 h-4 text-slate-500" />
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -1971,6 +1982,7 @@ function BentoFeatures() {
       bullets: ["Cognitive Behavioral framing", "Crisis escalation protocols", "100% private & anonymous"],
       span: "md:col-span-7",
       isBig: true,
+      href: "/peacebot",
     },
     {
       icon: Users,
@@ -1978,6 +1990,7 @@ function BentoFeatures() {
       title: "Anonymous peer rooms",
       text: "Text-first spaces, moderated 24/7. Connect with students who actually understand the pressure.",
       span: "md:col-span-5",
+      href: "/peace-buddies",
     },
     {
       icon: Stethoscope,
@@ -1985,6 +1998,7 @@ function BentoFeatures() {
       title: "Licensed humans, one tap away",
       text: "Vetted clinical guides ready when you need to talk to a real professional. No waitlists.",
       span: "md:col-span-5",
+      href: "/psychologist",
     },
     {
       icon: Leaf,
@@ -1992,6 +2006,7 @@ function BentoFeatures() {
       title: "Guided journaling",
       text: "Soft prompts when the page feels too blank. Document your journey without the pressure of a blank canvas.",
       span: "md:col-span-7",
+      href: "/journal",
     },
     {
       icon: Wind,
@@ -1999,6 +2014,7 @@ function BentoFeatures() {
       title: "60-second resets",
       text: "Box-breathing, 4-7-8, and physiological sighs.",
       span: "md:col-span-4",
+      href: "/breathe",
     },
     {
       icon: Clock,
@@ -2006,6 +2022,7 @@ function BentoFeatures() {
       title: "Pomodoro, but kind",
       text: "Tiny breaks with breath cues built in.",
       span: "md:col-span-4",
+      href: "/focus",
     },
     {
       icon: Heart,
@@ -2013,6 +2030,7 @@ function BentoFeatures() {
       title: "A quiet wall of small wins",
       text: "Anonymous, shared, kept light. Because waking up on time is a victory.",
       span: "md:col-span-4",
+      href: "/gratitude",
     },
     {
       icon: ClipboardCheck,
@@ -2020,6 +2038,7 @@ function BentoFeatures() {
       title: "Validated clinical assessments",
       text: "PHQ-9, GAD-7 — kept completely private and processed entirely on your local device.",
       span: "md:col-span-12",
+      href: "/screening",
     },
   ];
 
@@ -2059,7 +2078,7 @@ function BentoFeatures() {
                 <div className="pointer-events-none absolute -top-24 -right-24 w-64 h-64 rounded-full bg-white/70 blur-[50px] group-hover:scale-125 transition-transform duration-1000" />
                 <div className="pointer-events-none absolute -bottom-24 -left-16 w-56 h-56 rounded-full bg-[#E2D9FF]/30 blur-[50px] group-hover:scale-125 transition-transform duration-1000" />
                 
-                <div className="relative z-10 flex flex-col h-full">
+                <Link href={f.href} className="relative z-10 flex flex-col h-full w-full block">
                   <motion.div 
                     animate={{ y: [0, -8, 0] }} 
                     transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: i * 0.2 }}
@@ -2095,7 +2114,7 @@ function BentoFeatures() {
                     Explore 
                     <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
-                </div>
+                </Link>
               </motion.div>
             );
           })}
@@ -2108,26 +2127,41 @@ function BentoFeatures() {
 /* ───────── FOOTER (sage, with campus illustration anchor) ───────── */
 
 export function Footer() {
-  const columns: { h: string; links: string[] }[] = [
+  const columns: { h: string; links: { label: string; href: string }[] }[] = [
     {
       h: "About Us",
-      links: ["About Peace Code", "Careers", "Media", "Team", "Contact Us", "Help/FAQs"],
+      links: [
+        { label: "About Peace Code", href: "#about" },
+        { label: "Careers", href: "/careers" },
+        { label: "Media", href: "#media" },
+        { label: "Team", href: "#team" },
+        { label: "Contact Us", href: "/contact" },
+        { label: "Help/FAQs", href: "/faq" },
+      ],
     },
     {
       h: "Services",
       links: [
-        "Counseling",
-        "AI Chatbot",
-        "Community",
-        "Focus Timer",
-        "Breathing",
-        "Gratitude Wall",
-        "Journal",
-        "Screening",
-        "Resources",
+        { label: "Counseling", href: "/psychologist" },
+        { label: "PeaceBot", href: "/peacebot" },
+        { label: "Community", href: "/community" },
+        { label: "Focus Timer", href: "/focus" },
+        { label: "Breathing", href: "/breathe" },
+        { label: "Gratitude Wall", href: "/gratitude" },
+        { label: "Journal", href: "/journal" },
+        { label: "Screening", href: "/screening" },
+        { label: "Resources", href: "/resources" },
       ],
     },
-    { h: "Library", links: ["All Resources", "Articles", "Videos", "Assessments"] },
+    { 
+      h: "Library", 
+      links: [
+        { label: "All Resources", href: "/resources" },
+        { label: "Articles", href: "/resources" },
+        { label: "Videos", href: "/resources" },
+        { label: "Assessments", href: "/screening" },
+      ]
+    },
   ];
 
   const socials = [
@@ -2208,16 +2242,16 @@ export function Footer() {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              <a href="#" className={`${glassPill} hover:bg-white/20 transition-colors`} style={glassPillStyle}>
+              <a href="#" className={`${glassPill} hover:bg-white/20 transition-colors opacity-50 cursor-not-allowed`} style={glassPillStyle}>
                 Get it on Google Play
               </a>
-              <a href="#" className={`${glassPill} hover:bg-white/20 transition-colors`} style={glassPillStyle}>
+              <a href="#" className={`${glassPill} hover:bg-white/20 transition-colors opacity-50 cursor-not-allowed`} style={glassPillStyle}>
                 Download on the App Store
               </a>
             </div>
 
             <button
-              className="mt-6 rounded-full text-[13px] font-normal px-6 py-2.5 hover:bg-white/20 transition-colors duration-300"
+              className="mt-6 rounded-full text-[13px] font-normal px-6 py-2.5 hover:bg-white/20 transition-colors duration-300 opacity-50 cursor-not-allowed"
               style={glassPillStyle}
             >
               Login
@@ -2242,16 +2276,16 @@ export function Footer() {
                     {c.h}
                   </h4>
                   {c.links.map((l) => (
-                    <a
-                      key={l}
-                      href={l === "Careers" ? "/careers" : l === "Contact Us" ? "/contact" : "#"}
+                    <Link
+                      key={l.label}
+                      href={l.href}
                       className={`${navLink} mb-2 block font-light`}
                       style={{ color: "rgba(255, 255, 255, 0.7)" }}
                       onMouseEnter={(e) => (e.currentTarget.style.color = "#FFF5EC")}
                       onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255, 255, 255, 0.7)")}
                     >
-                      {l}
-                    </a>
+                      {l.label}
+                    </Link>
                   ))}
                 </div>
               ))}
@@ -2319,21 +2353,21 @@ export function Footer() {
           >
             <div>© 2026 Peace Code</div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
-              <a href="#" className="hover:text-[#FFF5EC] transition-colors">
+              <Link href="#" className="hover:text-[#FFF5EC] transition-colors">
                 Privacy Policy
-              </a>
-              <a href="#" className="hover:text-[#FFF5EC] transition-colors">
+              </Link>
+              <Link href="#" className="hover:text-[#FFF5EC] transition-colors">
                 Terms & Conditions
-              </a>
-              <a href="#" className="hover:text-[#FFF5EC] transition-colors">
+              </Link>
+              <Link href="#" className="hover:text-[#FFF5EC] transition-colors">
                 Cancellation Policy
-              </a>
-              <a href="#" className="hover:text-[#FFF5EC] transition-colors">
+              </Link>
+              <Link href="#" className="hover:text-[#FFF5EC] transition-colors">
                 Sitemap
-              </a>
-              <a href="#" className="hover:text-[#FFF5EC] transition-colors">
+              </Link>
+              <Link href="#" className="hover:text-[#FFF5EC] transition-colors">
                 Hall of Fame
-              </a>
+              </Link>
             </div>
           </div>
           <p
