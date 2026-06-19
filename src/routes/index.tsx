@@ -28,6 +28,7 @@ import {
   CloudOff,
   Cloud,
   Sun,
+  Mail,
 } from "lucide-react";
 import Testimonials from "../components/ui/testimonials";
 const babaCrane1 = "/assets/baba-crane-1.svg";
@@ -2165,10 +2166,10 @@ export function Footer() {
   ];
 
   const socials = [
-    { Icon: Instagram, label: "Instagram" },
-    { Icon: Twitter, label: "Twitter" },
-    { Icon: MessagesSquare, label: "Discord" },
-    { Icon: Linkedin, label: "LinkedIn" },
+    { Icon: Instagram, label: "Instagram", href: "https://instagram.com/peacecode.in" },
+    { Icon: Twitter, label: "Twitter", href: "https://twitter.com/peacecode" },
+    { Icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/company/peacecode" },
+    { Icon: Mail, label: "Email", href: "mailto:peacecode.in@gmail.com" },
   ];
 
   const navLink =
@@ -2176,28 +2177,28 @@ export function Footer() {
   const glassPill =
     "inline-flex items-center gap-2 rounded-full text-[13px] font-normal px-5 py-2.5 transition-all duration-200";
   const glassPillStyle: React.CSSProperties = {
-    background: "rgba(255, 255, 255, 0.1)",
-    border: "1px solid rgba(255, 255, 255, 0.25)",
+    background: "rgba(255, 255, 255, 0.4)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
     backdropFilter: "blur(12px)",
     WebkitBackdropFilter: "blur(12px)",
-    color: "#FFF5EC",
+    color: "#0F172A",
     boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
   };
   const socialStyle: React.CSSProperties = {
-    background: "rgba(255, 255, 255, 0.1)",
-    border: "1px solid rgba(255, 255, 255, 0.25)",
+    background: "rgba(255, 255, 255, 0.4)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
     backdropFilter: "blur(12px)",
     WebkitBackdropFilter: "blur(12px)",
-    color: "#FFF5EC",
+    color: "#0F172A",
     boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
   };
   const badgeStyle: React.CSSProperties = {
-    background: "rgba(255, 255, 255, 0.1)",
-    border: "1px solid rgba(255, 255, 255, 0.25)",
-    color: "rgba(255, 235, 210, 0.9)",
+    background: "rgba(255, 255, 255, 0.5)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
+    color: "#334155",
     backdropFilter: "blur(8px)",
     WebkitBackdropFilter: "blur(8px)",
-    fontWeight: 500,
+    fontWeight: 600,
   };
 
   return (
@@ -2223,16 +2224,16 @@ export function Footer() {
                 fontSize: "clamp(38px, 5.5vw, 68px)",
                 lineHeight: 1.12,
                 letterSpacing: "-0.01em",
-                color: "#FFF5EC",
+                color: "#0F172A",
               }}
             >
               Find your
               <br />
-              <em className="font-display text-[#E2D9FF]">peace</em> of mind.
+              <em className="font-display not-italic bg-yellow-200 px-2 rounded-md inline-block transform -skew-x-6 text-[#0F172A]">peace</em> of mind.
             </h2>
             <p
               style={{
-                color: "rgba(255, 255, 255, 0.8)",
+                color: "#334155",
                 fontSize: 16,
                 fontWeight: 400,
               }}
@@ -2242,16 +2243,16 @@ export function Footer() {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              <a href="#" className={`${glassPill} hover:bg-white/20 transition-colors opacity-50 cursor-not-allowed`} style={glassPillStyle}>
+              <a href="#" className={`${glassPill} hover:bg-slate-900 hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300`} style={glassPillStyle}>
                 Get it on Google Play
               </a>
-              <a href="#" className={`${glassPill} hover:bg-white/20 transition-colors opacity-50 cursor-not-allowed`} style={glassPillStyle}>
+              <a href="#" className={`${glassPill} hover:bg-slate-900 hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300`} style={glassPillStyle}>
                 Download on the App Store
               </a>
             </div>
 
             <button
-              className="mt-6 rounded-full text-[13px] font-normal px-6 py-2.5 hover:bg-white/20 transition-colors duration-300 opacity-50 cursor-not-allowed"
+              className="mt-6 inline-flex items-center gap-2 rounded-full text-[13px] font-normal px-6 py-2.5 hover:bg-slate-900 hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
               style={glassPillStyle}
             >
               Login
@@ -2266,8 +2267,8 @@ export function Footer() {
                   <h4
                     className="mb-4"
                     style={{
-                      color: "#FFF5EC",
-                      fontWeight: 500,
+                      color: "#0F172A",
+                      fontWeight: 600,
                       fontSize: 13,
                       letterSpacing: "0.1em",
                       textTransform: "uppercase",
@@ -2279,10 +2280,10 @@ export function Footer() {
                     <Link
                       key={l.label}
                       href={l.href}
-                      className={`${navLink} mb-2 block font-light`}
-                      style={{ color: "rgba(255, 255, 255, 0.7)" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = "#FFF5EC")}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255, 255, 255, 0.7)")}
+                      className={`${navLink} mb-2 block font-medium`}
+                      style={{ color: "#475569" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = "#0F172A")}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = "#475569")}
                     >
                       {l.label}
                     </Link>
@@ -2297,21 +2298,23 @@ export function Footer() {
             <p
               className="mb-5 font-serif"
               style={{
-                fontWeight: 300,
+                fontWeight: 400,
                 fontSize: 18,
                 lineHeight: 1.5,
-                color: "#FFF5EC",
+                color: "#0F172A",
               }}
             >
               Build a good life for yourself with Peace Code
             </p>
             <div className="flex flex-wrap gap-2 mb-6">
-              {socials.map(({ Icon, label }) => (
+              {socials.map(({ Icon, label, href }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : "_self"}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : ""}
                   aria-label={label}
-                  className="flex items-center justify-center rounded-xl hover:bg-white/20 hover:-translate-y-1 transition-all duration-300"
+                  className="flex items-center justify-center rounded-xl hover:bg-slate-900 hover:text-white hover:-translate-y-1 transition-all duration-300"
                   style={{ ...socialStyle, width: 44, height: 44 }}
                 >
                   <Icon className="w-4 h-4" />
@@ -2349,30 +2352,30 @@ export function Footer() {
         <div className="mt-20 pt-6">
           <div
             className="flex flex-col md:flex-row justify-between items-center gap-3"
-            style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: 12, fontWeight: 400 }}
+            style={{ color: "#475569", fontSize: 12, fontWeight: 500 }}
           >
             <div>© 2026 Peace Code</div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
-              <Link href="#" className="hover:text-[#FFF5EC] transition-colors">
+              <Link href="/privacy" className="hover:text-[#0F172A] transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="#" className="hover:text-[#FFF5EC] transition-colors">
+              <Link href="/terms" className="hover:text-[#0F172A] transition-colors">
                 Terms & Conditions
               </Link>
-              <Link href="#" className="hover:text-[#FFF5EC] transition-colors">
+              <Link href="/cancellation" className="hover:text-[#0F172A] transition-colors">
                 Cancellation Policy
               </Link>
-              <Link href="#" className="hover:text-[#FFF5EC] transition-colors">
+              <Link href="/sitemap.xml" className="hover:text-[#0F172A] transition-colors">
                 Sitemap
               </Link>
-              <Link href="#" className="hover:text-[#FFF5EC] transition-colors">
+              <Link href="/hall-of-fame" className="hover:text-[#0F172A] transition-colors">
                 Hall of Fame
               </Link>
             </div>
           </div>
           <p
             className="max-w-4xl text-center mt-6 mx-auto leading-relaxed"
-            style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.4)", fontWeight: 400 }}
+            style={{ fontSize: 11, color: "#64748B", fontWeight: 500 }}
           >
             Disclaimer: Peace Code provides digital self-help resources and access to licensed
             professionals. We are not equipped for severe psychiatric crises. If you or someone you

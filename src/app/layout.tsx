@@ -1,35 +1,62 @@
 import type { Metadata } from "next";
 import "../styles.css";
 import "./globals.css";
+import GlobalErrorListener from "../components/GlobalErrorListener";
 
 
 export const metadata: Metadata = {
-  title: "PeaceCode",
-  description:
-    "PeaceCode is a minimalist, single-page landing page for a student mental wellness platform.",
-  authors: [{ name: "PeaceCode" }],
-  icons: {
-    icon: "/favicon.svg",
+  metadataBase: new URL("https://www.peacecode.in"),
+  title: {
+    default: "Peace Code | Student Mental Wellness Platform",
+    template: "%s | Peace Code",
   },
+  description:
+    "Peace Code provides digital self-help resources, student mental wellness tracking, and access to licensed professionals to help you build a good life for yourself.",
+  keywords: ["mental wellness", "student health", "counseling", "therapy", "peacecode", "mental health platform", "students", "psychologist"],
+  authors: [{ name: "Peace Code", url: "https://www.peacecode.in" }],
+  creator: "Peace Code",
   openGraph: {
-    title: "PeaceCode",
+    type: "website",
+    locale: "en_US",
+    url: "https://www.peacecode.in",
+    title: "Peace Code | Student Mental Wellness Platform",
     description:
-      "PeaceCode is a minimalist, single-page landing page for a student mental wellness platform.",
+      "Peace Code provides digital self-help resources, student mental wellness tracking, and access to licensed professionals to help you build a good life for yourself.",
+    siteName: "Peace Code",
     images: [
       {
         url: "/assets/peacecode-logo.svg",
         width: 800,
         height: 600,
-        alt: "PeaceCode Logo",
+        alt: "Peace Code Logo",
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Peace Code | Student Mental Wellness Platform",
+    description:
+      "Peace Code provides digital self-help resources, student mental wellness tracking, and access to licensed professionals to help you build a good life for yourself.",
+    images: ["/assets/peacecode-logo.svg"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon-180x180.png",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased" suppressHydrationWarning>{children}</body>
+      <body className="antialiased" suppressHydrationWarning>
+        <GlobalErrorListener />
+        {children}
+      </body>
     </html>
   );
 }
