@@ -688,11 +688,11 @@ export function Nav() {
         </motion.nav>
 
         <motion.div layout className="flex items-center shrink-0">
-          <a href="https://peacecode-dashboard.netlify.app" className={`hidden sm:inline-flex items-center rounded-full px-6 py-2.5 text-[14px] font-medium transition-all duration-500 ${scrolled ? "bg-slate-900 text-white shadow-sm hover:bg-slate-800" : "bg-white text-slate-900 hover:bg-white/90 shadow-sm"}`}>
+          <a href="https://peacecode-dashboard.netlify.app/login" className={`hidden sm:inline-flex items-center rounded-full px-6 py-2.5 text-[14px] font-medium transition-all duration-500 ${scrolled ? "bg-slate-900 text-white shadow-sm hover:bg-slate-800" : "bg-white text-slate-900 hover:bg-white/90 shadow-sm"}`}>
             Log In
           </a>
 
-          <a href="https://peacecode-dashboard.netlify.app" className={`sm:hidden inline-flex items-center rounded-full px-5 py-2 text-[14px] font-medium transition-all duration-500 mr-2 ${scrolled ? "bg-slate-900 text-white shadow-sm hover:bg-slate-800" : "bg-white text-slate-900 shadow-sm"}`}>
+          <a href="https://peacecode-dashboard.netlify.app/login" className={`sm:hidden inline-flex items-center rounded-full px-5 py-2 text-[14px] font-medium transition-all duration-500 mr-2 ${scrolled ? "bg-slate-900 text-white shadow-sm hover:bg-slate-800" : "bg-white text-slate-900 shadow-sm"}`}>
             Log In
           </a>
 
@@ -717,7 +717,7 @@ export function Nav() {
           {navItemsData.map((item) => (
             <MobileNavItem key={item.href} item={item} setOpen={setOpen} />
           ))}
-          <a href="https://peacecode-dashboard.netlify.app" className="sm:hidden text-center rounded-full px-5 py-2.5 text-sm font-medium mt-3 self-start bg-slate-900 text-white shadow-sm w-full block">
+          <a href="https://peacecode-dashboard.netlify.app/login" className="sm:hidden text-center rounded-full px-5 py-2.5 text-sm font-medium mt-3 self-start bg-slate-900 text-white shadow-sm w-full block">
             Log In
           </a>
         </div>
