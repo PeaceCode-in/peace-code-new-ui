@@ -737,7 +737,7 @@ function HeroAtmosphere() {
   );
 }
 
-function Hero() {
+function Hero({ isBgLoaded = true }: { isBgLoaded?: boolean }) {
   return (
     <section
       className="relative w-full min-h-[100vh] flex flex-col justify-center items-center"
@@ -746,7 +746,7 @@ function Hero() {
 
       <motion.div
         initial={{ x: "100vw", opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
+        animate={isBgLoaded ? { x: 0, opacity: 1 } : { x: "100vw", opacity: 0 }}
         transition={{ duration: 1.8, ease: "easeOut", delay: 0.1 }}
         className="absolute inset-0 pointer-events-none z-[5]"
       >
@@ -850,7 +850,7 @@ function Hero() {
       <div className="relative z-[6] w-full max-w-3xl mx-auto px-6 text-center">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isBgLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
           transition={{ duration: 0.7 }}
           className="tracking-[0.2em] text-xs font-semibold text-white/65 mb-6 uppercase"
         >
@@ -858,7 +858,7 @@ function Hero() {
         </motion.p>
         <motion.h1
           initial="hidden"
-          animate="show"
+          animate={isBgLoaded ? "show" : "hidden"}
           variants={{
             hidden: {},
             show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
@@ -891,7 +891,7 @@ function Hero() {
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isBgLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] as any }}
           className="mt-6 text-white/90 text-[16px] sm:text-[17px] leading-[1.5] max-w-md mx-auto font-normal drop-shadow-sm"
         >
@@ -901,7 +901,7 @@ function Hero() {
 
         <motion.div
           initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isBgLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
           transition={{ duration: 0.9, delay: 0.3 }}
           className="mt-10 flex justify-center"
         >
@@ -2569,6 +2569,19 @@ function useDecorScroll() {
 export default function Index() {
   useDecorScroll();
 
+  const [isBgLoaded, setIsBgLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = '/hero-background.png';
+    if (img.complete) {
+      setIsBgLoaded(true);
+    } else {
+      img.onload = () => setIsBgLoaded(true);
+      img.onerror = () => setIsBgLoaded(true);
+    }
+  }, []);
+
   const refCloudRight = useRef<HTMLDivElement>(null);
   const [targetCloudRight, setTargetCloudRight] = useState<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -2586,7 +2599,34 @@ export default function Index() {
   const heroCloudX = useTransform(scrollY, [0, 1000], ["0%", "-10%"]);
 
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden text-slate-900 bg-white">
+    <main className="relative min-h-screen w-full overflow-x-hidden text-slate-900 bg-[#A3B8C7]">
+      <AnimatePresence>
+        {!isBgLoaded && (
+          <motion.div
+            key="loader"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#f7f3ea]"
+          >
+            <motion.img 
+              src="/nav bar logo.svg" 
+              alt="Loading" 
+              className="w-16 h-16 object-contain mb-4"
+              animate={{ opacity: [0.5, 1, 0.5], scale: [0.95, 1.05, 0.95] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            />
+            <motion.div 
+              className="text-[#1E3048] font-medium text-[13px] tracking-[0.2em] uppercase"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut", delay: 0.2 }}
+            >
+              Finding your peace...
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Nav />
 
       {/* Scattered Margin Accent Cranes across the pages (visible in the side gutters on desktop) */}
@@ -2685,7 +2725,7 @@ export default function Index() {
           </motion.div>
 
           {/* BLOCK 1 — Hero */}
-          <Hero />
+          <Hero isBgLoaded={isBgLoaded} />
         </div>
 
         {/* NEW SECTION — Collaboration Logos */}
