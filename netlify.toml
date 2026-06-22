@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/dashboard/*"
+  to = "https://peacecode-dashboard.netlify.app/dashboard/:splat"
+  status = 200
+  force = true
