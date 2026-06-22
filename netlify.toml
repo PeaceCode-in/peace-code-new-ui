@@ -3,3 +3,9 @@
   to = "https://peacecode-dashboard.netlify.app/dashboard/:splat"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/login"
+  to = "https://peacecode-dashboard.netlify.app/dashboard/login"
+  status = 200
+  force = true
