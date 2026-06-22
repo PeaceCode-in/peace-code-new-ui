@@ -677,7 +677,7 @@ export function Nav() {
       >
         <motion.div layout>
           <Link href="/" className="flex items-center group shrink-0">
-            <img src="/nav bar logo.svg" alt="PeaceCode" className={`h-7 w-auto object-contain transition-all duration-500 ${scrolled ? "brightness-0" : "drop-shadow-sm"}`} />
+            <img src="/nav bar logo.svg" alt="PeaceCode" fetchPriority="high" decoding="sync" className={`h-7 w-auto object-contain transition-all duration-500 ${scrolled ? "brightness-0" : "drop-shadow-sm"}`} />
           </Link>
         </motion.div>
 
@@ -760,6 +760,8 @@ function Hero() {
           <img
             src="/Untitled design (68).svg"
             alt=""
+            fetchPriority="high"
+            decoding="sync"
             style={{
               width: "clamp(130px, 14vw, 180px)",
               filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
@@ -777,6 +779,8 @@ function Hero() {
           <img
             src="/Untitled design (68).svg"
             alt=""
+            fetchPriority="high"
+            decoding="sync"
             style={{
               width: "clamp(180px, 18vw, 240px)",
               filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
@@ -794,6 +798,8 @@ function Hero() {
           <img
             src="/Untitled design (68).svg"
             alt=""
+            fetchPriority="high"
+            decoding="sync"
             style={{
               width: "clamp(180px, 18vw, 240px)",
               filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
@@ -811,6 +817,8 @@ function Hero() {
           <img
             src="/Untitled design (67).svg"
             alt=""
+            fetchPriority="high"
+            decoding="sync"
             style={{
               width: "clamp(180px, 18vw, 240px)",
               filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
@@ -828,6 +836,8 @@ function Hero() {
           <img
             src="/Untitled design (68).svg"
             alt=""
+            fetchPriority="high"
+            decoding="sync"
             style={{
               width: "clamp(180px, 18vw, 240px)",
               filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
@@ -1594,28 +1604,28 @@ function WhatStudentsCarry() {
   const items = [
     {
       title: "Academic Burnout",
-      d: "Feeling exhausted even after sleeping? Constant deadlines. No motivation. No energy.",
-      support: ["Anonymous peer rooms", "Guided reflection", "Therapist support"],
+      d: "Peacecode's AI-Powered Wellness Assistant delivers real-time college burnout prevention routines, including personalized micro-breaks and guided focus sessions tailored to your study schedule.",
+      support: ["AI Wellness Assistant", "Burnout Prevention", "Focus Sessions"],
     },
     {
-      title: "Social Anxiety",
-      d: "Dreading the walk to the dining hall. Fearing you'll say the wrong thing. Feeling watched.",
-      support: ["Text-only quiet rooms", "Social courage prompts", "1:1 peer check-ins"],
+      title: "Social Isolation & Loneliness",
+      d: "Our Anonymous Peer Circles provide immediate, judgment-free connections, allowing you to discuss campus life struggles safely through anonymous student peer support.",
+      support: ["Anonymous Peer Circles", "Judgment-Free", "Peer Support"],
     },
     {
-      title: "Feeling Left Behind",
-      d: "Watching everyone else secure internships and build friend groups, while you feel stuck in place.",
-      support: ["Comparison reset prompts", "Student success stories", "Goal breakdown guides"],
+      title: "Severe Exam Anxiety",
+      d: "Peacecode offers targeted exam anxiety tools, featuring emergency grounding techniques and cognitive restructuring exercises accessible 24/7 right before high-stakes midterms or finals.",
+      support: ["Exam Anxiety Tools", "24/7 Access", "Grounding Techniques"],
     },
     {
-      title: "Loneliness",
-      d: "Being surrounded by thousands of people on campus, yet feeling completely alone in your room.",
-      support: ["Late-night listening circles", "Shared interest hubs", "Guided walking habits"],
+      title: "Fear of Judgment (Stigma)",
+      d: "Through our stigma-free wellness architecture, Peacecode bridges the gap between casual venting and professional help with complete anonymity, ensuring you can seek counseling without it reaching university records.",
+      support: ["Stigma-Free Wellness", "Complete Anonymity", "Private Counseling"],
     },
     {
-      title: "Relationship Stress",
-      d: "Friend group drama, roommate conflicts, or long-distance strain making it hard to focus on lectures.",
-      support: ["Conflict navigation scripts", "Anonymous text advice", "Relationship counselors"],
+      title: "Emotional Overwhelm",
+      d: "Peacecode's Interactive Mood Tracker helps you identify emotional triggers by analyzing daily check-ins and mapping them to actionable, evidence-based coping strategies.",
+      support: ["Interactive Mood Tracker", "Trigger Analysis", "Coping Strategies"],
     },
     {
       title: "Family Pressure",

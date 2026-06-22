@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../styles.css";
 import "./globals.css";
 import GlobalErrorListener from "../components/GlobalErrorListener";
+import Protection from "../components/Protection";
 
 
 export const metadata: Metadata = {
@@ -51,10 +52,56 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.peacecode.in/#website",
+        "url": "https://www.peacecode.in/",
+        "name": "Peace Code",
+        "description": "Peacecode is an AI-powered mental health platform that helps college students by providing anonymous student peer support and stigma-free wellness resources. We offer real-time exam anxiety tools and college burnout prevention strategies to create a 24/7 digital sanctuary where students can safely vent, track moods, and access clinical counseling.",
+        "publisher": {
+          "@id": "https://www.peacecode.in/#organization"
+        },
+        "potentialAction": [
+          {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://www.peacecode.in/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.peacecode.in/#organization",
+        "name": "Peace Code",
+        "url": "https://www.peacecode.in/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.peacecode.in/nav%20bar%20logo.svg"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/company/peacecode/"
+        ]
+      }
+    ]
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      </head>
       <body className="antialiased" suppressHydrationWarning>
         <GlobalErrorListener />
+        <Protection />
         {children}
       </body>
     </html>
