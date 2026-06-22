@@ -2612,8 +2612,8 @@ export default function Index() {
             <motion.img 
               src="/nav bar logo.svg" 
               alt="Loading" 
-              className="w-16 h-16 object-contain mb-4"
-              animate={{ opacity: [0.5, 1, 0.5], scale: [0.95, 1.05, 0.95] }}
+              className="w-16 h-16 object-contain mb-4 brightness-0 opacity-80"
+              animate={{ opacity: [0.4, 0.8, 0.4], scale: [0.95, 1.05, 0.95] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
             />
             <motion.div 
