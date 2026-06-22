@@ -1759,7 +1759,7 @@ function WhatStudentsCarry() {
                 <motion.div
                   layoutId={`cell-${expandedIndex}`}
                   onMouseLeave={() => setExpandedIndex(null)}
-                  className="absolute z-50 bg-white/90 backdrop-blur-2xl border border-white/80 shadow-[0_20px_50px_rgba(152,166,212,0.15)] rounded-3xl p-8 md:p-10 flex flex-col justify-between"
+                  className="absolute z-50 bg-white/90 backdrop-blur-2xl border border-white/80 shadow-[0_20px_50px_rgba(152,166,212,0.15)] rounded-3xl p-6 md:p-10 flex flex-col justify-between overflow-y-auto"
                   style={{
                     left: "5%",
                     right: "5%",
@@ -2617,7 +2617,7 @@ export default function Index() {
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
             />
             <motion.div 
-              className="text-[#1E3048] font-medium text-[13px] tracking-[0.2em] uppercase"
+              className="text-[#1E3048] font-medium text-[13px] tracking-[0.2em] uppercase text-center px-4"
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut", delay: 0.2 }}
             >
