@@ -124,8 +124,8 @@ export default function AnnouncementsRoute() {
             style={{ y: birdsY }} 
             className="flex justify-center items-center gap-32 mb-10 pointer-events-none mix-blend-multiply"
           >
-            <img src="/Untitled design (41).svg" alt="" className="w-[220px] object-contain translate-y-6" />
-            <img src="/Untitled design (41).svg" alt="" className="w-[180px] object-contain -translate-y-4" />
+            <img src="/Untitled design (67).svg" alt="" className="w-[220px] object-contain translate-y-6" />
+            <img src="/Untitled design (67).svg" alt="" className="w-[180px] object-contain -translate-y-4" />
           </motion.div>
 
           {/* Search Bar */}

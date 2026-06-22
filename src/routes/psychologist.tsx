@@ -85,7 +85,7 @@ export default function PsychologistRoute() {
 
       {/* Bottom Left Cloud */}
       <motion.img
-        src="/Untitled design (36).svg"
+        src="/Untitled design (41).svg"
         alt=""
         initial={{ x: "-20%", opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -110,7 +110,7 @@ export default function PsychologistRoute() {
           style={{ bottom: "30%", right: "8%" }}
         >
           <img
-            src="/Untitled design (41).svg"
+            src="/Untitled design (67).svg"
             alt=""
             className="w-[9vw] max-w-[120px] min-w-[60px] drop-shadow-md"
             style={{ transform: "scaleX(-1)" }}
@@ -125,7 +125,7 @@ export default function PsychologistRoute() {
           style={{ bottom: "20%", right: "15%" }}
         >
           <img
-            src="/Untitled design (42).svg"
+            src="/Untitled design (68).svg"
             alt=""
             className="w-[7vw] max-w-[90px] min-w-[45px] drop-shadow-sm opacity-90"
             style={{ transform: "scaleX(-1)" }}
@@ -140,7 +140,7 @@ export default function PsychologistRoute() {
           style={{ bottom: "38%", right: "16%" }}
         >
           <img
-            src="/Untitled design (42).svg"
+            src="/Untitled design (68).svg"
             alt=""
             className="w-[6vw] max-w-[80px] min-w-[40px] drop-shadow-sm opacity-85"
             style={{ transform: "scaleX(-1)" }}
@@ -155,7 +155,7 @@ export default function PsychologistRoute() {
           style={{ bottom: "12%", right: "22%" }}
         >
           <img
-            src="/Untitled design (41).svg"
+            src="/Untitled design (67).svg"
             alt=""
             className="w-[5vw] max-w-[70px] min-w-[35px] drop-shadow-sm opacity-80"
             style={{ transform: "scaleX(-1)" }}
@@ -170,7 +170,7 @@ export default function PsychologistRoute() {
           style={{ bottom: "44%", right: "24%" }}
         >
           <img
-            src="/Untitled design (41).svg"
+            src="/Untitled design (67).svg"
             alt=""
             className="w-[5.5vw] max-w-[75px] min-w-[35px] drop-shadow-sm opacity-75"
             style={{ transform: "scaleX(-1)" }}
@@ -185,7 +185,7 @@ export default function PsychologistRoute() {
           style={{ bottom: "28%", right: "26%" }}
         >
           <img
-            src="/Untitled design (42).svg"
+            src="/Untitled design (68).svg"
             alt=""
             className="w-[4vw] max-w-[60px] min-w-[30px] drop-shadow-sm opacity-70"
             style={{ transform: "scaleX(-1)" }}
@@ -692,7 +692,7 @@ export default function PsychologistRoute() {
 
         {/* Left Cloud */}
         <motion.img
-          src="/Untitled design (36).svg"
+          src="/Untitled design (41).svg"
           alt=""
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}

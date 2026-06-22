@@ -29,7 +29,7 @@ export default function ScreeningRoute() {
     <main className="relative min-h-screen w-full overflow-x-hidden bg-[#f7f3ea] text-[#1C1917] font-sans selection:bg-[#E7E5E4] selection:text-[#1C1917]">
       {/* Rotated Edge Image */}
       <img 
-        src="/OBoSx2w5tMuy6gjBCfSAg8SuLvA.avif" 
+        src="/Untitled design (71).svg" 
         alt=""
         className="absolute left-[-10vw] md:left-[-15vw] lg:left-[-20vw] top-[50%] w-[40vw] max-w-[600px] object-contain rotate-90 pointer-events-none opacity-90 mix-blend-multiply z-0"
       />
@@ -44,7 +44,7 @@ export default function ScreeningRoute() {
 
       {/* Cloud Illustration */}
       <motion.img 
-        src="/Untitled design (36).svg" 
+        src="/Untitled design (41).svg" 
         alt="" 
         initial={{ x: "-100%", opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -75,8 +75,8 @@ export default function ScreeningRoute() {
           
           {/* Birds placed in the gap for breathing room */}
           <motion.div style={{ y: rightImgY }} className="w-full h-[160px] md:h-[220px] flex justify-center items-center gap-16 md:gap-32 pointer-events-none opacity-[0.9] mix-blend-multiply z-0 mb-16 md:mb-24">
-            <img src="/Untitled design (41).svg" alt="" className="w-[160px] md:w-[220px] object-contain translate-y-6" />
-            <img src="/Untitled design (42).svg" alt="" className="w-[130px] md:w-[180px] object-contain -translate-y-4" />
+            <img src="/Untitled design (67).svg" alt="" className="w-[160px] md:w-[220px] object-contain translate-y-6" />
+            <img src="/Untitled design (68).svg" alt="" className="w-[130px] md:w-[180px] object-contain -translate-y-4" />
           </motion.div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
@@ -403,7 +403,7 @@ export default function ScreeningRoute() {
           
           {/* Huge Edge Image on the right */}
           <motion.img 
-            src="/Gm6CrXzxO7OGmfeRPBsg12Uo.avif" 
+            src="/Untitled design (63).svg" 
             alt="Cloud abstract" 
             className="absolute right-[-20vw] md:right-[-30vw] lg:right-[-25vw] top-[60%] -translate-y-1/2 w-[80vw] md:w-[70vw] max-w-[1200px] pointer-events-none z-0 object-contain mix-blend-multiply opacity-70"
             initial={{ opacity: 0 }}

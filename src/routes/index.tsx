@@ -43,9 +43,9 @@ const craneAccent1 = "/assets/crane-accent-1.png";
 const craneAccent2 = "/assets/crane-accent-2.png";
 
 /* ───────── AVIF Cloud / Blob illustrations from /public ───────── */
-const avifCloud1 = "/6hJMdyZmB1ZzlX6REYIXYMeVWf0 (2).avif";
-const avifCloud2 = "/Gm6CrXzxO7OGmfeRPBsg12Uo.avif";
-const avifCloud3 = "/IzRkb9QIOWOI4IYcR98WEF2QUUg.avif";
+const avifCloud1 = "/Untitled design (64).svg";
+const avifCloud2 = "/Untitled design (63).svg";
+const avifCloud3 = "/Untitled design (42).svg";
 
 /**
  * Edge-bleed parallax illustration using the AVIF files.
@@ -429,9 +429,8 @@ function CloudBridge({ fill, flip = false }: { fill: string; flip?: boolean }) {
   return (
     <div
       aria-hidden
-      className={`pointer-events-none absolute left-0 right-0 w-full ${
-        flip ? "bottom-full" : "-top-px"
-      }`}
+      className={`pointer-events-none absolute left-0 right-0 w-full ${flip ? "bottom-full" : "-top-px"
+        }`}
       style={{ height: 80 }}
     >
       <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-full block">
@@ -537,17 +536,16 @@ function NavItem({ item, scrolled }: { item: NavDropdownData; scrolled: boolean 
     >
       <Link
         href={item.href}
-        className={`relative px-5 py-2.5 rounded-full transition-all duration-500 font-medium inline-block tracking-wide ${
-          hovered 
-            ? "bg-[#E2D9FF] text-slate-900 drop-shadow-none" 
-            : scrolled 
-              ? "text-slate-900 hover:text-slate-600 drop-shadow-none" 
+        className={`relative px-5 py-2.5 rounded-full transition-all duration-500 font-medium inline-block tracking-wide ${hovered
+            ? "bg-[#E2D9FF] text-slate-900 drop-shadow-none"
+            : scrolled
+              ? "text-slate-900 hover:text-slate-600 drop-shadow-none"
               : "text-white hover:text-white/80"
-        }`}
+          }`}
       >
         {item.label}
       </Link>
-      
+
       <AnimatePresence>
         {hovered && item.dropdown && (
           <motion.div
@@ -613,7 +611,7 @@ function MobileNavItem({ item, setOpen }: { item: NavDropdownData, setOpen: (v: 
           </svg>
         </motion.div>
       </button>
-      
+
       <motion.div
         initial={false}
         animate={expanded ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
@@ -649,7 +647,7 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrollPos, setScrollPos] = useState(false);
   const pathname = usePathname();
-  
+
   const isMainPage = pathname === "/";
   const scrolled = isMainPage ? scrollPos : true;
 
@@ -666,18 +664,16 @@ export function Nav() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] as any }}
-      className={`fixed inset-x-0 z-50 transition-all duration-500 flex flex-col items-stretch ${
-        scrolled ? "top-4 px-4 md:px-8" : "top-0 px-0"
-      }`}
+      className={`fixed inset-x-0 z-50 transition-all duration-500 flex flex-col items-stretch ${scrolled ? "top-4 px-4 md:px-8" : "top-0 px-0"
+        }`}
     >
       <motion.div
         layout
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className={`mx-auto flex items-center justify-between transition-all duration-500 ${
-          scrolled
+        className={`mx-auto flex items-center justify-between transition-all duration-500 ${scrolled
             ? "w-full max-w-[1600px] bg-white/30 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_rgba(255,255,255,0.15)] py-4 px-8 md:px-12 rounded-[2rem]"
             : "w-full max-w-[1400px] bg-transparent py-5 px-8 md:px-12 lg:px-16 rounded-none border-transparent"
-        }`}
+          }`}
       >
         <motion.div layout>
           <Link href="/" className="flex items-center group shrink-0">
@@ -748,74 +744,96 @@ function Hero() {
     >
       {/* ── Birds in diagonal formation (upper-right to lower-left, like baba) ── */}
 
-      {/* Bird 1 deleted as per user request to avoid nav bar collision */}
-
-      {/* Bird 2 — top right edge */}
       <motion.div
-        animate={{ y: [-3, 5, -3], x: [0, -8, 0] }}
-        transition={{ repeat: Infinity, duration: 8.5, ease: "easeInOut", delay: 0.5 }}
-        className="absolute z-[5] pointer-events-none select-none"
-        style={{ top: "15%", right: "5%" }}
+        initial={{ x: "100vw", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1.8, ease: "easeOut", delay: 0.1 }}
+        className="absolute inset-0 pointer-events-none z-[5]"
       >
-        <img
-          src="/Untitled design (42).svg"
-          alt=""
-          style={{
-            width: "clamp(80px, 8vw, 110px)",
-            filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
-          }}
-        />
-      </motion.div>
+        {/* Bird 1 — top right (intersecting nav) */}
+        <motion.div
+          animate={{ y: [-4, 6, -4], x: [0, -5, 0] }}
+          transition={{ repeat: Infinity, duration: 9, ease: "easeInOut", delay: 0.2 }}
+          className="absolute z-[5] pointer-events-none select-none"
+          style={{ top: "-2%", right: "15%" }}
+        >
+          <img
+            src="/Untitled design (68).svg"
+            alt=""
+            style={{
+              width: "clamp(130px, 14vw, 180px)",
+              filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
+            }}
+          />
+        </motion.div>
 
-      {/* Bird 3 — mid right */}
-      <motion.div
-        animate={{ y: [-5, 4, -5], x: [0, -6, 0] }}
-        transition={{ repeat: Infinity, duration: 9, ease: "easeInOut", delay: 1.0 }}
-        className="absolute z-[5] pointer-events-none select-none"
-        style={{ top: "45%", right: "10%" }}
-      >
-        <img
-          src="/Untitled design (42).svg"
-          alt=""
-          style={{
-            width: "clamp(90px, 9vw, 120px)",
-            filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
-          }}
-        />
-      </motion.div>
+        {/* Bird 2 — upper right */}
+        <motion.div
+          animate={{ y: [-3, 5, -3], x: [0, -8, 0] }}
+          transition={{ repeat: Infinity, duration: 8.5, ease: "easeInOut", delay: 0.5 }}
+          className="absolute z-[5] pointer-events-none select-none"
+          style={{ top: "25%", right: "4%" }}
+        >
+          <img
+            src="/Untitled design (68).svg"
+            alt=""
+            style={{
+              width: "clamp(180px, 18vw, 240px)",
+              filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
+            }}
+          />
+        </motion.div>
 
-      {/* Bird 4 — bottom right-center (below button) */}
-      <motion.div
-        animate={{ y: [-3, 6, -3], x: [0, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 1.5 }}
-        className="absolute z-[5] pointer-events-none select-none"
-        style={{ top: "82%", right: "30%" }}
-      >
-        <img
-          src="/Untitled design (41).svg"
-          alt=""
-          style={{
-            width: "clamp(120px, 13vw, 190px)",
-            filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
-          }}
-        />
-      </motion.div>
+        {/* Bird 3 — mid-lower right */}
+        <motion.div
+          animate={{ y: [-5, 4, -5], x: [0, -6, 0] }}
+          transition={{ repeat: Infinity, duration: 9, ease: "easeInOut", delay: 1.0 }}
+          className="absolute z-[5] pointer-events-none select-none"
+          style={{ top: "58%", right: "12%" }}
+        >
+          <img
+            src="/Untitled design (68).svg"
+            alt=""
+            style={{
+              width: "clamp(180px, 18vw, 240px)",
+              filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
+            }}
+          />
+        </motion.div>
 
-      {/* Bird 5 — bottom left */}
-      <motion.div
-        animate={{ y: [-4, 3, -4], x: [0, 6, 0] }}
-        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut", delay: 0.8 }}
-        className="absolute z-[5] pointer-events-none select-none"
-        style={{ top: "85%", left: "15%" }}
-      >
-        <img
-          src="/Untitled design (42).svg"
-          alt=""
-          style={{
-            width: "clamp(100px, 10vw, 140px)",
-            filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
-          }}
-        />
+        {/* Bird 4 — bottom center-right */}
+        <motion.div
+          animate={{ y: [-3, 6, -3], x: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 1.5 }}
+          className="absolute z-[5] pointer-events-none select-none"
+          style={{ top: "70%", right: "32%" }}
+        >
+          <img
+            src="/Untitled design (67).svg"
+            alt=""
+            style={{
+              width: "clamp(180px, 18vw, 240px)",
+              filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
+            }}
+          />
+        </motion.div>
+
+        {/* Bird 5 — bottom left */}
+        <motion.div
+          animate={{ y: [-4, 3, -4], x: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 8, ease: "easeInOut", delay: 0.8 }}
+          className="absolute z-[5] pointer-events-none select-none"
+          style={{ top: "75%", left: "12%" }}
+        >
+          <img
+            src="/Untitled design (68).svg"
+            alt=""
+            style={{
+              width: "clamp(180px, 18vw, 240px)",
+              filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
+            }}
+          />
+        </motion.div>
       </motion.div>
 
       {/* ── Text content — centered like baba.health ── */}
@@ -867,7 +885,7 @@ function Hero() {
           transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] as any }}
           className="mt-6 text-white/90 text-[16px] sm:text-[17px] leading-[1.5] max-w-md mx-auto font-normal drop-shadow-sm"
         >
-          Imagine a quiet companion guiding you through it —<br/>
+          Imagine a quiet companion guiding you through it —<br />
           <em className="font-display italic text-white/90 text-[17px] sm:text-[18px]">free for students.</em>
         </motion.p>
 
@@ -922,7 +940,7 @@ function Collaboration() {
         }}
       >
         <img
-          src="/6hJMdyZmB1ZzlX6REYIXYMeVWf0 (2).avif"
+          src="/Untitled design (64).svg"
           alt=""
           className="w-full h-auto object-cover"
         />
@@ -980,7 +998,7 @@ function HowItWorks() {
   ];
 
   return (
-    <section 
+    <section
       className="relative pt-8 pb-28 md:pt-10 md:pb-32 px-6 md:px-10 overflow-visible"
       style={{
         backgroundImage: "url('/section3-bg.png')",
@@ -1127,7 +1145,7 @@ function MoodGate() {
         }}
         transition={{ duration: 1.5, ease: "easeInOut" }}
       />
-      
+
       {/* Decorative Right Branch */}
       <AvifBleed
         src={branchLarge}
@@ -1144,7 +1162,7 @@ function MoodGate() {
 
       <div className="relative z-20 mx-auto max-w-6xl text-center">
         <p className="text-[11px] tracking-[0.35em] uppercase text-slate-500 font-semibold mb-12">The mood gate</p>
-        
+
         {/* Interactive Minimalist Bar */}
         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-20">
           {moodData.map((m, i) => {
@@ -1153,8 +1171,8 @@ function MoodGate() {
             const Icon = m.icon;
 
             return (
-              <div 
-                key={m.label} 
+              <div
+                key={m.label}
                 className="relative"
                 onMouseEnter={() => setHoveredMood(i)}
                 onMouseLeave={() => setHoveredMood(null)}
@@ -1180,7 +1198,7 @@ function MoodGate() {
                   onClick={() => setActiveMood(i)}
                   whileHover={{ y: -4 }}
                   whileTap={{ scale: 0.96 }}
-                  animate={{ 
+                  animate={{
                     scale: isActive ? 1.05 : 1,
                     y: isActive ? -4 : 0,
                     backgroundColor: isActive ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.4)"
@@ -1231,7 +1249,7 @@ function MoodGate() {
                 <p className="mt-6 text-slate-600 max-w-xl mx-auto font-light leading-relaxed text-[17px]">
                   {current.subheading}
                 </p>
-                
+
                 <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
                   {current.cards.map((c, i) => (
                     <motion.div
@@ -1344,7 +1362,7 @@ function MindAccordion() {
         }}
       >
         <img
-          src="/Untitled design (36).svg"
+          src="/Untitled design (41).svg"
           alt=""
           className="w-full h-auto object-contain"
           loading="lazy"
@@ -1430,7 +1448,7 @@ function FeatureHighlight() {
       {/* Left Bleed Illustration (SVG) */}
       <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-10 hidden xl:block w-[30vw] max-w-[420px] mix-blend-multiply opacity-90">
         <img
-          src="/left.svg"
+          src="/Untitled design (40).svg"
           alt=""
           className="w-full h-auto object-contain object-left scale-[1.35] origin-left"
         />
@@ -1439,7 +1457,7 @@ function FeatureHighlight() {
       {/* Right Bleed Illustration (AVIF) */}
       <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-10 hidden xl:block w-[30vw] max-w-[420px] opacity-90">
         <img
-          src="/right.avif"
+          src="/Untitled design (70).svg"
           alt=""
           className="w-full h-auto object-contain object-right scale-[1.25] origin-right"
           style={{ transform: "rotate(-90deg)" }}
@@ -1552,10 +1570,10 @@ function Ecosystem() {
               className="flex flex-col items-center text-center group"
             >
               <Link href={c.href} className="flex flex-col items-center text-center">
-                <img 
-                  src={c.img} 
-                  alt="" 
-                  className="h-[180px] w-auto object-contain mb-[40px] bg-transparent shadow-none group-hover:scale-105 transition-transform duration-300" 
+                <img
+                  src={c.img}
+                  alt=""
+                  className="h-[180px] w-auto object-contain mb-[40px] bg-transparent shadow-none group-hover:scale-105 transition-transform duration-300"
                 />
                 <h3 className="font-serif text-3xl md:text-[36px] font-medium text-slate-900 leading-[1.15] max-w-[420px] mx-auto mb-[24px] group-hover:text-[#6B7CBB] transition-colors duration-300">
                   {c.title}
@@ -1642,6 +1660,7 @@ function WhatStudentsCarry() {
           src="/Untitled design (37).svg"
           alt=""
           className="w-full h-auto"
+          style={{ transform: "scaleX(-1)" }}
         />
       </motion.div>
 
@@ -1914,13 +1933,14 @@ function ClosingCTA() {
       }}
     >
       <AvifBleed
-        src="/SbSqGCYAPE8Sz36boHNMBd7o2kY.avif"
+        src="/Untitled design (63).svg"
         side="left"
         top="-10%"
         width="36vw"
         maxWidth={400}
         opacity={0.85}
         rotate={0}
+        flipX
         yRange={[0, -60]}
       />
       <AvifBleed
@@ -2078,10 +2098,10 @@ function BentoFeatures() {
                 {/* Animated soft glow behind content */}
                 <div className="pointer-events-none absolute -top-24 -right-24 w-64 h-64 rounded-full bg-white/70 blur-[50px] group-hover:scale-125 transition-transform duration-1000" />
                 <div className="pointer-events-none absolute -bottom-24 -left-16 w-56 h-56 rounded-full bg-[#E2D9FF]/30 blur-[50px] group-hover:scale-125 transition-transform duration-1000" />
-                
+
                 <Link href={f.href} className="relative z-10 flex flex-col h-full w-full block">
-                  <motion.div 
-                    animate={{ y: [0, -8, 0] }} 
+                  <motion.div
+                    animate={{ y: [0, -8, 0] }}
                     transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: i * 0.2 }}
                     className="mb-8 origin-left group-hover:scale-110 transition-transform duration-500"
                   >
@@ -2091,11 +2111,11 @@ function BentoFeatures() {
                   <span className="text-[10px] tracking-[0.3em] uppercase text-slate-500 font-semibold mb-4 block">
                     {f.tag}
                   </span>
-                  
+
                   <h3 className={`font-serif text-slate-900 font-light tracking-tight leading-snug mb-4 ${f.isBig ? 'text-3xl md:text-4xl' : 'text-2xl md:text-[26px]'}`}>
                     {f.title}
                   </h3>
-                  
+
                   <p className={`text-slate-600 leading-relaxed font-medium ${f.isBig ? 'text-[15px] mb-8' : 'text-sm mb-6'}`}>
                     {f.text}
                   </p>
@@ -2112,7 +2132,7 @@ function BentoFeatures() {
                   )}
 
                   <div className="mt-auto pt-2 flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] text-slate-800 font-semibold group-hover:text-[#6B7CBB] transition-colors">
-                    Explore 
+                    Explore
                     <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
                 </Link>
@@ -2154,8 +2174,8 @@ export function Footer() {
         { label: "Resources", href: "/resources" },
       ],
     },
-    { 
-      h: "Library", 
+    {
+      h: "Library",
       links: [
         { label: "All Resources", href: "/resources" },
         { label: "Articles", href: "/resources" },
@@ -2620,7 +2640,7 @@ export default function Index() {
         <HeroAtmosphere />
 
         {/* ── Hero & Cloud Wrapper ── */}
-        <div 
+        <div
           className="relative w-full"
           style={{
             backgroundImage: "url('/hero-background.png')",
@@ -2631,21 +2651,27 @@ export default function Index() {
         >
           {/* ── Cloud Layer from Builder.io reference ── */}
           <motion.div
-            aria-hidden
-            className="absolute pointer-events-none w-[120%] left-1/2 -translate-x-1/2 bottom-[-100px] sm:bottom-[-140px] md:w-[161%] md:left-auto md:translate-x-0 md:right-[-121px] md:bottom-[-290px]"
-            style={{ 
-              zIndex: 0,
-              x: heroCloudX
-            }}
+            initial={{ x: "-100vw", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="absolute inset-0 z-0 pointer-events-none"
           >
-            <img
-              src="/Untitled design (39).svg"
-              alt=""
-              className="w-full h-auto"
+            <motion.div
+              aria-hidden
+              className="absolute pointer-events-none w-[120%] left-1/2 -translate-x-1/2 bottom-[-100px] sm:bottom-[-140px] md:w-[161%] md:left-auto md:translate-x-0 md:right-[-121px] md:bottom-[-290px]"
               style={{
-                opacity: 1,
+                x: heroCloudX
               }}
-            />
+            >
+              <img
+                src="/Untitled design (39).svg"
+                alt=""
+                className="w-full h-auto"
+                style={{
+                  opacity: 1,
+                }}
+              />
+            </motion.div>
           </motion.div>
 
           {/* BLOCK 1 — Hero */}
@@ -2686,7 +2712,7 @@ export default function Index() {
           {/* Clip wrapper hides the bottom branch endings */}
           <div style={{ overflow: "hidden", paddingBottom: 0 }}>
             <img
-              src="/Untitled design (34).svg"
+              src="/Untitled design (63).svg"
               alt=""
               className="w-full h-auto object-contain object-top"
               style={{
@@ -2749,7 +2775,7 @@ export default function Index() {
           }}
         >
           <img
-            src="/Untitled design (35).svg"
+            src="/Untitled design (69).svg"
             alt=""
             className="w-full h-auto object-contain"
             loading="lazy"
@@ -2797,7 +2823,7 @@ export default function Index() {
       {/* BLOCK 5 — ClosingCTA + Footer combined background */}
       <div className="relative w-full overflow-x-clip overflow-y-visible" style={{ backgroundColor: "#FFFFFF" }}>
         {/* Background Image Layer covering BOTH, fading softly from white at the top */}
-        <div 
+        <div
           className="absolute inset-0 z-0 pointer-events-none"
           style={{
             // Fade the image out perfectly at the top so it seamlessly blends with the white background
@@ -2805,7 +2831,7 @@ export default function Index() {
             WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 250px)"
           }}
         >
-          <div 
+          <div
             className="w-full h-full"
             style={{
               backgroundImage: "url('/section3-bg.png')",
@@ -2816,7 +2842,7 @@ export default function Index() {
             }}
           />
         </div>
-        
+
         <div className="relative z-10">
           <ClosingCTA />
           <Footer />

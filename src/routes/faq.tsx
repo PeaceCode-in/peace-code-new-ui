@@ -135,7 +135,7 @@ export default function FaqRoute() {
 
       {/* First Illustration - Top Right Edge */}
       <motion.img 
-        src="/Gm6CrXzxO7OGmfeRPBsg12Uo.avif" 
+        src="/Untitled design (63).svg" 
         alt=""
         style={{ y: illustration1Y }}
         className="absolute right-[-10vw] top-[5%] w-[40vw] max-w-[600px] object-contain pointer-events-none opacity-[0.85] mix-blend-multiply z-0"
@@ -159,7 +159,7 @@ export default function FaqRoute() {
 
         {/* Second Illustration - Middle Left */}
         <motion.img 
-          src="/SbSqGCYAPE8Sz36boHNMBd7o2kY.avif" 
+          src="/Untitled design (63).svg" 
           alt=""
           style={{ y: illustration2Y }}
           className="absolute left-[-15vw] md:left-[-10vw] top-[30%] w-[35vw] max-w-[500px] object-contain pointer-events-none opacity-[0.85] mix-blend-multiply z-0"

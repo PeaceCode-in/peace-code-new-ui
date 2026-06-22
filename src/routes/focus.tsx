@@ -36,21 +36,21 @@ export default function FocusRoute() {
       {/* Flock of Birds in Hero */}
       <div className="absolute inset-0 pointer-events-none z-[0] overflow-hidden">
         <motion.img 
-          src="/Untitled design (41).svg" 
+          src="/Untitled design (67).svg" 
           alt="" 
           animate={{ x: ['-10vw', '110vw'], y: [100, -50] }}
           transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 0 }}
           className="absolute top-[20vh] left-0 w-16 opacity-80"
         />
         <motion.img 
-          src="/Untitled design (42).svg" 
+          src="/Untitled design (68).svg" 
           alt="" 
           animate={{ x: ['-10vw', '110vw'], y: [120, -30] }}
           transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 2.5 }}
           className="absolute top-[18vh] left-0 w-12 opacity-80"
         />
         <motion.img 
-          src="/Untitled design (41).svg" 
+          src="/Untitled design (67).svg" 
           alt="" 
           animate={{ x: ['-10vw', '110vw'], y: [80, -70] }}
           transition={{ repeat: Infinity, duration: 30, ease: "linear", delay: 4.5 }}
@@ -174,7 +174,7 @@ export default function FocusRoute() {
         <section className="relative py-20 md:py-48 flex flex-col md:flex-row items-center justify-end">
           
           <motion.img 
-            src="/SbSqGCYAPE8Sz36boHNMBd7o2kY.avif" 
+            src="/Untitled design (63).svg" 
             alt="" 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 0.6, x: 0 }}

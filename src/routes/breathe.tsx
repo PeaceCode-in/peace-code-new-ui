@@ -35,7 +35,7 @@ export default function BreatheRoute() {
 
       {/* Atmospheric Illustration: Soft, airy abstraction placed elegantly in the background */}
       <motion.img 
-        src="/6hJMdyZmB1ZzlX6REYIXYMeVWf0 (2).avif" 
+        src="/Untitled design (64).svg" 
         alt="" 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -47,28 +47,28 @@ export default function BreatheRoute() {
       {/* Flock of Birds in Hero */}
       <div className="absolute inset-0 pointer-events-none z-[0] overflow-hidden">
         <motion.img 
-          src="/Untitled design (41).svg" 
+          src="/Untitled design (67).svg" 
           alt="" 
           animate={{ x: ['-10vw', '110vw'], y: [100, -50] }}
           transition={{ repeat: Infinity, duration: 25, ease: "linear", delay: 0 }}
           className="absolute top-[20vh] left-0 w-16 opacity-100"
         />
         <motion.img 
-          src="/Untitled design (42).svg" 
+          src="/Untitled design (68).svg" 
           alt="" 
           animate={{ x: ['-10vw', '110vw'], y: [120, -30] }}
           transition={{ repeat: Infinity, duration: 25, ease: "linear", delay: 1.5 }}
           className="absolute top-[18vh] left-0 w-12 opacity-100"
         />
         <motion.img 
-          src="/Untitled design (41).svg" 
+          src="/Untitled design (67).svg" 
           alt="" 
           animate={{ x: ['-10vw', '110vw'], y: [80, -70] }}
           transition={{ repeat: Infinity, duration: 25, ease: "linear", delay: 2.5 }}
           className="absolute top-[22vh] left-0 w-10 opacity-100"
         />
         <motion.img 
-          src="/Untitled design (42).svg" 
+          src="/Untitled design (68).svg" 
           alt="" 
           animate={{ x: ['-10vw', '110vw'], y: [140, -10] }}
           transition={{ repeat: Infinity, duration: 25, ease: "linear", delay: 0.8 }}
@@ -152,7 +152,7 @@ export default function BreatheRoute() {
         {/* 4. SUPPORT SECTION */}
         <section className="relative py-20 md:py-48 border-t border-[#E7E5E4]/50 flex flex-col md:flex-row justify-between gap-16">
           <motion.img 
-            src="/SbSqGCYAPE8Sz36boHNMBd7o2kY.avif" 
+            src="/Untitled design (63).svg" 
             alt="" 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}

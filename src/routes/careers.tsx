@@ -61,7 +61,7 @@ export default function CareersRoute() {
         
         {/* Left Edge Image - Anchored to bottom */}
         <motion.img 
-          src="/IzRkb9QIOWOI4IYcR98WEF2QUUg.avif" 
+          src="/Untitled design (42).svg" 
           alt="" 
           initial={{ x: "-100%", opacity: 0 }}
           animate={{ x: "-40%", opacity: 1 }}
@@ -72,7 +72,7 @@ export default function CareersRoute() {
 
         {/* Right Edge Image - Anchored to bottom */}
         <motion.img 
-          src="/Gm6CrXzxO7OGmfeRPBsg12Uo.avif" 
+          src="/Untitled design (63).svg" 
           alt="" 
           initial={{ x: "100%", opacity: 0 }}
           animate={{ x: "40%", opacity: 1 }}

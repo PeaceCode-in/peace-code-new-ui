@@ -34,7 +34,7 @@ export default function JournalRoute() {
         
         {/* Left Edge Image - Anchored to bottom (borrowed soft cloud from gratitude for atmosphere) */}
         <motion.img 
-          src="/IzRkb9QIOWOI4IYcR98WEF2QUUg.avif" 
+          src="/Untitled design (42).svg" 
           alt="" 
           initial={{ x: "-100%", opacity: 0 }}
           animate={{ x: "-40%", opacity: 1 }}
@@ -45,7 +45,7 @@ export default function JournalRoute() {
 
         {/* Right Edge Image - The Phone as requested */}
         <motion.img 
-          src="/Gm6CrXzxO7OGmfeRPBsg12Uo.avif" 
+          src="/Untitled design (63).svg" 
           alt="" 
           initial={{ x: "100%", opacity: 0 }}
           animate={{ x: "40%", opacity: 1 }}
@@ -149,7 +149,7 @@ export default function JournalRoute() {
         {/* Left Bleed Illustration (SVG) */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-10 hidden xl:block w-[30vw] max-w-[420px] mix-blend-multiply opacity-90">
           <img
-            src="/left.svg"
+            src="/Untitled design (40).svg"
             alt=""
             className="w-full h-auto object-contain object-left scale-[1.35] origin-left"
           />
@@ -158,7 +158,7 @@ export default function JournalRoute() {
         {/* Right Bleed Illustration (AVIF) */}
         <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-10 hidden xl:block w-[30vw] max-w-[420px] opacity-90">
           <img
-            src="/right.avif"
+            src="/Untitled design (70).svg"
             alt=""
             className="w-full h-auto object-contain object-right scale-[1.25] origin-right"
             style={{ transform: "rotate(-90deg)" }}
@@ -221,7 +221,7 @@ export default function JournalRoute() {
         <section className="relative py-20 md:py-48 flex flex-col items-center text-center">
           {/* Transparent botanical illustration */}
           <motion.img 
-            src="/Untitled design (36).svg" 
+            src="/Untitled design (41).svg" 
             alt="" 
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -344,7 +344,7 @@ export default function JournalRoute() {
           className="absolute right-[-15%] lg:right-[-12%] top-1/2 -translate-y-1/2 pointer-events-none select-none z-0 hidden md:block mix-blend-multiply"
         >
           <img 
-            src="/Untitled design (34).svg" 
+            src="/Untitled design (63).svg" 
             alt="" 
             className="w-[60vw] max-w-[800px] object-contain object-right opacity-90 origin-right scale-125 translate-x-[15%]" 
           />

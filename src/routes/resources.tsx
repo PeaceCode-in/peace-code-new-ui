@@ -129,8 +129,8 @@ export default function ResourcesRoute() {
             transition={{ duration: 1, delay: 0.5 }}
             className="absolute left-1/2 -translate-x-1/2 top-[500px] md:top-[600px] flex justify-center items-center gap-16 md:gap-32 w-full"
           >
-            <img src="/Untitled design (41).svg" alt="" className="w-[140px] md:w-[200px] object-contain translate-y-4 md:translate-x-8" />
-            <img src="/Untitled design (42).svg" alt="" className="w-[110px] md:w-[150px] object-contain -translate-y-2 md:-translate-x-8" />
+            <img src="/Untitled design (67).svg" alt="" className="w-[140px] md:w-[200px] object-contain translate-y-4 md:translate-x-8" />
+            <img src="/Untitled design (68).svg" alt="" className="w-[110px] md:w-[150px] object-contain -translate-y-2 md:-translate-x-8" />
           </motion.div>
         </div>
 
@@ -158,13 +158,13 @@ export default function ResourcesRoute() {
         {/* Parallax Illustrations perfectly constrained to screen width */}
         <div className="absolute inset-0 w-full h-[150vh] overflow-hidden pointer-events-none z-0">
           <motion.img 
-            src="/SbSqGCYAPE8Sz36boHNMBd7o2kY.avif" 
+            src="/Untitled design (63).svg" 
             alt=""
             style={{ y: branchesY }}
             className="absolute left-0 -translate-x-[30%] top-[5%] w-[35vw] max-w-[400px] object-contain"
           />
           <motion.img 
-            src="/OBoSx2w5tMuy6gjBCfSAg8SuLvA.avif" 
+            src="/Untitled design (71).svg" 
             alt=""
             style={{ y: rotatedImageY }}
             className="absolute left-0 -translate-x-[40%] top-[40%] w-[500px] object-contain rotate-90"
@@ -321,7 +321,7 @@ export default function ResourcesRoute() {
           <section className="relative">
             {/* Big Decorative Illustration on the Right Edge */}
             <motion.img 
-              src="/Gm6CrXzxO7OGmfeRPBsg12Uo.avif" 
+              src="/Untitled design (63).svg" 
               alt=""
               className="absolute right-[-10vw] md:right-[-15vw] xl:right-[-25vw] -top-[150px] md:-top-[350px] w-[400px] md:w-[650px] xl:w-[850px] object-contain pointer-events-none z-[-1]"
               initial={{ opacity: 0, x: 50 }}

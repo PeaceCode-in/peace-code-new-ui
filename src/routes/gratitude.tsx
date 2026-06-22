@@ -36,7 +36,7 @@ export default function GratitudeRoute() {
         
         {/* Left Edge Image - Anchored to bottom */}
         <motion.img 
-          src="/IzRkb9QIOWOI4IYcR98WEF2QUUg.avif" 
+          src="/Untitled design (42).svg" 
           alt="" 
           initial={{ x: "-100%", opacity: 0 }}
           animate={{ x: "-40%", opacity: 1 }}
@@ -47,7 +47,7 @@ export default function GratitudeRoute() {
 
         {/* Right Edge Image - Anchored to bottom */}
         <motion.img 
-          src="/Gm6CrXzxO7OGmfeRPBsg12Uo.avif" 
+          src="/Untitled design (63).svg" 
           alt="" 
           initial={{ x: "100%", opacity: 0 }}
           animate={{ x: "40%", opacity: 1 }}
@@ -236,7 +236,7 @@ export default function GratitudeRoute() {
         <section className="relative py-20 md:py-48 flex flex-col items-center text-center">
           {/* Cloud Illustration */}
           <motion.img 
-            src="/Untitled design (36).svg" 
+            src="/Untitled design (41).svg" 
             alt="" 
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
