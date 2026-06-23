@@ -2567,18 +2567,6 @@ function useDecorScroll() {
 export default function Index() {
   useDecorScroll();
 
-  const [isBgLoaded, setIsBgLoaded] = useState(false);
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = '/hero-background.webp';
-    if (img.complete) {
-      setIsBgLoaded(true);
-    } else {
-      img.onload = () => setIsBgLoaded(true);
-      img.onerror = () => setIsBgLoaded(true);
-    }
-  }, []);
 
   const refCloudRight = useRef<HTMLDivElement>(null);
   const [targetCloudRight, setTargetCloudRight] = useState<HTMLDivElement | null>(null);
@@ -2598,32 +2586,7 @@ export default function Index() {
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden text-slate-900 bg-[#A3B8C7]">
-      <AnimatePresence>
-        {!isBgLoaded && (
-          <motion.div
-            key="loader"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#f7f3ea]"
-          >
-            <motion.img 
-              src="/nav bar logo.svg" 
-              alt="Loading" 
-              className="w-16 h-16 object-contain mb-4 brightness-0 opacity-80"
-              animate={{ opacity: [0.4, 0.8, 0.4], scale: [0.95, 1.05, 0.95] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-            />
-            <motion.div 
-              className="text-[#1E3048] font-medium text-[13px] tracking-[0.2em] uppercase text-center px-4"
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut", delay: 0.2 }}
-            >
-              Finding your peace...
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
 
       <Nav />
 
