@@ -65,7 +65,7 @@ export default function FocusRoute() {
           
           {/* Hero Background Image */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-full pointer-events-none z-[-1] overflow-hidden">
-            <img src="/section3-bg.png" alt="" className="w-full h-full object-cover opacity-80 mix-blend-multiply" />
+            <img src="/section3-bg.webp" alt="" className="w-full h-full object-cover opacity-80 mix-blend-multiply" />
           </div>
 
           <motion.div {...fadeUp} className="max-w-4xl flex flex-col items-center relative z-10 mt-16">
