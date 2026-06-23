@@ -2571,7 +2571,7 @@ export default function Index() {
 
   useEffect(() => {
     const img = new Image();
-    img.src = '/hero-background.png';
+    img.src = '/hero-background.webp';
     if (img.complete) {
       setIsBgLoaded(true);
     } else {
@@ -2679,14 +2679,14 @@ export default function Index() {
       <div
         className="w-full relative overflow-x-hidden"
       >
-        <Image src="/section2-bg.png" alt="Background" fill className="object-cover object-top -z-10 pointer-events-none" />
+        <Image src="/section2-bg.webp" alt="Background" fill className="object-cover object-top -z-10 pointer-events-none" />
         <HeroAtmosphere />
 
         {/* ── Hero & Cloud Wrapper ── */}
         <div
           className="relative w-full"
         >
-          <Image src="/hero-background.png" alt="Hero Background" fill priority sizes="100vw" className="object-cover object-top -z-10 pointer-events-none" />
+          <Image src="/hero-background.webp" alt="Hero Background" fill priority sizes="100vw" className="object-cover object-top -z-10 pointer-events-none" />
           {/* ── Cloud Layer from Builder.io reference ── */}
           <motion.div
             initial={{ x: "-100vw", opacity: 0 }}
