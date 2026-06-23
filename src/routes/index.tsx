@@ -767,7 +767,6 @@ function Hero({ isBgLoaded = true }: { isBgLoaded?: boolean }) {
             style={{
               width: "clamp(130px, 14vw, 180px)",
               filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
-              transform: "scaleX(-1)",
             }}
           />
         </motion.div>
@@ -787,7 +786,6 @@ function Hero({ isBgLoaded = true }: { isBgLoaded?: boolean }) {
             style={{
               width: "clamp(180px, 18vw, 240px)",
               filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
-              transform: "scaleX(-1)",
             }}
           />
         </motion.div>
@@ -807,7 +805,6 @@ function Hero({ isBgLoaded = true }: { isBgLoaded?: boolean }) {
             style={{
               width: "clamp(180px, 18vw, 240px)",
               filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
-              transform: "scaleX(-1)",
             }}
           />
         </motion.div>
@@ -827,7 +824,6 @@ function Hero({ isBgLoaded = true }: { isBgLoaded?: boolean }) {
             style={{
               width: "clamp(180px, 18vw, 240px)",
               filter: "drop-shadow(0 6px 12px rgba(30,30,60,0.10))",
-              transform: "scaleX(-1)",
             }}
           />
         </motion.div>
