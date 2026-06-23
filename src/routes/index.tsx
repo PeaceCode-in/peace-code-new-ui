@@ -2676,7 +2676,7 @@ export default function Index() {
           </motion.div>
 
           {/* BLOCK 1 — Hero */}
-          <Hero isBgLoaded={isBgLoaded} />
+          <Hero />
         </div>
 
         {/* NEW SECTION — Collaboration Logos */}
