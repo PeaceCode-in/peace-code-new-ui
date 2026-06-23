@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Brain,
   Leaf,
@@ -1010,13 +1011,8 @@ function HowItWorks() {
   return (
     <section
       className="relative pt-8 pb-28 md:pt-10 md:pb-32 px-6 md:px-10 overflow-visible"
-      style={{
-        backgroundImage: "url('/section3-bg.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center top",
-        backgroundRepeat: "no-repeat",
-      }}
     >
+      <Image src="/section3-bg.png" alt="Background" fill className="object-cover object-top -z-10 pointer-events-none" />
       <motion.div {...reveal} className="relative z-20 mx-auto max-w-6xl -mt-16 md:-mt-24">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -1043,7 +1039,7 @@ function HowItWorks() {
               }}
             >
               <div className="how-card" style={{ aspectRatio: "4 / 5" }}>
-                <img src={s.img} alt={s.alt} loading="lazy" draggable={false} />
+                <Image src={s.img} alt={s.alt} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" draggable={false} />
 
                 {/* Text overlay */}
                 <div className="how-card-content">
@@ -1485,11 +1481,12 @@ function FeatureHighlight() {
         <div className="rounded-[32px] overflow-hidden grid grid-cols-1 lg:grid-cols-12 items-stretch bg-white/70 backdrop-blur-2xl border border-white/80 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] ring-1 ring-white/60">
           {/* LEFT COLUMN: Image (58%) */}
           <div className="lg:col-span-7 relative aspect-[16/9] lg:aspect-auto lg:h-full min-h-[250px] lg:min-h-[350px]">
-            <img
+            <Image
               src="/assets/editorial-courtyard.jpg"
               alt="Two college students sitting silently apart on a stone bench in a courtyard, reflecting in quiet thought"
-              className="absolute inset-0 w-full h-full object-cover block object-center"
-              loading="lazy"
+              fill
+              sizes="(max-width: 1024px) 100vw, 60vw"
+              className="object-cover object-center"
             />
           </div>
 
@@ -2680,25 +2677,15 @@ export default function Index() {
 
       <div
         className="w-full relative overflow-x-hidden"
-        style={{
-          backgroundImage: "url('/section2-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
-        }}
       >
+        <Image src="/section2-bg.png" alt="Background" fill className="object-cover object-top -z-10 pointer-events-none" />
         <HeroAtmosphere />
 
         {/* ── Hero & Cloud Wrapper ── */}
         <div
           className="relative w-full"
-          style={{
-            backgroundImage: "url('/hero-background.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center top",
-            backgroundRepeat: "no-repeat",
-          }}
         >
+          <Image src="/hero-background.png" alt="Hero Background" fill priority sizes="100vw" className="object-cover object-top -z-10 pointer-events-none" />
           {/* ── Cloud Layer from Builder.io reference ── */}
           <motion.div
             initial={{ x: "-100vw", opacity: 0 }}
@@ -2882,15 +2869,13 @@ export default function Index() {
           }}
         >
           <div
-            className="w-full h-full"
+            className="w-full h-full relative"
             style={{
-              backgroundImage: "url('/section3-bg.png')",
-              backgroundSize: "100% 100%", // Stretches to fit
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
               transform: "rotate(180deg)",
             }}
-          />
+          >
+            <Image src="/section3-bg.png" alt="Background" fill className="object-cover object-center -z-10 pointer-events-none" />
+          </div>
         </div>
 
         <div className="relative z-10">

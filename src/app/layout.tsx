@@ -1,10 +1,37 @@
 import type { Metadata } from "next";
+import { Fraunces, Instrument_Serif, Inter, DM_Serif_Display } from "next/font/google";
 import "../styles.css";
 import "./globals.css";
 import GlobalErrorListener from "../components/GlobalErrorListener";
 import Protection from "../components/Protection";
 
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
 
+const instrumentSerif = Instrument_Serif({
+  weight: ["400"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-instrument-serif",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const dmSerifDisplay = DM_Serif_Display({
+  weight: ["400"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-dm-serif-display",
+  display: "swap",
+});
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.peacecode.in"),
   title: {
@@ -100,7 +127,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className="antialiased" suppressHydrationWarning>
+      <body className={`antialiased ${fraunces.variable} ${instrumentSerif.variable} ${inter.variable} ${dmSerifDisplay.variable}`} suppressHydrationWarning>
         <GlobalErrorListener />
         <Protection />
         {children}
