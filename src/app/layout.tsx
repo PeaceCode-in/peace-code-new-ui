@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     template: "%s | Peace Code",
   },
   description:
-    "Peace Code provides digital self-help resources, student mental wellness tracking, and access to licensed professionals to help you build a good life for yourself.",
+    "Peace Code is a private, student-first mental wellness sanctuary. Find anonymous peer support, therapeutic tools, and professional counseling designed to help you overcome college burnout and academic anxiety.",
   keywords: ["mental wellness", "student health", "counseling", "therapy", "peacecode", "mental health platform", "students", "psychologist"],
   authors: [{ name: "Peace Code", url: "https://www.peacecode.in" }],
   creator: "Peace Code",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     url: "https://www.peacecode.in",
     title: "Peace Code | Student Mental Wellness Platform",
     description:
-      "Peace Code provides digital self-help resources, student mental wellness tracking, and access to licensed professionals to help you build a good life for yourself.",
+      "Peace Code is a private, student-first mental wellness sanctuary. Find anonymous peer support, therapeutic tools, and professional counseling designed to help you overcome college burnout and academic anxiety.",
     siteName: "Peace Code",
     images: [
       {
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Peace Code | Student Mental Wellness Platform",
     description:
-      "Peace Code provides digital self-help resources, student mental wellness tracking, and access to licensed professionals to help you build a good life for yourself.",
+      "Peace Code is a private, student-first mental wellness sanctuary. Find anonymous peer support, therapeutic tools, and professional counseling designed to help you overcome college burnout and academic anxiety.",
     images: ["/assets/peacecode-logo.svg"],
   },
   icons: {
@@ -87,7 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         "@id": "https://www.peacecode.in/#website",
         "url": "https://www.peacecode.in/",
         "name": "Peace Code",
-        "description": "Peacecode is an AI-powered mental health platform that helps college students by providing anonymous student peer support and stigma-free wellness resources. We offer real-time exam anxiety tools and college burnout prevention strategies to create a 24/7 digital sanctuary where students can safely vent, track moods, and access clinical counseling.",
+        "description": "Peace Code is a dedicated digital sanctuary for student mental health, providing anonymous peer support, therapeutic resources, and professional counseling to navigate academic pressure and anxiety.",
         "publisher": {
           "@id": "https://www.peacecode.in/#organization"
         },

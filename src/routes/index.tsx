@@ -1,3 +1,4 @@
+"use client";
 // Next.js page component
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
@@ -2006,7 +2007,7 @@ function BentoFeatures() {
       icon: MessagesSquare,
       tag: "AI Chatbot",
       title: "Meet Peace Bot: A companion that listens at 3 a.m.",
-      text: "Trained on student stress patterns to help you navigate anxiety, burnout, and academic pressure. Peace Bot never judges, never logs, and is always awake.",
+      text: "A gentle digital companion that listens without judgment. Available 24/7 to help you untangle your thoughts when the academic pressure feels too heavy. Always private, always awake.",
       bullets: ["Cognitive Behavioral framing", "Crisis escalation protocols", "100% private & anonymous"],
       span: "md:col-span-7",
       isBig: true,
