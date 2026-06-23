@@ -64,7 +64,7 @@ export default function FocusRoute() {
         <section className="relative min-h-[90vh] flex flex-col justify-center items-center text-center pt-40 pb-20">
           
           {/* Hero Background Image */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-full pointer-events-none z-[-1] overflow-hidden">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-full pointer-events-none z-0 overflow-hidden">
             <img src="/section3-bg.webp" alt="" className="w-full h-full object-cover opacity-80 mix-blend-multiply" />
           </div>
 

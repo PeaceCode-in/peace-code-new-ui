@@ -1013,7 +1013,7 @@ function HowItWorks() {
     <section
       className="relative pt-8 pb-28 md:pt-10 md:pb-32 px-6 md:px-10 overflow-visible"
     >
-      <Image src="/section3-bg.webp" alt="Background" fill className="object-cover object-top -z-10 pointer-events-none" />
+      <Image src="/section3-bg.webp" alt="Background" fill className="object-cover object-top z-0 pointer-events-none" />
       <motion.div {...reveal} className="relative z-20 mx-auto max-w-6xl -mt-16 md:-mt-24">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -2642,14 +2642,14 @@ export default function Index() {
       <div
         className="w-full relative overflow-x-hidden"
       >
-        <Image src="/section2-bg.webp" alt="Background" fill className="object-cover object-top -z-10 pointer-events-none" />
+        <Image src="/section2-bg.webp" alt="Background" fill className="object-cover object-top z-0 pointer-events-none" />
         <HeroAtmosphere />
 
         {/* ── Hero & Cloud Wrapper ── */}
         <div
           className="relative w-full"
         >
-          <Image src="/hero-background.webp" alt="Hero Background" fill priority sizes="100vw" className="object-cover object-top -z-10 pointer-events-none" />
+          <Image src="/hero-background.webp" alt="Hero Background" fill priority sizes="100vw" className="object-cover object-top z-0 pointer-events-none" />
           {/* ── Cloud Layer from Builder.io reference ── */}
           <motion.div
             initial={{ x: "-100vw", opacity: 0 }}
@@ -2838,7 +2838,7 @@ export default function Index() {
               transform: "rotate(180deg)",
             }}
           >
-            <Image src="/section3-bg.webp" alt="Background" fill className="object-cover object-center -z-10 pointer-events-none" />
+            <Image src="/section3-bg.webp" alt="Background" fill className="object-cover object-center z-0 pointer-events-none" />
           </div>
         </div>
 
