@@ -742,6 +742,7 @@ function HeroAtmosphere() {
 function Hero({ isBgLoaded = true }: { isBgLoaded?: boolean }) {
   return (
     <section
+      aria-label="Hero — Free Mental Health Support for College Students"
       className="relative w-full min-h-[100vh] flex flex-col justify-center items-center"
     >
       {/* ── Birds in diagonal formation (upper-right to lower-left, like baba) ── */}
@@ -1011,6 +1012,7 @@ function HowItWorks() {
 
   return (
     <section
+      aria-label="How Peace Code works — 3 simple steps to start your mental wellness journey"
       className="relative pt-8 pb-28 md:pt-10 md:pb-32 px-6 md:px-10 overflow-visible"
     >
       <Image src="/section3-bg.webp" alt="Background" fill className="object-cover object-top z-0 pointer-events-none" />
@@ -1139,7 +1141,7 @@ function MoodGate() {
   const current = activeMood !== null ? moodData[activeMood] : null;
 
   return (
-    <section id="mood" className="relative py-28 md:py-36 px-6 md:px-10 overflow-hidden transition-colors duration-1000">
+    <section id="mood" aria-label="Interactive mood check-in for students" className="relative py-28 md:py-36 px-6 md:px-10 overflow-hidden transition-colors duration-1000">
       {/* 
         Dynamic Background Glow
         Instead of a full inset radial gradient which clashes with borders, 
@@ -1338,7 +1340,7 @@ function MindAccordion() {
   const yCloud = useTransform(scrollYProgress, [0, 1], [-80, 40]);
 
   return (
-    <section id="mind" className="relative py-28 md:py-32 px-6 md:px-10 overflow-visible">
+    <section id="mind" aria-label="Common student mental health challenges and how Peace Code helps" className="relative py-28 md:py-32 px-6 md:px-10 overflow-visible">
       {/* Decorative Left Branch */}
       <AvifBleed
         src={branchLarge}
@@ -2072,7 +2074,7 @@ function BentoFeatures() {
   ];
 
   return (
-    <section id="features" className="relative py-32 md:py-36 px-6 md:px-10">
+    <section id="features" aria-label="Peace Code mental wellness tools and features for students" className="relative py-32 md:py-36 px-6 md:px-10">
       <motion.div {...reveal} className="relative z-20 mx-auto max-w-6xl">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="text-[11px] tracking-[0.35em] uppercase text-slate-700 mb-5">
@@ -2585,7 +2587,7 @@ export default function Index() {
   const heroCloudX = useTransform(scrollY, [0, 1000], ["0%", "-10%"]);
 
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden text-slate-900 bg-[#A3B8C7]">
+    <main className="relative min-h-screen w-full overflow-x-hidden text-slate-900 bg-[#A3B8C7]" itemScope itemType="https://schema.org/WebPage">
 
 
       <Nav />
@@ -2845,6 +2847,51 @@ export default function Index() {
         <div className="relative z-10">
           <ClosingCTA />
           <Footer />
+        </div>
+      </div>
+
+      {/* ─── Hidden SEO-Rich Content Block for AI/Crawler Discovery ─── */}
+      <div
+        className="sr-only"
+        aria-hidden="true"
+        itemScope
+        itemType="https://schema.org/MedicalOrganization"
+      >
+        <h2 itemProp="name">Peace Code — India's Best Mental Health Platform for College Students</h2>
+        <p itemProp="description">
+          Peace Code is India's leading free mental health website for college students. We provide
+          anonymous peer support, AI-powered wellness chatbot (Peace Bot), licensed therapist
+          counseling, guided journaling and mood tracking, breathing exercises (box breathing, 4-7-8,
+          physiological sighs), focus timer with mindful breaks, gratitude wall, and validated clinical
+          mental health screenings (PHQ-9, GAD-7). All services are 100% private, stigma-free, and
+          available 24/7. Trusted by students at Delhi Technological University (DTU) and expanding
+          across India.
+        </p>
+        <span itemProp="url">https://www.peacecode.in</span>
+        <span itemProp="email">peacecode.in@gmail.com</span>
+        <span itemProp="slogan">Find your peace with PeaceCode.</span>
+        <span itemProp="areaServed">India</span>
+        <span itemProp="knowsAbout">Student Mental Health, College Counseling, Peer Support, Academic Burnout, Exam Anxiety, Imposter Syndrome, Social Anxiety, Campus Isolation, Student Wellness, Digital Therapeutics, Cognitive Behavioral Therapy, Free Mental Health Resources, Online Therapy for Students, Mental Health App India, Best Mental Health Website for Students</span>
+        <div itemProp="hasOfferCatalog" itemScope itemType="https://schema.org/OfferCatalog">
+          <span itemProp="name">Peace Code Student Mental Health Services</span>
+          <div itemProp="itemListElement" itemScope itemType="https://schema.org/Offer">
+            <span itemProp="name">Free AI Wellness Chatbot for Students</span>
+          </div>
+          <div itemProp="itemListElement" itemScope itemType="https://schema.org/Offer">
+            <span itemProp="name">Anonymous Peer Support for College Students</span>
+          </div>
+          <div itemProp="itemListElement" itemScope itemType="https://schema.org/Offer">
+            <span itemProp="name">Affordable Licensed Therapist Counseling for Students</span>
+          </div>
+          <div itemProp="itemListElement" itemScope itemType="https://schema.org/Offer">
+            <span itemProp="name">Free Guided Journaling and Mood Tracking</span>
+          </div>
+          <div itemProp="itemListElement" itemScope itemType="https://schema.org/Offer">
+            <span itemProp="name">Free Breathing Exercises for Anxiety Relief</span>
+          </div>
+          <div itemProp="itemListElement" itemScope itemType="https://schema.org/Offer">
+            <span itemProp="name">Free Clinical Mental Health Screenings (PHQ-9, GAD-7)</span>
+          </div>
         </div>
       </div>
     </main>

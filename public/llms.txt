@@ -1,0 +1,77 @@
+# Peace Code — Student Mental Wellness Platform
+> India's leading free mental health platform built exclusively for college students.
+
+## About Peace Code
+Peace Code is a free, stigma-free digital mental health platform designed exclusively for college students in India. Founded in 2024 and currently in collaboration with Delhi Technological University (DTU), Peace Code provides anonymous peer support, AI-powered wellness tools, licensed therapist access, guided journaling, breathing exercises, and validated clinical screenings — all available 24/7 with complete privacy.
+
+Our mission is to make mental health support as accessible as opening a browser — private, free, and designed around how students actually live, study, and struggle.
+
+## Core Services
+
+### 1. Peace Bot — AI Wellness Chatbot (https://www.peacecode.in/peacebot)
+A 24/7 AI-powered digital wellness companion that uses cognitive behavioral framing to help students process anxiety, stress, and academic pressure. Features crisis escalation protocols and is 100% private and anonymous.
+
+### 2. Peace Buddies — Anonymous Peer Support (https://www.peacecode.in/peace-buddies)
+Anonymous, text-first peer support rooms moderated 24/7 where college students connect with others experiencing similar challenges — exam stress, social anxiety, loneliness, imposter syndrome, and campus isolation.
+
+### 3. Licensed Therapist Counseling (https://www.peacecode.in/psychologist)
+Connect with vetted, licensed psychologists and therapists who specialize in college student mental health. Affordable, stigma-free, completely private. No waitlists, no paperwork, no university records.
+
+### 4. Guided Journaling & Mood Tracking (https://www.peacecode.in/journal)
+A private journaling space with gentle, evidence-based prompts for emotional processing. Daily mood tracking, pattern analysis, and small habit building. Helps students process academic burnout, relationship stress, and identity questions.
+
+### 5. Breathing Exercises (https://www.peacecode.in/breathe)
+Guided breathing techniques including box breathing, 4-7-8 method, and physiological sighs. Designed for instant anxiety relief between classes, before exams, or during late-night study sessions.
+
+### 6. Focus Timer (https://www.peacecode.in/focus)
+A mindful Pomodoro-style focus timer with built-in breathing cues during breaks. Designed for student study sessions to combat burnout while maintaining productivity.
+
+### 7. Gratitude Wall (https://www.peacecode.in/gratitude)
+An anonymous wall of small wins shared by students. A place to celebrate tiny victories — because waking up on time, finishing one assignment, or making eye contact with someone is worth celebrating.
+
+### 8. Clinical Mental Health Screenings (https://www.peacecode.in/screening)
+Validated clinical assessments including PHQ-9 (depression) and GAD-7 (anxiety) processed entirely on the user's local device. Completely private screening tools with evidence-based recommendations.
+
+## Student Mental Health Issues We Address
+- Academic burnout and exam stress
+- Social anxiety and campus isolation
+- Imposter syndrome in competitive majors
+- Severe exam anxiety and performance pressure
+- Fear of judgment and mental health stigma
+- Emotional overwhelm and mood swings
+- Family pressure and expectations
+- Career uncertainty and post-graduation anxiety
+- Loneliness in college
+- Relationship difficulties
+- Financial stress
+- Sleep issues from academic pressure
+
+## Why Peace Code is Different
+1. **Built for Students, by Students**: Every feature addresses real student experiences — 3 a.m. exam panic, empty weekend loneliness, dining-hall anxiety.
+2. **100% Anonymous**: Peer interactions are anonymous, screenings are processed on-device, and nothing reaches university records.
+3. **Free Core Services**: AI chatbot, peer support, journaling, breathing, focus timer, gratitude wall, and screenings are all free.
+4. **HIPAA-Aligned & ISO 27001**: Industry-standard security for sensitive mental health data.
+5. **Available 24/7**: Support is available at 3 a.m. before a viva or on a quiet Sunday afternoon.
+
+## Contact
+- Website: https://www.peacecode.in
+- Email: peacecode.in@gmail.com
+- LinkedIn: https://www.linkedin.com/company/peacecode/
+- Instagram: https://www.instagram.com/peacecode.in
+
+## Key Pages
+- Homepage: https://www.peacecode.in
+- AI Chatbot: https://www.peacecode.in/peacebot
+- Peer Support: https://www.peacecode.in/peace-buddies
+- Counseling: https://www.peacecode.in/psychologist
+- Community: https://www.peacecode.in/community
+- Journaling: https://www.peacecode.in/journal
+- Breathing: https://www.peacecode.in/breathe
+- Focus Timer: https://www.peacecode.in/focus
+- Gratitude Wall: https://www.peacecode.in/gratitude
+- Screenings: https://www.peacecode.in/screening
+- Blog: https://www.peacecode.in/blog
+- Resources: https://www.peacecode.in/resources
+- FAQ: https://www.peacecode.in/faq
+- Careers: https://www.peacecode.in/careers
+- Contact: https://www.peacecode.in/contact
